@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.wm_p0004">
+	<resultMap id="p0004Result" type="WM_P0004VO">
+	    <result property="EMPLOYEE_NAME" column="EMPLOYEE_NAME" />
+		<result property="EMPLOYEE_CODE" column="EMPLOYEE_CODE" />
+		<result property="DEPARTMENT_NAME" column="DEPARTMENT_NAME" />
+	    <result property="DEPARTMENT_CODE" column="DEPARTMENT_CODE" />
+		<result property="POSITION_CODE" column="POSITION_CODE" />
+		<result property="POSITION_NAME" column="POSITION_NAME" />
+		
+		<result property="BUSINESS_TRIP_CODE" column="BUSINESS_TRIP_CODE" />
+		<result property="START_DATE" column="START_DATE" />
+		<result property="END_DATE" column="END_DATE" />
+		<result property="COUNTRY_CODE" column="COUNTRY_CODE" />
+		<result property="COUNTRY_NAME" column="COUNTRY_NAME" />
+		<result property="AREA" column="AREA" />
+		<result property="FLIGHT_COST" column="FLIGHT_COST" />
+		<result property="SELF_BURDEN" column="SELF_BURDEN" />
+		<result property="COMPANY_BURDEN" column="COMPANY_BURDEN" />
+		<result property="ECT_COST" column="ECT_COST" />
+		<result property="TOTAL_COST" column="TOTAL_COST" />
+		<result property="PURPOSE" column="PURPOSE" />
+		
+	    <result property="SITE_NAME" column="SITE_NAME" />
+	    <result property="SITE_CODE" column="SITE_CODE" />
+		
+		
+	</resultMap>
+	
+	<select id="searchEmployeeList" resultMap="p0004Result" parameterType="java.util.List">
+	  <![CDATA[
+         SELECT e.employee_code, e.employee_name, d.department_name, p.position_name
+         FROM employee e LEFT OUTER JOIN employee_work ew ON ew.employee_code = e.employee_code
+                         LEFT OUTER JOIN department d ON ew.department_code = d.department_code
+                         LEFT OUTER JOIN position p ON ew.position_code = p.position_code
+         ORDER BY e.employee_code
+      ]]>
+	</select>
+	
+	<select id="searchCountryList" resultMap="p0004Result" parameterType="java.util.List">
+	  <![CDATA[
+         SELECT country_code, country_name
+         FROM country
+         ORDER BY country_code
+      ]]>
+	</select>
+
+	<select id="searchList" resultMap="p0004Result" parameterType="java.util.List">
+      <![CDATA[
+         SELECT EBT.BUSINESS_TRIP_CODE, EBT.EMPLOYEE_CODE, E.EMPLOYEE_NAME, D.DEPARTMENT_NAME, P.POSITION_NAME, 
+                EBT.START_DATE, EBT.END_DATE, C.COUNTRY_CODE, C.COUNTRY_NAME, EBT.AREA, EBT.FLIGHT_COST, EBT.SELF_BURDEN, EBT.COMPANY_BURDEN,
+                EBT.ECT_COST, EBT.TOTAL_COST, EBT.PURPOSE
+         FROM EMPLOYEE E, EMPLOYEE_WORK EW, DEPARTMENT D, POSITION P, EMPLOYEE_BUSINESS_TRIP EBT, COUNTRY C, site s
+         WHERE E.EMPLOYEE_CODE = EW.EMPLOYEE_CODE
+         AND EW.DEPARTMENT_CODE = D.DEPARTMENT_CODE
+         AND EW.POSITION_CODE = P.POSITION_CODE
+         AND EW.EMPLOYEE_CODE = EBT.EMPLOYEE_CODE
+         AND C.COUNTRY_CODE = EBT.COUNTRY_CODE
+         AND d.site_code = s.site_code
+      ]]>
+	   
+	<choose>
+	  <when test="date != null and date !='' ">
+	 and TO_DATE(EBT.START_DATE, 'YYYY-MM-DD') <![CDATA[>=]]> #{date}
+	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="date2 != null and date2 !='' ">
+	  and TO_DATE(EBT.END_DATE, 'YYYY-MM-DD') <![CDATA[<=]]> #{date2}
+	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="SiteList != null and SiteList !='' ">
+      and s.site_name=#{SiteList}
+	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="DeptList != null and DeptList !='' ">
+      and d.department_name=#{DeptList}
+	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="Employee_Select.equals('employee_name') and p_text != null and p_text !='' ">
+      and e.employee_name LIKE <![CDATA['%'||#{p_text,jdbcType=VARCHAR}||'%']]>
+	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="Employee_Select.equals('employee_code') and p_text != null and p_text !='' ">
+      and e.employee_code LIKE <![CDATA['%'||#{p_text,jdbcType=VARCHAR}||'%']]>
+	  </when>
+	</choose>
+	
+	order by EBT.END_DATE DESC 
+	   
+	</select>
+	
+	<insert id="insertData" parameterType="java.util.Map">
+		insert into EMPLOYEE_BUSINESS_TRIP(BUSINESS_TRIP_CODE, EMPLOYEE_CODE, start_DATE, end_DATE, country_CODE, area, flight_COST, self_BURDEN, company_BURDEN, ect_COST, total_COST, purpose,int_user_id, int_date)
+		 values(BUSINESS_TRIP_CODE_SEQ.NEXTVAL, #{employee_CODE}, #{start_DATE}, #{end_DATE}, #{country_CODE}, #{area}, #{flight_COST}, #{self_BURDEN}, #{company_BURDEN}, #{ect_COST}, #{total_COST}, #{purpose},#{user},sysdate)
+	</insert>
+	
+	<update id="updateData" parameterType="java.util.Map">
+		update EMPLOYEE_BUSINESS_TRIP
+		set start_DATE = #{start_DATE, jdbcType=VARCHAR}
+			, end_DATE = #{end_DATE, jdbcType=VARCHAR}
+			, country_CODE = #{country_CODE, jdbcType=VARCHAR}
+			, area = #{area, jdbcType=VARCHAR}
+			, flight_COST = #{flight_COST, jdbcType=VARCHAR}
+			, self_BURDEN = #{self_BURDEN, jdbcType=VARCHAR}
+			, company_BURDEN = #{company_BURDEN, jdbcType=VARCHAR}
+			, ect_COST = #{ect_COST, jdbcType=VARCHAR}
+			, total_COST = #{total_COST, jdbcType=VARCHAR}
+			, purpose = #{purpose, jdbcType=VARCHAR}
+			, upt_user_id = #{user, jdbcType=VARCHAR}
+            , upt_date = sysdate
+		where BUSINESS_TRIP_CODE = #{business_TRIP_CODE, jdbcType=VARCHAR}
+	</update>
+	
+	<delete id="deleteData" parameterType="java.util.Map">
+		delete EMPLOYEE_BUSINESS_TRIP
+		where BUSINESS_TRIP_CODE = #{business_TRIP_CODE}
+	</delete>
+
+</mapper>

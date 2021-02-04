@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.hm_p0036">
+	<resultMap id="P0036resultVO" type="HM_P0036VO">
+		<result property="EMPLYOEE_NAME" column="EMPLYOEE_NAME" />
+        <result property="EMPLOYEE_CODE" column="EMPLOYEE_CODE" />
+        <result property="DEPARTMENT_NAME" column="DEPARTMENT_NAME" />
+        <result property="DUTY_NAME" column="DUTY_NAME" />
+        <result property="EMPLOYEE_JOIN_DATE" column="EMPLOYEE_JOIN_DATE" />
+        <result property="EMPLOYEE_RESIGNATION_DATE" column="EMPLOYEE_RESIGNATION_DATE" />
+        <result property="RESIDENT_RESISTRATION_NUMBER" column="RESIDENT_RESISTRATION_NUMBER" />
+        <result property="WORKING_YEARS" column="WORKING_YEARS" />
+        <result property="JOB_CLASS_NAME" column="JOB_CLASS_NAME" />
+        <result property="JOB_DIS_NAME" column="JOB_DIS_NAME" />
+        <result property="PAY_TYPE_NAME" column="PAY_TYPE_NAME" />
+        <result property="POSITION_NAME" column="POSITION_NAME" />
+        <result property="WORK_TYPE_NAME" column="WORK_TYPE_NAME" />
+        <result property="JOB_CLASS_CODE" column="JOB_CLASS_CODE" />
+        <result property="JOB_DIS_CODE" column="JOB_DIS_CODE" />
+        <result property="PAY_TYPE_CODE" column="PAY_TYPE_CODE" />
+        <result property="POSITION_CODE" column="POSITION_CODE" />
+        <result property="WORK_TYPE_CODE" column="WORK_TYPE_CODE" />
+        <result property="FINAL_EDUCATION" column="FINAL_EDUCATION" />
+       
+	</resultMap> 
+
+	<select id="searchList" resultMap="P0036resultVO" parameterType="java.util.Map"> 
+    SELECT  ew.employee_code,
+    e.employee_name,
+    d.department_name,
+    dt.duty_name,
+    ew.employee_resignation_date,
+    ew.employee_join_date,
+    ehi.RESIDENT_RESISTRATION_NUMBER,
+    TRUNC(MONTHS_BETWEEN(SYSDATE,employee_join_date)/12)||'년'||TRUNC(mod(MONTHS_BETWEEN(SYSDATE,employee_join_date),12))||'개월' ||ROUND(MOD(MOD(MONTHS_BETWEEN(SYSDATE, employee_join_date)/12, 1)*12, 1)*(365/12),0)||'일' "WORKING_YEARS" 
+    
+    FROM employee_work ew,employee e,duty dt,department d,employee_hr_info ehi,site s,job_class jc, position p,job_dis jd,work_type wt ,pay_type pt
+    
+    WHERE ew.employee_code=e.employee_code(+)
+    AND ew.employee_code = ehi.employee_code(+)
+    AND ew.duty_code = dt.duty_code(+)
+    AND ew.department_code =d.department_code(+)
+    AND d.site_code=s.site_code(+)
+    AND ew.job_class_code = jc.job_class_code(+)
+    AND ew.position_code = p.position_code(+)
+    AND ew.duty_code = dt.duty_code(+)
+    AND ew.job_dis_code = jd.job_dis_code(+)
+    AND ew.work_type_code = wt.work_type_code(+)
+    AND ew.pay_type_code = pt.pay_type_code(+)
+    AND ROUND(MOD(MOD(MONTHS_BETWEEN(SYSDATE,employee_join_date)/12, 1)*12, 1)*(365/12),0) > '0'   
+	<choose>
+	<when test="resigner == null ">
+	 AND ew.employee_resignation_date is null
+	</when>
+	</choose>
+	
+	<choose>
+	<when test="date != null and resigner != null ">
+	 AND (ew.employee_resignation_date is null OR ew.employee_resignation_date <![CDATA[>=]]> #{date})
+	</when>
+	</choose>
+	
+	<choose>
+	<when test="date2 != null and date2 != '' ">
+	 AND (ew.employee_join_date <![CDATA[<=]]> #{date2})
+	</when>
+	</choose>
+	
+	<choose>
+	<when test="site != '' and site != null">
+	AND s.site_name = #{site}
+	</when>
+	</choose>
+	
+	<choose>
+	<when test="department != '' and department != null">
+	AND d.department_name = #{department}
+	</when>
+	</choose>
+	
+	<choose>
+	<when test="job_class != '' and job_class != null">
+	AND jc.job_class_name = #{job_class}
+	</when>
+	</choose>
+	
+
+	<choose>
+	<when test="position != '' and position != null">
+	AND p.position_name = #{position}
+	</when>
+	</choose>
+
+	<choose>
+	<when test="duty != '' and duty != null">
+	AND dt.duty_name = #{duty}
+	</when>
+	</choose>
+
+	<choose>
+	<when test="job_dis != '' and job_dis != null">
+	AND jd.job_dis_name = #{job_dis}
+	</when>
+	</choose>
+
+	<choose>
+	<when test="work_type != '' and work_type != null">
+	AND wt.work_type = #{work_type}
+	</when>
+	</choose>
+
+	<choose>
+	<when test="pay_type != '' and pay_type != null">
+	AND pt.pay_type_name = #{pay_type}
+	</when>
+	</choose>
+	
+	
+	<choose>
+		  <when test="access_range == '부서' ">
+      and d.department_code = #{Sdepartment_code}
+      	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="access_range == '사원' ">
+      and e.employee_code = #{Semployee_code}
+	  </when>
+	</choose>
+
+	</select>
+	
+	<select id="searchList2" resultMap="P0036resultVO" parameterType="java.util.Map"> 
+    SELECT  ew.employee_code,
+    e.employee_name,
+    d.department_name,
+    dt.duty_name,
+    ew.employee_resignation_date,
+    ew.employee_join_date,
+    ehi.RESIDENT_RESISTRATION_NUMBER,
+    fe.FINAL_EDU_NAME,
+    TRUNC(MONTHS_BETWEEN(SYSDATE,employee_join_date)/12)||'년'||TRUNC(mod(MONTHS_BETWEEN(SYSDATE,employee_join_date),12))||'개월' ||ROUND(MOD(MOD(MONTHS_BETWEEN(SYSDATE, employee_join_date)/12, 1)*12, 1)*(365/12),0)||'일' "WORKING_YEARS" 
+    
+    FROM employee_work ew,employee e,duty dt,department d,employee_hr_info ehi,site s,job_class jc, position p,job_dis jd,work_type wt ,pay_type pt,final_edu fe
+    
+    WHERE ew.employee_code=e.employee_code(+)
+    AND ew.employee_code = ehi.employee_code(+)
+    AND ew.duty_code = dt.duty_code(+) 
+    AND ehi.final_edu_code = fe.final_edu_code(+)
+    AND ew.department_code =d.department_code(+)
+    AND d.site_code=s.site_code(+)
+    AND ew.job_class_code = jc.job_class_code(+)
+    AND ew.position_code = p.position_code(+)
+    AND ew.duty_code = dt.duty_code(+)
+    AND ew.job_dis_code = jd.job_dis_code(+)
+    AND ew.work_type_code = wt.work_type_code(+)
+    AND ew.pay_type_code = pt.pay_type_code(+)
+    AND ROUND(MOD(MOD(MONTHS_BETWEEN(SYSDATE,employee_join_date)/12, 1)*12, 1)*(365/12),0) > '0'   
+	<choose>
+	<when test="resigner == null ">
+	 AND ew.employee_resignation_date is null 
+	</when>
+	</choose>
+	<choose>
+	<when test="site != '' and site != null">
+	AND s.site_name = #{site}
+	</when>
+	</choose>
+	
+	<choose>
+	<when test="department != '' and department != null">
+	AND d.department_name = #{department}
+	</when>
+	</choose>
+	
+	<choose>
+	<when test="job_class != '' and job_class != null">
+	AND jc.job_class_name = #{job_class}
+	</when>
+	</choose>
+	
+
+	<choose>
+	<when test="position != '' and position != null">
+	AND p.position_name = #{position}
+	</when>
+	</choose>
+
+	<choose>
+	<when test="duty != '' and duty != null">
+	AND dt.duty_name = #{duty}
+	</when>
+	</choose>
+
+	<choose>
+	<when test="job_dis != '' and job_dis != null">
+	AND jd.job_dis_name = #{job_dis}
+	</when>
+	</choose>
+
+	<choose>
+	<when test="work_type != '' and work_type != null">
+	AND wt.work_type = #{work_type}
+	</when>
+	</choose>
+
+	<choose>
+	<when test="pay_type != '' and pay_type != null">
+	AND pt.pay_type_name = #{pay_type}
+	</when>
+	</choose>
+	
+	<choose>
+	<when test="date != '' and date2 != '' ">
+	AND TO_DATE(ew.employee_join_date,'YYYY-MM-DD') BETWEEN #{date} AND #{date2}
+	</when>
+	</choose>
+	
+		<choose>
+		  <when test="access_range == '부서' ">
+      and d.department_code = #{Sdepartment_code}
+      	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="access_range == '사원' ">
+      and e.employee_code = #{Semployee_code}
+	  </when>
+	</choose>
+	
+	</select>
+	
+	<select id="searchList3" resultMap="P0036resultVO" parameterType="java.util.Map"> 
+    SELECT  ew.employee_code,
+            e.employee_name,
+            d.department_name,
+            dt.duty_name,
+            ew.employee_resignation_date,
+            ew.employee_join_date,
+            ehi.RESIDENT_RESISTRATION_NUMBER,
+            ew.out_reason_code,
+            ore.out_reason_name,
+            TRUNC(MONTHS_BETWEEN(SYSDATE,employee_join_date)/12)||'년'||TRUNC(mod(MONTHS_BETWEEN(SYSDATE,employee_join_date),12))||'개월' ||ROUND(MOD(MOD(MONTHS_BETWEEN(SYSDATE, employee_join_date)/12, 1)*12, 1)*(365/12),0)||'일' "WORKING_YEARS" 
+    
+    FROM employee_work ew,
+        employee e,
+        duty dt,
+        department d,
+        employee_hr_info ehi,
+        site s,
+        job_class jc,
+        position p,
+        job_dis jd,
+        work_type wt,
+        pay_type pt,
+        out_reason ore
+    
+    WHERE ew.employee_code=e.employee_code(+)
+    AND ew.employee_code = ehi.employee_code(+)
+    AND ew.duty_code = dt.duty_code(+) 
+    AND ew.out_reason_code = ore.out_reason_code(+)
+    AND ew.department_code =d.department_code(+)
+    AND d.site_code=s.site_code(+)
+    AND ew.job_class_code = jc.job_class_code(+)
+    AND ew.position_code = p.position_code(+)
+    AND ew.duty_code = dt.duty_code(+)
+    AND ew.job_dis_code = jd.job_dis_code(+)
+    AND ew.work_type_code = wt.work_type_code(+)
+    AND ew.pay_type_code = pt.pay_type_code(+)
+    AND ROUND(MOD(MOD(MONTHS_BETWEEN(SYSDATE,employee_join_date)/12, 1)*12, 1)*(365/12),0) > '0'
+
+	<choose>
+	<when test="site != '' and site != null">
+	AND s.site_name = #{site}
+	</when>
+	</choose>
+	
+	<choose>
+	<when test="department != '' and department != null">
+	AND d.department_name = #{department}
+	</when>
+	</choose>
+	
+	<choose>
+	<when test="job_class != '' and job_class != null">
+	AND jc.job_class_name = #{job_class}
+	</when>
+	</choose>
+	
+
+	<choose>
+	<when test="position != '' and position != null">
+	AND p.position_name = #{position}
+	</when>
+	</choose>
+
+	<choose>
+	<when test="duty != '' and duty != null">
+	AND dt.duty_name = #{duty}
+	</when>
+	</choose>
+
+	<choose>
+	<when test="job_dis != '' and job_dis != null">
+	AND jd.job_dis_name = #{job_dis}
+	</when>
+	</choose>
+
+	<choose>
+	<when test="work_type != '' and work_type != null">
+	AND wt.work_type = #{work_type}
+	</when>
+	</choose>
+
+	<choose>
+	<when test="pay_type != '' and pay_type != null">
+	AND pt.pay_type_name = #{pay_type}
+	</when>
+	</choose>
+	
+	<choose>
+	<when test="date != '' and date2 != '' ">
+	AND TO_DATE(ew.employee_resignation_date,'YYYY-MM-DD') BETWEEN #{date} AND #{date2}
+	</when>
+	</choose>
+	
+		<choose>
+		  <when test="access_range == '부서' ">
+      and d.department_code = #{Sdepartment_code}
+      	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="access_range == '사원' ">
+      and e.employee_code = #{Semployee_code}
+	  </when>
+	</choose>
+
+	</select>	
+	
+	<select id="searchList_p01" resultMap="P0036resultVO" parameterType="java.util.Map"> 
+	select job_class_code,job_class_name
+	from job_class
+	</select>
+	
+	<select id="searchList_p02" resultMap="P0036resultVO" parameterType="java.util.Map"> 
+	select position_code,position_name
+	from position
+	</select>
+	
+	<select id="searchList_p03" resultMap="P0036resultVO" parameterType="java.util.Map"> 
+	select duty_code,duty_name
+	from duty
+	</select>
+	
+	<select id="searchList_p04" resultMap="P0036resultVO" parameterType="java.util.Map"> 
+	select job_dis_code,job_dis_name
+	from job_dis
+	</select>
+	
+	<select id="searchList_p05" resultMap="P0036resultVO" parameterType="java.util.Map"> 
+	select work_type_code,work_type_name
+	from work_type
+	</select>
+	
+	<select id="searchList_p06" resultMap="P0036resultVO" parameterType="java.util.Map"> 
+	select pay_type_code,pay_type_name
+	from pay_type
+	</select>
+	
+	
+</mapper>

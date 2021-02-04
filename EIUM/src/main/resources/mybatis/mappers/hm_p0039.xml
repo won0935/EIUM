@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.hm_p0039">
+	<resultMap id="P0039resultVO" type="HM_P0039VO">
+		<result property="EMPLOYEE_JOIN_DATE" column="EMPLOYEE_JOIN_DATE" />
+        <result property="EMPLOYEE_CODE" column="EMPLOYEE_TRAINING_NAME" />
+        <result property="EMPLOYEE_NAME" column="EMPLOYEE_NAME" />
+        <result property="DEPARTMENT_NAME" column="DEPARTMENT_NAME" />
+        <result property="DUTY_NAME" column="DUTY_NAME" />
+        <result property="WORKING_YEARS" column="WORKING_YEARS" />
+        <result property="RESIDENT_RESISTRATION_NUMBER" column="RESIDENT_RESISTRATION_NUMBER" />
+
+	</resultMap> 
+
+
+	<select id="searchList" resultMap="P0039resultVO" parameterType="java.util.Map"> 
+			
+			
+    SELECT  ew.employee_code,
+    e.employee_name,
+    d.department_name,
+    dt.duty_name,
+    ew.employee_resignation_date,
+    ew.employee_join_date,
+    ehi.RESIDENT_RESISTRATION_NUMBER,
+    TRUNC(MONTHS_BETWEEN(#{date},employee_join_date)/12)||'년'||TRUNC(mod(MONTHS_BETWEEN(#{date},employee_join_date),12))||'개월' <choose><when test="day == 1">||ROUND(MOD(MOD(MONTHS_BETWEEN(#{date}, employee_join_date)/12, 1)*12, 1)*(365/12),0)||'일'</when></choose> "WORKING_YEARS"
+    
+    FROM employee_work ew,employee e,duty dt,department d,employee_hr_info ehi,site s
+    
+    WHERE ew.employee_code=e.employee_code(+)
+    AND ew.employee_code = ehi.employee_code(+)
+    AND ew.duty_code = dt.duty_code(+)
+    AND ew.department_code =d.department_code(+)
+    AND d.site_code = s.site_code(+)
+    AND ROUND(MOD(MOD(MONTHS_BETWEEN(#{date}, employee_join_date)/12, 1)*12, 1)*(365/12),0) > '0'
+    <choose>
+	<when test="site != null and site !='' ">
+	AND s.site_name = #{site}
+	</when>
+	</choose>
+	
+	<choose>
+	<when test="department != null and department !='' ">
+	AND  d.department_name= #{department}
+	</when>
+	</choose>
+	
+	<choose>
+	 <when test="resigner == 0 " >
+	  AND ew.employee_resignation_date is null 
+	  </when>  
+	</choose>
+	
+	<choose>
+	<when test="yearsOption != '' and yearsOption != null  " >
+	  <![CDATA[
+	AND  TRUNC(MONTHS_BETWEEN(#{date},employee_join_date)/12) <= #{yearsOption}
+	      ]]>
+	</when>
+	</choose>
+	
+	<choose>
+		  <when test="access_range == '부서' ">
+      and d.department_code = #{Sdepartment_code}
+      	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="access_range == '사원' ">
+      and e.employee_code = #{Semployee_code}
+	  </when>
+	</choose>
+	
+	order by ew.employee_code
+	
+</select>
+	
+	
+		
+</mapper>

@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.hm_p0022">
+	<resultMap id="P0022resultVO" type="HM_P0022VO">
+	
+		<result property="appoint_DATE" column="appoint_DATE" />
+	
+        <result property="appoint_CODE" column="appoint_CODE" />
+        <result property="appoint_TITLE" column="appoint_TITLE" />
+        <result property="appoint_YN" column="appoint_YN" />
+        <result property="masterEmployee_CODE" column="masterEmployee_CODE" />
+        <result property="masterEmployee_NAME" column="masterEmployee_NAME" />
+        <result property="appoint_HISTORY_CODE" column="appoint_HISTORY_CODE" />
+        <result property="employee_CODE" column="employee_CODE" />
+        <result property="employee_NAME" column="employee_NAME" />
+        <result property="hr_APPOINT_INDEX_NAME" column="hr_APPOINT_INDEX_NAME" />
+        <result property="appoint_INDEX_NAME" column="appoint_INDEX_NAME" />
+        <result property="work_STATUS" column="work_STATUS" />
+        <result property="join_DATE" column="join_DATE" />
+        <result property="site_NAME" column="site_NAME" />
+        <result property="department_NAME" column="department_NAME" />
+        <result property="job_CLASS_NAME" column="job_CLASS_NAME" />
+ 	    <result property="position_NAME" column="position_NAME" />	              
+ 		<result property="duty_NAME" column="duty_NAME" />
+	    <result property="job_DIS_NAME" column="job_DIS_NAME" />
+	    <result property="pay_TYPE_NAME" column="pay_TYPE_NAME" />
+	    <result property="pay_GRADE_NAME" column="pay_GRADE_NAME" />
+	    <result property="out_REASON_NAME" column="out_REASON_NAME" />
+	    <result property="work_STATUS_CODE" column="work_STATUS_CODE" />
+	    <result property="work_STATUS_NAME" column="work_STATUS_NAME" />
+	    
+	    <result property="employee_JOIN_DATE" column="employee_JOIN_DATE" />
+	    <result property="department_CODE" column="department_CODE" />
+	    <result property="job_CLASS_CODE" column="job_CLASS_CODE" />
+	    <result property="position_CODE" column="position_CODE" />
+	    <result property="duty_CODE" column="duty_CODE" />
+	    <result property="job_DIS_CODE" column="job_DIS_CODE" />
+	    <result property="pay_TYPE_CODE" column="pay_TYPE_CODE" />
+	    <result property="pay_GRADE_CODE" column="pay_GRADE_CODE" />
+	    <result property="out_REASON_CODE" column="out_REASON_CODE" />	
+	    <result property="resignation_DATE" column="resignation_DATE" />	
+	    <result property="employee_RESIGNATION_DATE" column="employee_RESIGNATION_DATE" />	
+	    
+
+	</resultMap> 
+
+	<select  id="appointList" resultMap="P0022resultVO" parameterType="java.util.Map">
+	 <![CDATA[
+    SELECT appoint_code,ha.appoint_title,ha.appoint_yn,ha.appoint_date,ha.masterEmployee_code,e.Employee_name,s.site_name,d.department_name,dt.duty_name
+	FROM hr_appoint ha,employee e,employee_work ew,department d,site s,duty dt
+    WHERE ha.masteremployee_code=e.employee_code(+)
+    AND e.employee_code=ew.employee_code(+)
+    AND ew.department_code=d.department_code(+)
+    AND d.site_code=s.site_code(+)
+    AND ew.duty_code = dt.duty_code(+)
+			]]>
+	<choose>
+	<when test="data != '' and date2 !='' and title !='' and masterEmpl !='' ">
+		AND to_date(ha.appoint_date,'YYYY-MM-DD') BETWEEN  #{date} AND #{date2}
+	AND ha.appoint_title=#{title}
+	AND e.employee_name=#{masterEmpl}
+	</when>
+	<when test="data != '' and date2 !='' and title !=''">
+	AND to_date(ha.appoint_date,'YYYY-MM-DD') BETWEEN  #{date} AND #{date2}
+	AND ha.appoint_title=#{title}
+	</when>	<when test="data != '' and date2 !='' and masterEmpl !='' ">
+	AND to_date(ha.appoint_date,'YYYY-MM-DD') BETWEEN  #{date} AND #{date2}
+	AND e.employee_name=#{masterEmpl}
+	</when>
+	<when test="title !='' and masterEmpl !='' "> 
+	AND ha.appoint_title=#{title}
+	AND e.employee_name = #{masterEmpl}
+	</when>
+	<when test="data != '' and date2 !='' ">
+	AND to_date(ha.appoint_date,'YYYY-MM-DD') BETWEEN  #{date} AND #{date2}
+	</when>
+	<when test="masterEmpl !='' and masterEmpl != null ">
+	AND e.employee_name=#{masterEmpl}
+	</when>
+	</choose>
+	</select>
+ 
+	<select  id="appointList2" resultMap="P0022resultVO" parameterType="java.util.Map">
+	    <![CDATA[
+       SELECT HAH.APPOINT_EMPLOYEE_CODE AS EMPLOYEE_CODE,
+E.EMPLOYEE_NAME,
+HAH.APPOINT_CODE,
+HAH.START_DATE,
+HAH.END_DATE,
+AI.HR_APPOINT_INDEX_NAME,
+ws.work_status_name,
+HAH.JOIN_DATE,
+s.SITE_NAME,
+d.DEPARTMENT_NAME,
+jc.JOB_CLASS_NAME,
+p.POSITION_NAME,
+dt.DUTY_NAME,
+jd.JOB_DIS_NAME,
+pt.PAY_TYPE_NAME,
+pg.PAY_GRADE_NAME,
+orn.OUT_REASON_NAME,
+HAH.START_DATE,
+HAH.END_DATE,
+HAH.RESIGNATION_DATE
+
+FROM HR_APPOINT_HISTORY HAH,
+    EMPLOYEE_WORK EW,
+    EMPLOYEE E,
+    HR_APPOINT_INDEX AI,
+    SITE S,
+    DEPARTMENT D,
+    JOB_CLASS JC,
+    POSITION P,
+    DUTY DT,
+    JOB_DIS JD,
+    PAY_TYPE PT,
+    PAY_GRADE PG,
+    OUT_REASON ORN,
+    work_status ws
+
+
+WHERE HAH.APPOINT_EMPLOYEE_CODE = E.EMPLOYEE_CODE(+)
+AND HAH.appoint_index_code = AI.hr_appoint_index_code(+)
+AND HAH.APPOINT_EMPLOYEE_CODE=EW.EMPLOYEE_CODE(+)
+AND D.SITE_CODE = S.SITE_CODE(+)
+AND HAH.DEPARTMENT_CODE=D.DEPARTMENT_CODE(+)
+AND HAH.JOB_CLASS_CODE=JC.JOB_CLASS_CODE(+)
+AND HAH.POSITION_CODE=P.POSITION_CODE(+)
+AND HAH.DUTY_CODE=DT.DUTY_CODE(+)
+AND HAH.JOB_DIS_CODE = JD.JOB_DIS_CODE(+)
+AND HAH.PAY_TYPE_CODE = PT.PAY_TYPE_CODE(+)
+AND HAH.PAY_GRADE_CODE = PG.PAY_GRADE_CODE(+)
+AND HAH.OUT_REASON_CODE = ORN.OUT_REASON_CODE(+)
+AND HAH.APPOINT_CODE = #{appointCode}
+AND HAH.work_status_code = ws.work_status_code(+)
+ 
+			]]>
+	</select>
+
+
+	
+	<select  id="appointList3" resultMap="P0022resultVO" parameterType="java.util.Map">
+	    <![CDATA[
+       SELECT HAH.APPOINT_EMPLOYEE_CODE AS EMPLOYEE_CODE,
+HAH.APPOINT_CODE,
+HAH.START_DATE,
+HAH.END_DATE,
+AI.HR_APPOINT_INDEX_CODE,
+ws.WORK_STATUS_NAME,
+HAH.work_status_code,
+HAH.JOIN_DATE,
+HAH.SITE_CODE,
+HAH.DEPARTMENT_CODE,
+HAH.JOB_CLASS_CODE,
+HAH.POSITION_CODE,
+HAH.DUTY_CODE,
+HAH.JOB_DIS_CODE,
+HAH.PAY_TYPE_CODE,
+HAH.PAY_GRADE_CODE,
+HAH.OUT_REASON_CODE,
+HAH.START_DATE,
+HAH.END_DATE,
+HAH.RESIGNATION_DATE
+
+FROM HR_APPOINT_HISTORY HAH,
+    EMPLOYEE_WORK EW,
+    EMPLOYEE E,
+    HR_APPOINT_INDEX AI,
+    SITE S,
+    DEPARTMENT D,
+    JOB_CLASS JC,
+    POSITION P,
+    DUTY DT,
+    JOB_DIS JD,
+    PAY_TYPE PT,
+    PAY_GRADE PG,
+    OUT_REASON ORN,
+    work_status ws
+
+
+WHERE HAH.APPOINT_EMPLOYEE_CODE = E.EMPLOYEE_CODE(+)
+AND HAH.appoint_index_code = AI.hr_appoint_index_code(+)
+AND HAH.APPOINT_EMPLOYEE_CODE=EW.EMPLOYEE_CODE(+)
+AND D.SITE_CODE = S.SITE_CODE(+)
+AND EW.DEPARTMENT_CODE=D.DEPARTMENT_CODE(+)
+AND EW.JOB_CLASS_CODE=JC.JOB_CLASS_CODE(+)
+AND EW.POSITION_CODE=P.POSITION_CODE(+)
+AND EW.DUTY_CODE=DT.DUTY_CODE(+)
+AND EW.JOB_DIS_CODE = JD.JOB_DIS_CODE(+)
+AND EW.PAY_TYPE_CODE = PT.PAY_TYPE_CODE(+)
+AND EW.PAY_GRADE_CODE = PG.PAY_GRADE_CODE(+)
+AND EW.OUT_REASON_CODE = ORN.OUT_REASON_CODE(+)
+AND HAH.APPOINT_CODE = #{appointCode}
+AND HAH.WORK_STATUS_CODE = WS.WORK_STATUS_CODE(+)
+			]]>
+	</select>
+	
+	
+	
+	<select  id="masterEmployee_p02" resultMap="P0022resultVO" parameterType="java.util.Map">
+	<choose>
+	<when test="E_id != '' and E_id != null">
+	    <![CDATA[
+    SELECT E.EMPLOYEE_CODE,E.EMPLOYEE_NAME,D.DEPARTMENT_NAME,S.SITE_NAME,DT.DUTY_NAME
+	FROM EMPLOYEE E, EMPLOYEE_WORK EW,DEPARTMENT D,SITE S,DUTY DT
+	WHERE EW.DEPARTMENT_CODE = D.DEPARTMENT_CODE(+)
+	AND D.SITE_CODE=S.SITE_CODE(+)
+	AND E.EMPLOYEE_CODE= EW.EMPLOYEE_CODE(+)
+	AND EW.DUTY_CODE=DT.DUTY_CODE(+)
+	AND E.EMPLOYEE_NAME =  #{E_id jdbcType=VARCHAR}
+    
+			]]>
+			
+	</when>
+	<otherwise>
+		    <![CDATA[
+    SELECT E.EMPLOYEE_CODE,E.EMPLOYEE_NAME,D.DEPARTMENT_NAME,S.SITE_NAME,DT.DUTY_NAME
+	FROM EMPLOYEE E, EMPLOYEE_WORK EW,DEPARTMENT D,SITE S,DUTY DT
+	WHERE EW.DEPARTMENT_CODE = D.DEPARTMENT_CODE(+)
+	AND D.SITE_CODE=S.SITE_CODE(+)
+	AND E.EMPLOYEE_CODE= EW.EMPLOYEE_CODE(+)
+	AND EW.DUTY_CODE=DT.DUTY_CODE(+)
+    
+			]]>
+	</otherwise>
+	</choose>
+	</select>
+	
+	<select  id="homeSearch_p02" resultMap="P0022resultVO" parameterType="java.util.Map">
+	
+
+	    <![CDATA[
+	    SELECT e.employee_code AS masterEmployee_CODE, e.employee_name,s.site_name,d.department_name ,dt.duty_name
+	    FROM employee e , employee_work ew , site s , duty dt, department d
+	    WHERE e.employee_code = ew.employee_code(+)
+	    AND ew.department_code= d.department_code(+)
+		AND d.site_code = s.site_code (+)
+	    AND ew.duty_code = dt.duty_code(+)
+
+		]]>
+	<choose>
+	<when test="E_id != '' and E_id != null">
+AND e.employee_name = #{E_id jdbcType=VARCHAR}
+    
+	
+			
+	</when>
+	</choose>
+	</select>
+
+
+
+	<select  id="homeSearch_p03" resultMap="P0022resultVO" parameterType="java.util.Map">
+	
+
+	    <![CDATA[
+       SELECT
+EW.EMPLOYEE_CODE,
+E.EMPLOYEE_NAME,
+WS.WORK_STATUS_NAME,
+EW.EMPLOYEE_JOIN_DATE,
+S.SITE_NAME,
+S.SITE_CODE,
+D.DEPARTMENT_NAME,
+D.DEPARTMENT_CODE,
+JC.JOB_CLASS_NAME,
+JC.JOB_CLASS_CODE,
+P.POSITION_NAME,
+P.POSITION_CODE,
+DT.DUTY_NAME,
+DT.DUTY_CODE,
+JD.JOB_DIS_NAME,
+JD.JOB_DIS_CODE,
+PT.PAY_TYPE_NAME,
+PT.PAY_TYPE_CODE,
+PG.PAY_GRADE_NAME,
+PG.PAY_GRADE_CODE,
+ORN.OUT_REASON_NAME,
+ORN.OUT_REASON_CODE,
+EW.EMPLOYEE_RESIGNATION_DATE
+
+FROM EMPLOYEE_WORK EW,
+    EMPLOYEE E,
+    SITE S,
+    DEPARTMENT D,
+    JOB_CLASS JC,
+    POSITION P,
+    DUTY DT,
+    JOB_DIS JD,
+    PAY_TYPE PT,
+    PAY_GRADE PG,
+    OUT_REASON ORN,
+    work_status ws
+
+WHERE EW.EMPLOYEE_CODE = E.EMPLOYEE_CODE(+)
+AND D.SITE_CODE = S.SITE_CODE(+)
+AND EW.DEPARTMENT_CODE=D.DEPARTMENT_CODE(+)
+AND EW.JOB_CLASS_CODE=JC.JOB_CLASS_CODE(+)
+AND EW.POSITION_CODE=P.POSITION_CODE(+)
+AND EW.DUTY_CODE=DT.DUTY_CODE(+)
+AND EW.JOB_DIS_CODE = JD.JOB_DIS_CODE(+)
+AND EW.PAY_TYPE_CODE = PT.PAY_TYPE_CODE(+)
+AND EW.PAY_GRADE_CODE = PG.PAY_GRADE_CODE(+)
+AND EW.OUT_REASON_CODE = ORN.OUT_REASON_CODE(+)
+AND EW.work_status_code = WS.work_status_code(+)
+		]]>
+	<choose>
+	<when test="E_id != '' and E_id != null">
+AND e.employee_name = #{E_id jdbcType=VARCHAR}
+    
+	
+			
+	</when>
+	</choose>
+	</select>
+
+<select  id="homeSearch_p04" resultMap="P0022resultVO" parameterType="java.util.Map">
+	
+
+	    <![CDATA[
+	    SELECT site_code , site_name
+	    FROM site
+
+		]]>
+	<choose>
+	<when test="E_id != '' and E_id != null">
+AND site_name = #{E_id jdbcType=VARCHAR}
+    
+	
+			
+	</when>
+	</choose>
+	</select>
+	
+	<select  id="homeSearch_p05" resultMap="P0022resultVO" parameterType="java.util.Map">
+	
+
+	    <![CDATA[
+	    SELECT department_code , department_name
+	    FROM department d,site s
+	    WHERE d.site_code = s.site_code 
+
+		]]>
+	<choose>
+	<when test="SiteList != '' and SiteList != null">
+ 
+		    AND site_name = #{SiteList}
+	
+			
+	</when>
+	</choose>
+	</select>
+	
+
+	<select  id="homeEmployeeSearch" resultMap="P0022resultVO" parameterType="java.util.Map">
+	    <![CDATA[
+	SELECT HA.EMPLOYEE_CODE,E.EMPLOYEE_NAME,D.DEPARTMENT_NAME,DT.DUTY_NAME
+	FROM EMPLOYEE E , HR_APPOINT HA , DUTY DT , DEPARTMENT D,EMPLOYEE_WORK EW
+	WHERE HA.EMPLOYEE_CODE=E.EMPLOYEE_CODE
+	AND HA.EMPLOYEE_CODE=EW.EMPLOYEE_CODE
+	AND EW.DEPARTMENT_CODE=D.DEPARTMENT_CODE
+	AND EW.DUTY_CODE=DT.DUTY_CODE
+	AND HA.HR_APPOINT_NUMBER=#{param}
+	    
+			]]>
+	</select>
+
+
+	<insert id="insertData1" parameterType="java.util.Map">
+	insert into HR_APPOINT(APPOINT_CODE,APPOINT_DATE,APPOINT_TITLE,APPOINT_YN,MASTEREMPLOYEE_CODE,int_user_id, int_date)
+	values(#{appoint_CODE,jdbcType=VARCHAR}, #{appoint_DATE,jdbcType=VARCHAR}, #{appoint_TITLE,jdbcType=VARCHAR},'마감',#{masterEmployee_CODE,jdbcType=VARCHAR},#{user},sysdate)
+	</insert>	
+	
+
+
+	<update id="updateData1" parameterType="java.util.Map">
+		update HR_APPOINT
+		set  APPOINT_TITLE=#{appoint_TITLE, jdbcType=VARCHAR}
+		   , APPOINT_DATE=#{appoint_DATE, jdbcType=VARCHAR}
+		   , MASTEREMPLOYEE_CODE=#{masterEmployee_CODE, jdbcType=VARCHAR}
+		   , upt_user_id = #{user, jdbcType=VARCHAR}
+		   , upt_date = sysdate
+		 
+		where appoint_CODE = #{appoint_CODE}
+	</update>	
+	
+	
+	<delete id="deleteData1" parameterType="java.util.Map">
+		delete HR_APPOINT
+		where APPOINT_CODE = #{appoint_CODE}
+	</delete>	
+	
+	
+	
+	<insert id="insertData2" parameterType="java.util.Map">
+
+	insert into hr_appoint_history(appoint_history_code, appoint_index_code , appoint_employee_code , appoint_code , start_date , end_date , work_status_code ,join_date , site_code , department_code , job_class_code , position_code , duty_code , job_dis_code , pay_type_code , pay_grade_code , out_reason_code ,int_user_id, int_date,RESIGNATION_DATE)
+	values (APPOINT_HISTORY_CODE_SEQ.nextval , #{hr_APPOINT_INDEX_NAME,jdbcType=VARCHAR} ,#{employee_CODE,jdbcType=VARCHAR},#{appointCode,jdbcType=VARCHAR},#{start_DATE,jdbcType=VARCHAR},#{end_DATE,jdbcType=VARCHAR},#{work_STATUS_NAME,jdbcType=VARCHAR},#{employee_JOIN_DATE,jdbcType=VARCHAR} ,#{site_CODE,jdbcType=VARCHAR} , #{department_CODE,jdbcType=VARCHAR} ,#{job_CLASS_NAME,jdbcType=VARCHAR} ,#{position_NAME,jdbcType=VARCHAR}, #{duty_NAME,jdbcType=VARCHAR} , #{job_DIS_NAME,jdbcType=VARCHAR} ,#{pay_TYPE_NAME,jdbcType=VARCHAR} , #{pay_GRADE_NAME,jdbcType=VARCHAR},#{out_REASON_NAME,jdbcType=VARCHAR},#{user},sysdate,#{resignation_DATE,jdbcType=VARCHAR})
+ 
+	 </insert>
+	
+	
+	
+	<delete id="deleteData2" parameterType="java.util.Map">
+		delete HR_APPOINT_HISTORY
+		where APPOINT_EMPLOYEE_CODE = #{employee_CODE}
+	</delete>	
+	
+		
+	<update id="updateData2" parameterType="java.util.Map">
+		update hr_appoint_history
+		set  APPOINT_INDEX_CODE=#{hr_APPOINT_INDEX_NAME,jdbcType=VARCHAR}
+			, START_DATE=#{start_DATE,jdbcType=VARCHAR}   
+			, END_DATE=#{end_DATE,jdbcType=VARCHAR}   
+			, WORK_STATUS_CODE=#{work_STATUS_NAME,jdbcType=VARCHAR}   
+			, JOIN_DATE=#{employee_JOIN_DATE,jdbcType=VARCHAR}   
+			, SITE_CODE=#{site_CODE,jdbcType=VARCHAR}   
+			, DEPARTMENT_CODE=#{department_CODE,jdbcType=VARCHAR}   
+			, JOB_CLASS_CODE=#{job_CLASS_NAME,jdbcType=VARCHAR}   
+			, POSITION_CODE=#{position_NAME,jdbcType=VARCHAR}   
+			, DUTY_CODE=#{duty_NAME,jdbcType=VARCHAR}   
+			, JOB_DIS_CODE=#{job_DIS_NAME,jdbcType=VARCHAR}   
+			, PAY_TYPE_CODE=#{pay_TYPE_NAME,jdbcType=VARCHAR}   
+			, PAY_GRADE_CODE=#{pay_GRADE_NAME,jdbcType=VARCHAR}   
+			, OUT_REASON_CODE=#{out_REASON_NAME,jdbcType=VARCHAR}   
+			, RESIGNATION_DATE=#{resignation_DATE,jdbcType=VARCHAR}   
+						   
+			, upt_user_id = #{user, jdbcType=VARCHAR}
+			, upt_date = sysdate
+		where APPOINT_CODE = #{appointCode}
+	</update>	
+	
+	
+	<update id="updateData3" parameterType="java.util.Map">
+		update HR_APPOINT
+		set  APPOINT_YN=#{appoint_YN}   
+			, upt_user_id = #{user, jdbcType=VARCHAR}
+			, upt_date = sysdate
+		where APPOINT_CODE = #{appoint_CODE}
+	</update>	
+	
+	
+
+	<update id="updateData4" parameterType="java.util.Map">
+	 update EMPLOYEE_WORK 
+ 	 set EMPLOYEE_JOIN_DATE = #{employee_JOIN_DATE,jdbcType=VARCHAR}, DEPARTMENT_CODE = #{department_CODE,jdbcType=VARCHAR}, JOB_CLASS_CODE = #{job_CLASS_CODE,jdbcType=VARCHAR}, POSITION_CODE = #{position_CODE,jdbcType=VARCHAR}, DUTY_CODE = #{duty_CODE,jdbcType=VARCHAR},
+     JOB_DIS_CODE = #{job_DIS_CODE,jdbcType=VARCHAR}, PAY_TYPE_CODE = #{pay_TYPE_CODE,jdbcType=VARCHAR}, PAY_GRADE_CODE = #{pay_GRADE_CODE,jdbcType=VARCHAR}, OUT_REASON_CODE = #{out_REASON_CODE,jdbcType=VARCHAR},work_STATUS_CODE = #{work_STATUS_CODE},upt_user_id = #{user, jdbcType=VARCHAR},upt_date = sysdate , EMPLOYEE_RESIGNATION_DATE = #{resignation_DATE}
+     where EMPLOYEE_CODE = #{employee_CODE,jdbcType=VARCHAR}
+
+	</update>
+	
+
+</mapper>

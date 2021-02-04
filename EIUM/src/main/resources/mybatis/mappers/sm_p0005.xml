@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.sm_p0005">
+	<resultMap id="p0005Result" type="SM_P0005VO">
+		<result property="AUTHORITY_CODE" column="AUTHORITY_CODE" />
+        <result property="AUTHORITY_NAME" column="AUTHORITY_NAME" />
+        <result property="MENU_CODE" column="MENU_CODE" />
+        <result property="MENU_NAME" column="MENU_NAME" />
+	</resultMap> 
+
+	<select id="searchList" resultMap="p0005Result">
+      <![CDATA[
+         select AUTHORITY_CODE, AUTHORITY_NAME from ACCESS_AUTHORITY order by AUTHORITY_CODE
+      ]]>
+	</select>
+	
+ 	<insert id="insertData" parameterType="java.util.Map">
+		insert into ACCESS_AUTHORITY(AUTHORITY_CODE, AUTHORITY_NAME,int_user_id, int_date) values(#{authority_CODE}, #{authority_NAME},#{user},sysdate)
+	</insert>
+	
+	<insert id="insertData1" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M001', '회사등록',#{user},sysdate )
+	</insert>	
+	<insert id="insertData2" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M002', '사업장등록',#{user},sysdate )
+	</insert>
+	<insert id="insertData3" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M003', '부서등록',#{user},sysdate )
+	</insert>
+	<insert id="insertData4" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M004', '사원등록',#{user},sysdate )
+	</insert>
+	<insert id="insertData5" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M005', '권한관리',#{user},sysdate )
+	</insert>
+	<insert id="insertData6" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M006', '계정별권한설정',#{user},sysdate )
+	</insert>
+	<insert id="insertData7" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M007', '호봉테이블등록',#{user},sysdate )
+	</insert>
+	<insert id="insertData8" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M008', '지급일등록',#{user},sysdate )
+	</insert>
+	<insert id="insertData9" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M009', '인사기초코드등록',#{user},sysdate )
+	</insert>
+	<insert id="insertData10" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M010', '인사정보등록',#{user},sysdate )
+	</insert>
+	<insert id="insertData11" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M011', '인사기록카드',#{user},sysdate )
+	</insert>
+	<insert id="insertData12" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M012', '교육관리',#{user},sysdate )
+	</insert>
+	<insert id="insertData13" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M013', '교육평가',#{user},sysdate )
+	</insert>
+	<insert id="insertData14" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M014', '인사발령',#{user},sysdate )
+	</insert>
+	<insert id="insertData15" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M015', '인사발령조회',#{user},sysdate )
+	</insert>
+	<insert id="insertData16" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M016', '사원정보현황',#{user},sysdate )
+	</insert>
+	<insert id="insertData17" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M017', '인사고과/상벌현황',#{user},sysdate )
+	</insert>
+	<insert id="insertData18" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M018', '사원입퇴사현황',#{user},sysdate )
+	</insert>
+	<insert id="insertData19" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M019', '책정임금현황',#{user},sysdate )
+	</insert>
+	<insert id="insertData20" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M020', '근속년수현황',#{user},sysdate )
+	</insert>
+	<insert id="insertData21" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M021', '교육현황',#{user},sysdate )
+	</insert>
+	<insert id="insertData22" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M022', '급여입력및계산',#{user},sysdate )
+	</insert>
+	<insert id="insertData23" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M023', '급여대장',#{user},sysdate )
+	</insert>
+	<insert id="insertData24" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M024', '급여명세',#{user},sysdate )
+	</insert>
+	<insert id="insertData25" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M025', '급상여이체현황',#{user},sysdate )
+	</insert>
+	<insert id="insertData26" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M026', '월별지급현황',#{user},sysdate )
+	</insert>
+	<insert id="insertData27" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M027', '사원임금통계',#{user},sysdate )
+	</insert>
+	<insert id="insertData28" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M028', '근태입력',#{user},sysdate )
+	</insert>
+	<insert id="insertData29" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M029', '휴가관리',#{user},sysdate )
+	</insert>
+	<insert id="insertData30" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M030', '휴가내역',#{user},sysdate )
+	</insert>
+	<insert id="insertData31" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M031', '출장관리',#{user},sysdate )
+	</insert>
+	<insert id="insertData32" parameterType="java.util.Map">
+		insert into MENU_BY_AUTHORITY( AUTHORITY_CODE, MENU_CODE, MENU_NAME,int_user_id, int_date ) values( #{authority_CODE}, 'M032', '출장조회',#{user},sysdate )
+	</insert>
+
+	
+	<update id="updateData" parameterType="java.util.Map">
+		update ACCESS_AUTHORITY
+		set AUTHORITY_NAME = #{authority_NAME, jdbcType=VARCHAR}
+		, upt_user_id = #{user, jdbcType=VARCHAR}
+		, upt_date = sysdate
+		where TRIM(AUTHORITY_CODE) = #{authority_CODE}
+	</update>
+	
+	<delete id="deleteData" parameterType="java.util.Map">
+		delete ACCESS_AUTHORITY
+		where TRIM(AUTHORITY_CODE) = #{authority_CODE}
+	</delete>
+	<delete id="deleteData1" parameterType="java.util.Map">
+		delete MENU_BY_AUTHORITY
+		where TRIM(AUTHORITY_CODE) = #{authority_CODE}
+	</delete>
+	
+	
+	
+    <resultMap id="p0005_01Result" type="SM_P0005_01VO">
+		<result property="ACCESS_GRANT" column="ACCESS_GRANT" />
+		<result property="MENU_CODE" column="MENU_CODE" />
+		<result property="MENU_NAME" column="MENU_NAME" />
+        <result property="ACCESS_RANGE" column="ACCESS_RANGE" />
+        <result property="ACCESS_INSERT" column="ACCESS_INSERT" />
+        <result property="ACCESS_UPDATE" column="ACCESS_UPDATE" />
+        <result property="ACCESS_DELETE" column="ACCESS_DELETE" />
+     
+	</resultMap> 
+
+	<select id="searchList_01" resultMap="p0005_01Result">
+      <![CDATA[
+         select ACCESS_GRANT, MENU_NAME, ACCESS_RANGE, ACCESS_INSERT, ACCESS_UPDATE, ACCESS_DELETE
+         from MENU_BY_AUTHORITY where TRIM(AUTHORITY_CODE) = #{x, jdbcType=VARCHAR} order by MENU_CODE
+      ]]>
+	</select>
+
+	<update id="updateData_01" parameterType="java.util.Map">
+		update MENU_BY_AUTHORITY
+		set ACCESS_GRANT = #{access_GRANT, jdbcType=VARCHAR}
+		    , ACCESS_RANGE = #{access_RANGE, jdbcType=VARCHAR}
+			, ACCESS_INSERT = #{access_INSERT, jdbcType=VARCHAR}
+			, ACCESS_UPDATE = #{access_UPDATE, jdbcType=VARCHAR}
+			, ACCESS_DELETE = #{access_DELETE, jdbcType=VARCHAR}
+			, upt_user_id = #{user, jdbcType=VARCHAR}
+		    , upt_date = sysdate
+		where AUTHORITY_CODE = #{x, jdbcType=VARCHAR} and MENU_NAME = #{menu_NAME}
+	</update>
+	
+	
+	
+</mapper>

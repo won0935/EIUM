@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.pm_p0004">
+	<resultMap id="P0004resultVO" type="PM_P0004VO">
+		<result property="bank_name" column="bank_name" />
+		<result property="employee_code" column="employee_code" />
+		<result property="employee_name" column="employee_name" />
+		<result property="account_number_1" column="account_number_1" />		
+		<result property="account_name_1" column="account_name_1" />		
+		<result property="payment_receipt_price" column="payment_receipt_price" />
+		<result property="payment_date" column="payment_date" />
+	</resultMap>
+	
+	<select id = "typeList" resultMap="P0004resultVO" parameterType="java.util.Map">
+	<choose>	
+			<when test= "searchSite=='all'">
+			select department_name
+			from department
+   		    </when>
+   		    
+   		    <when test= "searchSite!='all'">
+			select department_name
+			from department d, site s
+			where d.site_code = s.site_code
+			and s.site_name = #{searchSite}
+			 </when>
+	</choose>	
+			
+	</select>
+	
+	<select id = "BankList" resultMap="P0004resultVO" parameterType="java.util.Map">
+		
+		select  bank_name
+		from bank
+
+</select>
+	
+
+	<select id = "paydate_searchList" resultMap="P0004resultVO" parameterType="java.util.Map">
+	<![CDATA[
+		select p.payment_code, p.payment_date, pd.payment_des_name
+		from payment p, payment_des pd
+		where p.payment_des_code = pd.payment_des_code 
+        and SUBSTR(TO_DATE(SUBSTR(p.payment_date,1,6), 'YYYY-MM'),1,5) = #{date,jdbcType=VARCHAR}
+	]]> 
+	</select>
+	
+<select id = "searchReceipt" resultMap="P0004resultVO" parameterType="java.util.Map">
+		
+		select  payment_receipt_item, payment_receipt_price
+		from payment_receipt
+		where payment_code =  #{y}
+		and employee_code =  #{x}
+</select>
+		
+	
+	<select id = "searchList" resultMap="P0004resultVO" parameterType="java.util.Map">
+	<choose>	
+			<when test= " searchBank=='all' and searchSite  =='all' and searchTYPE == 'all'">	
+			<![CDATA[		
+			select b.bank_name, ew.employee_code, e.employee_name, es.account_number_1, es.account_name_1, pr.payment_receipt_price, p.payment_date, pr.payment_receipt_item
+			from employee e, bank b, employee_salary es, payment_receipt pr, payment p, employee_work ew, selection_of_payment sp, department d, site s
+			where b.bank_code = es.bank_code_1
+			and es.employee_code= ew.employee_code 
+			and ew.employee_code = e.employee_code
+			and p.payment_code =pr.payment_code
+			and p.payment_code = sp.payment_code
+			and sp.job_class_code = ew.job_class_code
+			and sp.site_code = d.site_code
+			and d.site_code = s.site_code
+			and pr.employee_code = ew.employee_code				
+			and ew.department_code =d.department_code
+			and p.payment_code = #{Ppayment_code}
+			order by e.employee_code
+			]]> 
+   		    </when>
+   		    
+   		    
+   		    			<when test= " searchBank=='all' and searchSite  =='all' and searchTYPE != 'all'">	
+			<![CDATA[		
+			select b.bank_name, ew.employee_code, e.employee_name, es.account_number_1, es.account_name_1, pr.payment_receipt_price, p.payment_date, pr.payment_receipt_item
+			from employee e, bank b, employee_salary es, payment_receipt pr, payment p, employee_work ew, selection_of_payment sp, department d, site s
+			where b.bank_code = es.bank_code_1
+			and es.employee_code= ew.employee_code 
+			and ew.employee_code = e.employee_code
+			and p.payment_code =pr.payment_code
+			and p.payment_code = sp.payment_code
+			and sp.job_class_code = ew.job_class_code
+			and sp.site_code = d.site_code
+			and d.site_code = s.site_code
+			and pr.employee_code = ew.employee_code				
+			and ew.department_code =d.department_code
+			and p.payment_code = #{Ppayment_code}
+			and d.department_name =  #{searchTYPE} 
+			
+			]]> 
+   		    </when>
+
+   		    
+   		    			
+			<when test= " searchBank=='all' and searchSite  !='all' and searchTYPE == 'all'">	
+			<![CDATA[		
+			select b.bank_name, ew.employee_code, e.employee_name, es.account_number_1, es.account_name_1, pr.payment_receipt_price, p.payment_date, pr.payment_receipt_item
+			from employee e, bank b, employee_salary es, payment_receipt pr, payment p, employee_work ew, selection_of_payment sp, department d, site s
+			where b.bank_code = es.bank_code_1
+			and es.employee_code= ew.employee_code 
+			and ew.employee_code = e.employee_code
+			and p.payment_code =pr.payment_code
+			and p.payment_code = sp.payment_code
+			and sp.job_class_code = ew.job_class_code
+			and sp.site_code = d.site_code
+			and d.site_code = s.site_code	
+			and pr.employee_code = ew.employee_code
+			and ew.department_code =d.department_code
+			and p.payment_code = #{Ppayment_code}
+			and s.site_name = #{searchSite}
+			]]> 
+   		    </when>
+   		    
+   		    <when test= " searchBank!='all' and searchSite  =='all' and searchTYPE == 'all'">	
+			<![CDATA[		
+			select b.bank_name, ew.employee_code, e.employee_name, es.account_number_1, es.account_name_1, pr.payment_receipt_price, p.payment_date, pr.payment_receipt_item
+			from employee e, bank b, employee_salary es, payment_receipt pr, payment p, employee_work ew, selection_of_payment sp, department d, site s
+			where b.bank_code = es.bank_code_1
+			and es.employee_code= ew.employee_code 
+			and ew.employee_code = e.employee_code
+			and p.payment_code =pr.payment_code
+			and p.payment_code = sp.payment_code
+			and sp.job_class_code = ew.job_class_code
+			and sp.site_code = d.site_code
+			and d.site_code = s.site_code
+			and pr.employee_code = ew.employee_code
+			and ew.department_code =d.department_code
+			and b.bank_name = #{searchBank}
+			and p.payment_code = #{Ppayment_code}
+			]]> 
+   		    </when>
+   		    
+   		    
+   		    <when test= " searchBank!='all' and searchSite  !='all' and searchTYPE == 'all'">	
+			<![CDATA[		
+			select b.bank_name, ew.employee_code, e.employee_name, es.account_number_1, es.account_name_1, pr.payment_receipt_price, p.payment_date, pr.payment_receipt_item
+			from employee e, bank b, employee_salary es, payment_receipt pr, payment p, employee_work ew, selection_of_payment sp, department d, site s
+			where b.bank_code = es.bank_code_1
+			and es.employee_code= ew.employee_code 
+			and ew.employee_code = e.employee_code
+			and p.payment_code =pr.payment_code
+			and p.payment_code = sp.payment_code
+			and sp.job_class_code = ew.job_class_code
+			and sp.site_code = d.site_code
+			and d.site_code = s.site_code
+			and pr.employee_code = ew.employee_code
+			and ew.department_code =d.department_code
+			and b.bank_name = #{searchBank}
+			and p.payment_code = #{Ppayment_code}
+			and s.site_name = #{searchSite}
+			
+				
+			]]> 
+   		    </when>	
+   		    
+   		    
+   		       		    <when test= " searchBank!='all' and searchSite  =='all' and searchTYPE != 'all'">	
+			<![CDATA[		
+			select b.bank_name, ew.employee_code, e.employee_name, es.account_number_1, es.account_name_1, pr.payment_receipt_price, p.payment_date, pr.payment_receipt_item
+			from employee e, bank b, employee_salary es, payment_receipt pr, payment p, employee_work ew, selection_of_payment sp, department d, site s
+			where b.bank_code = es.bank_code_1
+			and es.employee_code= ew.employee_code 
+			and ew.employee_code = e.employee_code
+			and p.payment_code =pr.payment_code
+			and p.payment_code = sp.payment_code
+			and sp.job_class_code = ew.job_class_code
+			and sp.site_code = d.site_code
+			and d.site_code = s.site_code
+			and pr.employee_code = ew.employee_code
+			and ew.department_code =d.department_code
+			and b.bank_name = #{searchBank}
+			and p.payment_code = #{Ppayment_code}
+			and d.department_name =  #{searchTYPE} 
+			
+				
+			]]> 
+   		    </when>	
+   		    
+   		    <when test= " searchBank=='all' and searchSite  !='all' and searchTYPE != 'all'">	
+			<![CDATA[		
+ 			select b.bank_name, ew.employee_code, e.employee_name, es.account_number_1, es.account_name_1, pr.payment_receipt_price, p.payment_date, pr.payment_receipt_item
+			from employee e, bank b, employee_salary es, payment_receipt pr, payment p, employee_work ew, selection_of_payment sp, department d, site s
+			where b.bank_code = es.bank_code_1
+			and es.employee_code= ew.employee_code 
+			and ew.employee_code = e.employee_code
+			and p.payment_code =pr.payment_code
+			and p.payment_code = sp.payment_code
+			and sp.job_class_code = ew.job_class_code
+			and sp.site_code = d.site_code
+			and d.site_code = s.site_code	
+			and pr.employee_code = ew.employee_code
+			and ew.department_code =d.department_code
+			and p.payment_code = #{Ppayment_code}
+			and s.site_name = #{searchSite}
+			and d.department_name =  #{searchTYPE} 
+			
+			]]> 
+   		    </when>
+   		    
+
+   		   	<when test= " searchBank!='all' and searchSite  !='all' and searchTYPE != 'all'">	
+			<![CDATA[		
+			select b.bank_name, ew.employee_code, e.employee_name, es.account_number_1, es.account_name_1, pr.payment_receipt_price, p.payment_date, pr.payment_receipt_item
+			from employee e, bank b, employee_salary es, payment_receipt pr, payment p, employee_work ew, selection_of_payment sp, department d, site s
+			where b.bank_code = es.bank_code_1
+			and es.employee_code= ew.employee_code 
+			and ew.employee_code = e.employee_code
+			and p.payment_code =pr.payment_code
+			and p.payment_code = sp.payment_code
+			and sp.job_class_code = ew.job_class_code
+			and sp.site_code = d.site_code
+			and d.site_code = s.site_code
+			and pr.employee_code = ew.employee_code
+			and ew.department_code =d.department_code
+			and b.bank_name = #{searchBank}
+			and p.payment_code = #{Ppayment_code}
+			and s.site_name = #{searchSite}
+			and d.department_name =  #{searchTYPE} 			
+			]]> 
+   		    </when>	
+   		    	
+			</choose> 
+	</select>
+	
+	
+</mapper>

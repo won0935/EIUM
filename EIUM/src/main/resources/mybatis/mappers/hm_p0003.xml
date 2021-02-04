@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.hm_p0003">
+	<resultMap id="P0003resultVO" type="HM_P0003VO">
+		<result property="admin_CODE" column="ADMIN_CODE" />
+		<result property="admin_NAME" column="ADMIN_NAME" />
+		<result property="admin_LIST_NAME" column="ADMIN_LIST_NAME" />
+   
+	</resultMap> 
+	<select id="searchList" resultMap="P0003resultVO" parameterType="java.util.Map"> 
+      <![CDATA[
+         select ADMIN_CODE,ADMIN_NAME,ADMIN_LIST_NAME           
+         from ADMIN
+      ]]>
+	</select>
+
+	<resultMap type="map" id="selectMapList">
+		<result column="POSITION_CODE" property="admin_LIST_CODE" />
+		<result column="POSITION_NAME" property="admin_LIST_NAME" />
+		<result column="PAYMENT_DES_CODE" property="admin_LIST_CODE" />
+		<result column="PAYMENT_DES_NAME" property="admin_LIST_NAME" />
+		<result column="BANK_CODE" property="admin_LIST_CODE" />
+		<result column="BANK_NAME" property="admin_LIST_NAME" />
+		<result column="D_CODE_CODE" property="admin_LIST_CODE" />
+		<result column="D_CODE_NAME" property="admin_LIST_NAME" />
+		<result column="WORK_TYPE_CODE" property="admin_LIST_CODE" />
+		<result column="WORK_TYPE_NAME" property="admin_LIST_NAME" />
+		<result column="WORK_GROUP_CODE" property="admin_LIST_CODE" />
+		<result column="WORK_GROUP_NAME" property="admin_LIST_NAME" />
+		<result column="JOB_DIS_CODE" property="admin_LIST_CODE" />
+		<result column="JOB_DIS_NAME" property="admin_LIST_NAME" />
+		<result column="JOB_CLASS_CODE" property="admin_LIST_CODE" />
+		<result column="JOB_CLASS_NAME" property="admin_LIST_NAME" />
+		<result column="DUTY_CODE" property="admin_LIST_CODE" />
+		<result column="DUTY_NAME" property="admin_LIST_NAME" />
+		<result column="FINAL_EDU_CODE" property="admin_LIST_CODE" />
+		<result column="FINAL_EDU_NAME" property="admin_LIST_NAME" />
+		<result column="OUT_REASON_CODE" property="admin_LIST_CODE" />
+		<result column="OUT_REASON_NAME" property="admin_LIST_NAME" />
+		<result column="COUNTRY_CODE" property="admin_LIST_CODE" />
+		<result column="COUNTRY_NAME" property="admin_LIST_NAME" />
+		<result column="LICENSE_CODE" property="admin_LIST_CODE" />
+		<result column="LICENSE_NAME" property="admin_LIST_NAME" />
+		<result column="WORK_STATUS_CODE" property="admin_LIST_CODE" />
+		<result column="WORK_STATUS_NAME" property="admin_LIST_NAME" />
+		<result column="LANGUAGE_CODE" property="admin_LIST_CODE" />
+		<result column="LANGUAGE_NAME" property="admin_LIST_NAME" />
+		<result column="ASSESSMENT_CODE" property="admin_LIST_CODE" />
+		<result column="ASSESSMENT_NAME" property="admin_LIST_NAME" />
+		<result column="RNP_CODE" property="admin_LIST_CODE" />
+		<result column="RNP_NAME" property="admin_LIST_NAME" />
+
+	</resultMap>
+
+	<select id="searchList2" resultMap="selectMapList"
+		parameterType="java.util.Map">
+
+		select
+		${TABLE_NAME}_CODE,
+		${TABLE_NAME}_NAME
+		from ${TABLE_NAME}
+
+	</select>
+
+
+	<insert id="insertData" parameterType="java.util.Map">
+		insert into
+		${temp_NAME}(${temp_NAME}_CODE,${temp_NAME}_NAME)
+		values(#{admin_LIST_CODE},#{admin_LIST_NAME})
+	</insert>
+
+	<update id="updateData" parameterType="java.util.Map">
+		update ${temp_NAME}
+		set
+		${temp_NAME}_NAME = #{admin_LIST_NAME}
+		where TRIM(${temp_NAME}_CODE) =
+		#{admin_LIST_CODE}
+	</update>
+
+	<delete id="deleteData" parameterType="java.util.Map">
+		delete ${temp_NAME}
+		where
+		TRIM(${temp_NAME}_CODE) = #{admin_LIST_CODE}
+	</delete>
+	
+	
+
+</mapper>

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.common">
+	<resultMap id="resultVO" type="HomeVO">
+		<result property="empCode" column="EMPLOYEE_CODE" />
+		<result property="empNAME" column="EMPLOYEE_NAME" />
+		<result property="id" column="EMPLOYEE_ID" />
+		<result property="pwd" column="EMPLOYEE_PASSWORD" />
+		<result property="email" column="EMAIL" />
+		<result property="board_DES" column="BOARD_DES" />
+		<result property="board_DES_DES" column="BOARD_DES_DES" />
+		<result property="board_TITLE" column="BOARD_TITLE" />
+		<result property="board_START_DATE" column="BOARD_START_DATE" />
+		<result property="board_END_DATE" column="BOARD_END_DATE" />
+		<result property="board_CONTENT" column="BOARD_CONTENT" />
+		<result property="board_CODE" column="BOARD_CODE" />
+
+
+		<result property="vacation_CODE" column="VACATION_CODE" />
+		<result property="vacation_TYPE" column="VACATION_TYPE" />
+		<result property="vacation_END_DATE" column="VACATION_END_DATE" />
+		<result property="vacation_START_DATE"
+			column="VACATION_START_DATE" />
+
+		<result property="business_TRIP_CODE"
+			column="BUSINESS_TRIP_CODE" />
+		<result property="purpose" column="PURPOSE" />
+		<result property="end_DATE" column="END_DATE" />
+		<result property="start_DATE" column="START_DATE" />
+
+
+	</resultMap>
+
+
+	<select id="findId" resultMap="resultVO"
+		parameterType="java.util.HashMap"> 
+      <![CDATA[
+         select a.EMPLOYEE_CODE , a.EMPLOYEE_ID , b.EMAIL
+         from ACCOUNT a, EMPLOYEE_HR_INFO b
+         where a.EMPLOYEE_CODE = b.EMPLOYEE_CODE
+       	 and a.EMPLOYEE_CODE = #{EMPLOYEE_CODE}
+         and b.EMAIL = #{EMAIL}
+      ]]>
+	</select>
+
+
+	<select id="findPwd" resultMap="resultVO"
+		parameterType="java.util.HashMap"> 
+      <![CDATA[
+         select a.EMPLOYEE_CODE , a.EMPLOYEE_ID, a.EMPLOYEE_PASSWORD , b.EMAIL 
+         from ACCOUNT a, EMPLOYEE_HR_INFO b
+         where a.EMPLOYEE_CODE = b.EMPLOYEE_CODE
+         and a.EMPLOYEE_CODE = #{EMPLOYEE_CODE}
+         and a.EMPLOYEE_ID = #{EMPLOYEE_ID}
+        and b.EMAIL = #{EMAIL}
+      ]]>
+	</select>
+
+	<select id="findVacationAuth" resultType="java.lang.String"
+		parameterType="java.util.HashMap"> 
+      <![CDATA[
+        select 
+        a.access_range
+		
+		from menu_by_authority a, user_auth b
+		
+		where a.authority_code=b.authority_code
+		and a.menu_code= 'M029'
+		and b.employee_id = #{emp_id}
+      
+      ]]>
+	</select>
+	<select id="findAllVacation" resultMap="resultVO"
+		parameterType="java.util.HashMap"> 
+      <![CDATA[
+    select 
+         B.EMPLOYEE_NAME,
+         A.VACATION_CODE,
+         A.VACATION_TYPE,
+         to_char(to_date(A.VACATION_START_DATE,'YYYYmmdd'),'YYYY-mm-dd') AS VACATION_START_DATE,
+         to_char(to_date(A.VACATION_END_DATE,'YYYYmmdd'),'YYYY-mm-dd') AS VACATION_END_DATE
+         
+	from  VACATION_CHANGE_HISTORY A, EMPLOYEE B
+	where A.EMPLOYEE_CODE = B.EMPLOYEE_CODE
+	order by A.VACATION_CODE desc
+      ]]>
+	</select>
+	<select id="findLimitedVacation" resultMap="resultVO"
+		parameterType="java.util.HashMap"> 
+      <![CDATA[
+        select 
+         B.EMPLOYEE_NAME,
+         A.VACATION_CODE,
+         A.VACATION_TYPE,
+         to_char(to_date(A.VACATION_START_DATE,'YYYYmmdd'),'YYYY-mm-dd') AS VACATION_START_DATE,
+         to_char(to_date(A.VACATION_END_DATE,'YYYYmmdd'),'YYYY-mm-dd') AS VACATION_END_DATE
+         
+         from  VACATION_CHANGE_HISTORY A, EMPLOYEE B,employee_work c
+         where A.EMPLOYEE_CODE = B.EMPLOYEE_CODE
+         and C.EMPLOYEE_CODE= B.EMPLOYEE_CODE
+         and C.DEPARTMENT_CODE= (select X.DEPARTMENT_CODE
+                                FROM employee_work X,account Y
+                                where X.employee_code=Y.employee_code
+                                and Y.employee_id=#{emp_id})
+        order by A.VACATION_CODE desc
+      ]]>
+	</select>
+
+
+<select id="findBusinessAuth" resultType="java.lang.String"
+		parameterType="java.util.HashMap"> 
+      <![CDATA[
+        select 
+        a.access_range
+		
+		from menu_by_authority a, user_auth b
+		
+		where a.authority_code=b.authority_code
+		and a.menu_code= 'M031'
+		and b.employee_id = #{emp_id}
+      
+      ]]>
+	</select>
+	<select id="findAllBusiness" resultMap="resultVO"
+		parameterType="java.util.HashMap"> 
+      <![CDATA[
+          select 
+         A.Business_Trip_CODE,
+         B.EMPLOYEE_NAME,
+         A.PURPOSE,
+         to_char(to_date(A.START_DATE,'YYYYmmdd'),'YYYY-mm-dd') AS START_DATE,
+         to_char(to_date(A.END_DATE,'YYYYmmdd'),'YYYY-mm-dd') AS END_DATE
+
+         from  EMPLOYEE_Business_Trip A, EMPLOYEE B
+         where A.EMPLOYEE_CODE = B.EMPLOYEE_CODE
+    	 order by A.BUSINESS_TRIP_CODE desc
+      ]]>
+	</select>
+	<select id="findLimitedBusiness" resultMap="resultVO"
+		parameterType="java.util.HashMap"> 
+      <![CDATA[
+        select 
+         A.Business_Trip_CODE,
+         B.EMPLOYEE_NAME,
+         A.PURPOSE,
+         to_char(to_date(A.START_DATE,'YYYYmmdd'),'YYYY-mm-dd') AS START_DATE,
+         to_char(to_date(A.END_DATE,'YYYYmmdd'),'YYYY-mm-dd') AS END_DATE
+
+         from  EMPLOYEE_Business_Trip A, EMPLOYEE B,employee_work c
+         where A.EMPLOYEE_CODE = B.EMPLOYEE_CODE
+          and C.EMPLOYEE_CODE= B.EMPLOYEE_CODE
+         and C.DEPARTMENT_CODE= (select X.DEPARTMENT_CODE
+                                FROM employee_work X,account Y
+                                where X.employee_code=Y.employee_code
+                                and Y.employee_id=#{emp_id})
+         order by A.BUSINESS_TRIP_CODE desc
+      ]]>
+	</select>
+
+
+	<select id="findboard" resultMap="resultVO"
+		parameterType="java.util.HashMap"> 
+      <![CDATA[
+        select 
+         	A.BOARD_DES,
+			A.BOARD_DES_DES,
+			A.BOARD_TITLE,
+			A.BOARD_CONTENT,
+			A.BOARD_START_DATE,
+			A.BOARD_END_DATE,
+			A.EMPLOYEE_ID,
+			B.EMPLOYEE_NAME,
+			A.BOARD_CODE
+
+from  (select BOARD_DES,
+        BOARD_DES_DES,
+        BOARD_TITLE,
+        BOARD_CONTENT,
+        BOARD_START_DATE,
+        BOARD_END_DATE,
+        EMPLOYEE_ID,
+        BOARD_CODE
+        from board 
+        WHERE BOARD_DES='TODO'
+        AND EMPLOYEE_ID=#{emp_id}
+            
+        UNION
+        select BOARD_DES,
+        BOARD_DES_DES,
+        BOARD_TITLE,
+        BOARD_CONTENT,
+        BOARD_START_DATE,
+        BOARD_END_DATE,
+        EMPLOYEE_ID,
+        BOARD_CODE
+        from board 
+        WHERE BOARD_DES='EVENT'
+            
+        UNION
+        select BOARD_DES,
+        BOARD_DES_DES,
+        BOARD_TITLE,
+        BOARD_CONTENT,
+        BOARD_START_DATE,
+        BOARD_END_DATE,
+        EMPLOYEE_ID,
+        BOARD_CODE
+        from board 
+        WHERE BOARD_DES='NOTICE') A
+
+        , EMPLOYEE B, ACCOUNT C
+where C.EMPLOYEE_CODE = B.EMPLOYEE_CODE
+AND C.EMPLOYEE_ID = A.EMPLOYEE_ID
+order by A.BOARD_CODE desc
+ 
+         
+      ]]>
+	</select>
+
+	<insert id="insertData" parameterType="java.util.Map">
+		<selectKey resultType="string" keyProperty="id"
+			order="BEFORE">
+			SELECT SEQ_BOARD.NEXTVAL AS ID FROM DUAL
+		</selectKey>
+  <![CDATA[
+		insert into BOARD(
+		EMPLOYEE_ID,
+		BOARD_DES,
+		BOARD_DES_DES,
+		BOARD_TITLE,
+		BOARD_START_DATE,
+		BOARD_END_DATE,
+		BOARD_CONTENT,
+		BOARD_CODE
+		)
+		values(
+		#{employee_id},
+		#{board_DES},
+		#{board_DES_DES},
+		#{board_TITLE},
+		#{board_START_DATE},
+		#{board_END_DATE},
+		#{board_CONTENT},
+		#{id}
+		)
+		 ]]>
+	</insert>
+	<update id="updateData" parameterType="java.util.Map">
+
+		update BOARD
+		set
+		BOARD_DES=#{board_DES},
+		BOARD_DES_DES=#{board_DES_DES},
+		BOARD_TITLE=#{board_TITLE},
+		BOARD_START_DATE=REPLACE(#{board_START_DATE},' ',''),
+		BOARD_CONTENT=#{board_CONTENT}
+		
+		<if test="board_END_DATE!=null and !board_END_DATE.equals('')">
+		,BOARD_END_DATE=REPLACE(#{board_END_DATE},' ','')
+		</if>
+		where
+		BOARD_CODE=#{board_CODE}
+
+
+	</update>
+	<delete id="deleteData" parameterType="java.util.Map">
+		  <![CDATA[
+		delete BOARD
+		where
+		TRIM(BOARD_CODE) = #{board_CODE}
+		]]>
+	</delete>
+
+
+
+
+</mapper>

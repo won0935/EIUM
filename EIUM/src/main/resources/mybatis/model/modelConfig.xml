@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration 	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<typeAliases>
+	
+				<!-- common -->
+			 	<typeAlias type="com.myspring.eium.common.vo.HomeVO" alias="HomeVO" />
+			 	<typeAlias type="com.myspring.eium.login.vo.LoginVO" alias="LoginVO" />
+				
+				<typeAlias type="com.myspring.eium.sm.sm_p0001.vo.SM_P0001VO" alias="SM_P0001VO" /> 
+				<typeAlias type="com.myspring.eium.sm.sm_p0002.vo.SM_P0002VO" alias="SM_P0002VO" />
+				<typeAlias type="com.myspring.eium.sm.sm_p0003.vo.SM_P0003VO" alias="SM_P0003VO" />
+				<typeAlias type="com.myspring.eium.sm.sm_p0004.vo.SM_P0004VO" alias="SM_P0004VO" />
+				<typeAlias type="com.myspring.eium.sm.sm_p0005.vo.SM_P0005VO" alias="SM_P0005VO" />
+				<typeAlias type="com.myspring.eium.sm.sm_p0005.vo.SM_P0005_01VO" alias="SM_P0005_01VO" />
+				<typeAlias type="com.myspring.eium.sm.sm_p0006.vo.SM_P0006VO" alias="SM_P0006VO" />
+				<typeAlias type="com.myspring.eium.sm.sm_p0006.vo.SM_P0006_01VO" alias="SM_P0006_01VO" />
+				
+				<typeAlias type="com.myspring.eium.hm.hm_p0001.vo.HM_P0001VO" alias="HM_P0001VO" />
+				<typeAlias type="com.myspring.eium.hm.hm_p0001.vo.HM_P0001_01VO" alias="HM_P0001_01VO" />
+				<typeAlias type="com.myspring.eium.hm.hm_p0002.vo.HM_P0002VO" alias="HM_P0002VO" />
+				<typeAlias type="com.myspring.eium.hm.hm_p0003.vo.HM_P0003VO" alias="HM_P0003VO" />
+				<typeAlias type="com.myspring.eium.hm.hm_p0004.vo.HM_P0004VO" alias="HM_P0004VO" />
+				<typeAlias type="com.myspring.eium.hm.hm_p0007.vo.HM_P0007VO" alias="HM_P0007VO" />
+				<typeAlias type="com.myspring.eium.hm.hm_p0007.vo.HM_P0007_02VO" alias="HM_P0007_02VO" />
+				<typeAlias type="com.myspring.eium.hm.hm_p0007.vo.HM_P0007_03VO" alias="HM_P0007_03VO" />
+				<typeAlias type="com.myspring.eium.hm.hm_p0007.vo.HM_P0007_04VO" alias="HM_P0007_04VO" />
+				<typeAlias type="com.myspring.eium.hm.hm_p0007.vo.HM_P0007_05VO" alias="HM_P0007_05VO" />
+				<typeAlias type="com.myspring.eium.hm.hm_p0007.vo.HM_P0007_06VO" alias="HM_P0007_06VO" />
+				<typeAlias type="com.myspring.eium.hm.hm_p0007.vo.HM_P0007_07VO" alias="HM_P0007_07VO" />
+				<typeAlias type="com.myspring.eium.hm.hm_p0007.vo.HM_P0007_08VO" alias="HM_P0007_08VO" />
+				<typeAlias type="com.myspring.eium.hm.hm_p0007.vo.HM_P0007_09VO" alias="HM_P0007_09VO" />
+				<typeAlias type="com.myspring.eium.hm.hm_p0007.vo.HM_P0007_10VO" alias="HM_P0007_10VO" />
+				<typeAlias type="com.myspring.eium.hm.hm_p0007.vo.HM_P0007_11VO" alias="HM_P0007_11VO" />
+				
+				<typeAlias type="com.myspring.eium.hm.hm_p0018.vo.HM_P0018VO" alias="HM_P0018VO" />
+				<typeAlias type="com.myspring.eium.hm.hm_p0021.vo.HM_P0021VO" alias="HM_P0021VO" />
+				<typeAlias type="com.myspring.eium.hm.hm_p0022.vo.HM_P0022VO" alias="HM_P0022VO" />
+				<typeAlias type="com.myspring.eium.hm.hm_p0023.vo.HM_P0023VO" alias="HM_P0023VO" />
+				<typeAlias type="com.myspring.eium.hm.hm_p0029.vo.HM_P0029VO" alias="HM_P0029VO" />
+				<typeAlias type="com.myspring.eium.hm.hm_p0033.vo.HM_P0033VO" alias="HM_P0033VO" />
+				<typeAlias type="com.myspring.eium.hm.hm_p0035.vo.HM_P0035VO" alias="HM_P0035VO" />
+				<typeAlias type="com.myspring.eium.hm.hm_p0036.vo.HM_P0036VO" alias="HM_P0036VO" />
+				<typeAlias type="com.myspring.eium.hm.hm_p0039.vo.HM_P0039VO" alias="HM_P0039VO" />
+				<typeAlias type="com.myspring.eium.hm.hm_p0040.vo.HM_P0040VO" alias="HM_P0040VO" />
+				
+				<typeAlias type="com.myspring.eium.pm.pm_p0001.vo.PM_P0001VO" alias="PM_P0001VO" />
+				<typeAlias type="com.myspring.eium.pm.pm_p0002.vo.PM_P0002VO" alias="PM_P0002VO" />
+				<typeAlias type="com.myspring.eium.pm.pm_p0003.vo.PM_P0003VO" alias="PM_P0003VO" />
+				<typeAlias type="com.myspring.eium.pm.pm_p0004.vo.PM_P0004VO" alias="PM_P0004VO" />
+				
+				
+				<typeAlias type="com.myspring.eium.pm.pm_p0009.vo.PM_P0009VO" alias="PM_P0009VO" />
+				<typeAlias type="com.myspring.eium.pm.pm_p0010.vo.PM_P0010VO" alias="PM_P0010VO" />
+				
+				<typeAlias type="com.myspring.eium.wm.wm_p0001.vo.WM_P0001VO" alias="WM_P0001VO" />
+				<typeAlias type="com.myspring.eium.wm.wm_p0002.vo.WM_P0002VO" alias="WM_P0002VO" />
+				<typeAlias type="com.myspring.eium.wm.wm_p0003.vo.WM_P0003VO" alias="WM_P0003VO" />
+				<typeAlias type="com.myspring.eium.wm.wm_p0004.vo.WM_P0004VO" alias="WM_P0004VO" />
+				<typeAlias type="com.myspring.eium.wm.wm_p0005.vo.WM_P0005VO" alias="WM_P0005VO" />
+				
+	</typeAliases>
+	
+
+</configuration>

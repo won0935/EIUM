@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.hm_p0002">
+	<resultMap id="P0002resultVO" type="HM_P0002VO">
+		<result property="payment_code" column="payment_code" />
+		<result property="payment_des_code" column="payment_des_code" />
+		<result property="payment_date" column="payment_date" />
+		<result property="payment_des_name" column="payment_des_name" />
+		<result property="selection_of_payment_code" column="selection_of_payment_code" />
+		<result property="site_code" column="site_code" />
+		<result property="site_name" column="site_name" />
+		<result property="job_class_code" column="job_class_code" />		
+		<result property="job_class_name" column="job_class_name" />		
+		<result property="int_user_id" column="int_user_id" />
+		<result property="int_date" column="int_date" />
+		<result property="upt_user_id" column="upt_user_id" />
+		<result property="upt_date" column="upt_date" />
+	</resultMap> 
+	
+	<select id="searchList" resultMap="P0002resultVO" parameterType="java.util.Map"> 
+      <choose>
+	
+			<when test= " date ==''">	
+			<![CDATA[		
+			select p.payment_code, p.payment_date, pd.payment_des_name
+         	from payment p, payment_des pd
+        	 where p.payment_des_code = pd.payment_des_code 
+         
+			
+			]]> 
+   		    </when>	
+      
+      
+      <when test= " date !=''">	
+      <![CDATA[
+         select p.payment_code, p.payment_date, pd.payment_des_name
+         from payment p, payment_des pd
+         where p.payment_des_code = pd.payment_des_code 
+         and SUBSTR(TO_DATE(SUBSTR(p.payment_date,1,6), 'YYYY-MM'),1,5) = #{date,jdbcType=VARCHAR}
+         order by p.payment_date
+      ]]>
+      	      </when>
+      	      </choose> 
+	</select>
+
+	
+	
+	
+	<select id="searchSelect" resultMap="P0002resultVO" parameterType="java.util.Map"> 
+      <![CDATA[
+         select sp.selection_of_payment_code, s.site_name, j.job_class_name
+         from selection_of_payment sp, site s, job_class j
+         where sp.site_code = s.site_code
+         and sp.job_class_code = j.job_class_code
+         and sp.payment_code =#{x}
+         order by sp.selection_of_payment_code
+      ]]>
+	</select>
+		
+	
+			<select id="searchSiteList" resultMap="P0002resultVO" parameterType="java.util.Map"> 
+      <![CDATA[
+      select site_code, site_name
+      from site
+      order by site_code
+      ]]>
+	</select>
+	
+				<select id="searchJobclassList" resultMap="P0002resultVO" parameterType="java.util.Map"> 
+      <![CDATA[
+      select job_class_code, job_class_name
+      from job_class
+      order by job_class_code
+      ]]>
+	</select>
+	<!-- /////////////////////////////POSITION///////////////////////////////////// -->	
+	
+<insert id="insertData" parameterType="java.util.Map">
+		insert into payment(payment_code,  payment_date, payment_des_code, int_user_id, int_date) 
+		values(payment_code_seq.nextval, #{payment_date}, #{payment_des_name}, #{user}, sysdate)
+	</insert>	
+	
+	<update id="updateData" parameterType="java.util.Map">
+		update payment
+		set payment_date = #{payment_date}
+		   , payment_des_code = #{payment_des_name}
+		   , upt_user_id = #{user}
+		   , upt_date = sysdate
+		where payment_code = #{payment_code}
+	</update>	
+	
+	<delete id="deleteData" parameterType="java.util.Map">
+		delete payment
+		where payment_code = #{payment_code}
+	</delete>
+	
+		<delete id="deleteData2" parameterType="java.util.Map">
+		delete selection_of_payment
+		where payment_code = #{payment_code}
+	</delete>
+	
+	<insert id="insertselect" parameterType="java.util.Map">
+		insert into selection_of_payment(selection_of_payment_code, payment_code, site_code, job_class_code, int_user_id, int_date) 
+		values(selection_of_payment_code_seq.nextval,  #{x}, #{site_code}, #{job_class_code}, #{user}, sysdate)
+	</insert>	
+	
+	<update id="updateselect" parameterType="java.util.Map">
+		update selection_of_payment
+		set site_code = #{site_code}
+		   , job_class_code = #{job_class_code}
+		   , upt_user_id = #{user}
+		   , upt_date = sysdate
+		where selection_of_payment_code = #{selection_of_payment_code}
+	</update>	
+	
+	<delete id="deleteselect" parameterType="java.util.Map">
+		delete selection_of_payment
+		where selection_of_payment_code = #{selection_of_payment_code}
+	</delete>
+	
+</mapper>

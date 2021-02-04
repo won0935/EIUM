@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.sm_p0001">
+
+	<resultMap id="p0001Result01" type="SM_P0001VO">
+		<result property="company_CODE" column="COMPANY_CODE" />
+		<result property="company_NAME" column="COMPANY_NAME" />
+		<result property="company_YN" column="COMPANY_YN" />
+		<result property="company_RESISTRATION_NUMBER" column="COMPANY_RESISTRATION_NUMBER" />
+		<result property="company_CORPARATION_NUMBER" column="COMPANY_CORPARATION_NUMBER" />
+		<result property="company_REPRESENTATIVE_NAME" column="COMPANY_REPRESENTATIVE_NAME" />
+		<result property="company_REPRESENTATIVE_FOREIGN" column="COMPANY_REPRESENTATIVE_FOREIGN" />
+		<result property="company_REPRESENTATIVE_NUMBER" column="COMPANY_REPRESENTATIVE_NUMBER" />
+		<result property="company_ZIP_CODE" column="COMPANY_ZIP_CODE" />
+		<result property="company_ADDRESS" column="COMPANY_ADDRESS" />
+		<result property="company_ADDRESS_DETAIL" column="COMPANY_ADDRESS_DETAIL" />
+		<result property="company_CONTACT" column="COMPANY_CONTACT" />
+		<result property="company_FAX" column="COMPANY_FAX" />
+		<result property="company_CATEGORY" column="COMPANY_CATEGORY" />
+		<result property="company_TYPE" column="COMPANY_TYPE" />
+		<result property="company_ESTABLISHED_DATE" column="COMPANY_ESTABLISHED_DATE" />
+		<result property="company_OPENBUSINESS_DATE" column="COMPANY_OPENBUSINESS_DATE" />
+		<result property="company_CLOSEBUSINESS_DATE" column="COMPANY_CLOSEBUSINESS_DATE" />
+		<result property="company_BUSINESS_YN" column="COMPANY_BUSINESS_YN" />
+	</resultMap>
+	
+	<select id="searchList" resultMap="p0001Result01" parameterType="java.util.Map"> 
+      <![CDATA[
+         select COMPANY_CODE, COMPANY_NAME, COMPANY_YN, COMPANY_RESISTRATION_NUMBER, COMPANY_CORPARATION_NUMBER, COMPANY_REPRESENTATIVE_NAME, COMPANY_REPRESENTATIVE_FOREIGN, COMPANY_REPRESENTATIVE_NUMBER, COMPANY_ZIP_CODE, COMPANY_ADDRESS, COMPANY_ADDRESS_DETAIL, COMPANY_CONTACT, COMPANY_FAX, COMPANY_CATEGORY, COMPANY_TYPE, COMPANY_ESTABLISHED_DATE, COMPANY_OPENBUSINESS_DATE, COMPANY_CLOSEBUSINESS_DATE, COMPANY_BUSINESS_YN
+         from   COMPANY
+      ]]>
+	</select>
+	
+	<update id="updateData" parameterType="java.util.Map">
+		update COMPANY
+		set  COMPANY_NAME = #{company_NAME}
+		   , COMPANY_YN = #{company_YN}
+		   , COMPANY_RESISTRATION_NUMBER = #{company_RESISTRATION_NUMBER}
+		   , COMPANY_CORPARATION_NUMBER = #{company_CORPARATION_NUMBER}
+		   , COMPANY_REPRESENTATIVE_NAME = #{company_REPRESENTATIVE_NAME}
+		   , COMPANY_REPRESENTATIVE_FOREIGN = #{company_REPRESENTATIVE_FOREIGN}
+		   , COMPANY_REPRESENTATIVE_NUMBER = #{company_REPRESENTATIVE_NUMBER}
+		   , COMPANY_ZIP_CODE = #{company_ZIP_CODE}
+		   , COMPANY_ADDRESS = #{company_ADDRESS}
+		   , COMPANY_ADDRESS_DETAIL = #{company_ADDRESS_DETAIL}
+		   , COMPANY_CONTACT = #{company_CONTACT}
+		   , COMPANY_FAX = #{company_FAX}
+		   , COMPANY_CATEGORY = #{company_CATEGORY}
+		   , COMPANY_TYPE = #{company_TYPE}
+		   , COMPANY_ESTABLISHED_DATE = #{company_ESTABLISHED_DATE}
+		   , COMPANY_OPENBUSINESS_DATE = #{company_OPENBUSINESS_DATE}
+		   , COMPANY_CLOSEBUSINESS_DATE = #{company_CLOSEBUSINESS_DATE}
+		   , COMPANY_BUSINESS_YN = #{company_BUSINESS_YN}
+		   , upt_user_id = #{user, jdbcType=VARCHAR}
+		   , upt_date = sysdate
+		where COMPANY_CODE = #{company_CODE}
+	</update>	
+	
+	<insert id="insertData" parameterType="java.util.Map">
+		insert into COMPANY(COMPANY_CODE, COMPANY_NAME, COMPANY_YN, COMPANY_RESISTRATION_NUMBER, COMPANY_CORPARATION_NUMBER, COMPANY_REPRESENTATIVE_NAME, COMPANY_REPRESENTATIVE_FOREIGN, COMPANY_REPRESENTATIVE_NUMBER, COMPANY_ZIP_CODE, COMPANY_ADDRESS, COMPANY_ADDRESS_DETAIL, COMPANY_CONTACT, COMPANY_FAX, COMPANY_CATEGORY, COMPANY_TYPE, COMPANY_ESTABLISHED_DATE, COMPANY_OPENBUSINESS_DATE, COMPANY_CLOSEBUSINESS_DATE, COMPANY_BUSINESS_YN, int_user_id, int_date) 
+		values(#{company_CODE}, #{company_NAME}, #{company_YN}, #{company_RESISTRATION_NUMBER}, #{company_CORPARATION_NUMBER}, #{company_REPRESENTATIVE_NAME}, #{company_REPRESENTATIVE_FOREIGN}, #{company_REPRESENTATIVE_NUMBER}, #{company_ZIP_CODE}, #{company_ADDRESS}, #{company_ADDRESS_DETAIL}, #{company_CONTACT}, #{company_FAX}, #{company_CATEGORY}, #{company_TYPE}, #{company_ESTABLISHED_DATE}, #{company_OPENBUSINESS_DATE}, #{company_CLOSEBUSINESS_DATE}, #{company_BUSINESS_YN},#{user},sysdate)
+	</insert>	
+	
+	<delete id="deleteData" parameterType="java.util.Map">
+		delete COMPANY
+		where COMPANY_CODE = #{company_CODE}
+	</delete>	
+</mapper>

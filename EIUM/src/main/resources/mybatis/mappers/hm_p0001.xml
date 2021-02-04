@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.hm_p0001">
+	<resultMap id="P0001resultVO" type="HM_P0001VO">
+		<result property="position_CODE" column="POSITION_CODE" />
+        <result property="position_NAME" column="POSITION_NAME" />
+        <result property="pay_GRADE_CODE" column="PAY_GRADE_CODE"/>
+        <result property="pay_GRADE_NAME" column="PAY_GRADE_NAME" />
+        <result property="start_DATE" column="START_DATE" />
+        <result property="end_DATE" column="END_DATE"/>
+        <result property="salary" column="SALARY" />
+	</resultMap> 
+ <!-- //////////////////////////////////////POSITION_SEARCH///////////////////// -->
+	<select id="POSITION_searchList" resultMap="P0001resultVO" parameterType="java.util.Map"> 
+      <![CDATA[
+         select POSITION_CODE,POSITION_NAME
+         from POSITION
+      ]]>
+      
+	</select>
+	
+	<!-- ///////////////////////////////////PAY_GRADE_SEARCH////////////// -->
+	
+	<select id="PAY_GRADE_searchList" resultMap="P0001resultVO" parameterType="java.util.Map">
+	<![CDATA[
+		select PG.PAY_GRADE_CODE, PG.PAY_GRADE_NAME, PGT.SALARY
+		from POSITION P, PAY_GRADE PG, PAY_GRADE_TABLE PGT
+		where P.position_CODE = PGT.position_CODE 
+		AND PG.pay_GRADE_CODE = PGT.pay_GRADE_CODE 
+		AND TRIM(PGT.position_CODE) = #{P_POSITION_CODE, jdbcType=VARCHAR}
+	]]>
+		<choose>
+			<when test="P_START_DATE != '' and P_START_DATE != null">
+				AND TRIM(PGT.start_DATE) = #{P_START_DATE}
+			</when>
+			<otherwise>
+				AND 1 = 1
+			</otherwise>
+		</choose>
+	</select>
+	
+	<!-- ///////////////////////////////////PAY_GRADE_TABLE_SEARCH//////////////////////////////////////////// -->
+	
+	<select id="PAY_GRADE_TABLE_searchList" resultMap="P0001resultVO" parameterType="java.util.Map">
+	<![CDATA[
+		select PGT.POSITION_CODE, PGT.PAY_GRADE_CODE, PGT.START_DATE, CASE(PGT.END_DATE) WHEN '999912' THEN ' ' ELSE PGT.END_DATE END AS END_DATE
+		from POSITION P, PAY_GRADE PG, PAY_GRADE_TABLE PGT
+		where P.position_CODE = PGT.position_CODE 
+		AND PG.pay_GRADE_CODE = PGT.pay_GRADE_CODE
+		AND TRIM(PGT.pay_GRADE_CODE) = #{P_PAY_GRADE_CODE, jdbcType=VARCHAR} 
+		AND TRIM(PGT.position_CODE) = #{PP_POSITION_CODE, jdbcType=VARCHAR}
+	]]>
+	</select>
+	
+	<!--//////////////////////////////////INSERT 문(호봉테이블 이력 start_date, end_date 입력)///////////////////////////// -->
+	
+	<insert id="insertData" parameterType="java.util.Map">
+		insert into PAY_GRADE_TABLE(POSITION_CODE, PAY_GRADE_CODE, START_DATE, END_DATE, int_user_id, int_date) 
+		select P.POSITION_CODE, PG.PAY_GRADE_CODE, #{start_DATE} AS START_DATE, '999912'  AS END_DATE, #{user}, sysdate
+		from POSITION P, PAY_GRADE PG
+		where TRIM(P.POSITION_CODE) = #{p_position_CODE}
+	</insert>	
+	
+	<!-- ///////////////////////////////////SALARY_updateData PAY_GRADE_TABLE/////////////////////////////////////////////////-->
+	<update id="SALARY_updateData" parameterType="java.util.Map">
+		update PAY_GRADE_TABLE
+		set  
+		     SALARY = #{salary}
+		   	 , upt_user_id = #{user, jdbcType=VARCHAR} 
+         	 , upt_date = sysdate 
+		where TRIM(POSITION_CODE) = #{p_position_CODE}
+		AND TRIM(PAY_GRADE_CODE) = #{pay_GRADE_CODE}
+		AND TRIM(START_DATE) = #{PP_START_DATE ,jdbcType=VARCHAR}
+	</update>	
+	
+	
+	<!-- ///////////////////////////////////Date_updateData PAY_GRADE_TABLE///////////////////////////////////////////////////-->
+	<update id="DATE_updateData" parameterType="java.util.Map">
+		update PAY_GRADE_TABLE
+		set
+			END_DATE = TO_CHAR(ADD_MONTHS(TO_DATE(#{PP_START_DATE ,jdbcType=VARCHAR}, 'YYYYMM'), -1), 'YYYYMM')
+			, upt_user_id = #{user, jdbcType=VARCHAR} 
+         	, upt_date = sysdate
+		where TRIM(POSITION_CODE) = #{p_position_CODE ,jdbcType=VARCHAR} 
+		AND TRIM(START_DATE) = #{start_DATE ,jdbcType=VARCHAR}
+	</update>
+	<!-- insert into PAY_GRADE_TABLE(POSITION_CODE, PAY_GRADE_CODE, START_DATE, END_DATE) 
+		select P.POSITION_CODE, PG.PAY_GRADE_CODE, #{start_DATE} AS START_DATE, TO_CHAR(ADD_MONTHS(TO_DATE(#{start_DATE}, 'YYYYMM'),-1), 'YYYYMM')  AS END_DATE
+		from POSITION P, PAY_GRADE PG
+		where TRIM(P.POSITION_CODE) = #{p_position_CODE} -->
+ 	
+	<delete id="DATE_deleteData" parameterType="java.util.Map">
+		delete PAY_GRADE_TABLE
+		where TRIM(POSITION_CODE) = #{p_position_CODE}
+		AND TRIM(START_DATE) = #{start_DATE ,jdbcType=VARCHAR}
+	</delete>
+	
+	<update id="BACKDATE_updateData" parameterType="java.util.Map">
+		UPDATE PAY_GRADE_TABLE             
+			set 
+    	END_DATE = '999912'
+    	, upt_user_id = #{user, jdbcType=VARCHAR} 
+        , upt_date = sysdate
+		where TRIM(POSITION_CODE) = #{p_position_CODE}
+		AND TRIM(END_DATE) = TO_CHAR(ADD_MONTHS(TO_DATE(#{start_DATE ,jdbcType=VARCHAR}, 'YYYYMM'),-1), 'YYYYMM')
+	</update>
+
+</mapper>

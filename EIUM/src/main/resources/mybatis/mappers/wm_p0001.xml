@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.wm_p0001">
+	<resultMap id="P0001resultVO" type="WM_P0001VO">
+		<result property="employee_CODE" column="EMPLOYEE_CODE" />
+		<result property="employee_NAME" column="EMPLOYEE_NAME" />
+		<result property="department_CODE" column="DEPARTMENT_CODE" />
+		<result property="department_NAME" column="DEPARTMENT_NAME" />
+		
+		<result property="working_STATUS_CODE" column="WORKING_STATUS_CODE" />
+		<result property="working_STATUS_MONTH" column="WORKING_STATUS_MONTH" />
+		<result property="working_STATUS_DATE" column="WORKING_STATUS_DATE" />
+		<result property="working_STATUS_START_TIME" column="WORKING_STATUS_START_TIME" />
+		<result property="working_STATUS_END_TIME" column="WORKING_STATUS_END_TIME" />
+		<result property="working_STATUS_TOTAL_TIME" column="WORKING_STATUS_TOTAL_TIME" />
+		<result property="working_STATUS_DESC" column="WORKING_STATUS_DESC" />
+		<result property="working_STATUS_YN" column="WORKING_STATUS_YN" />
+		
+		<result property="weekday" column="WEEKDAY" />
+		<result property="holiday" column="HOLIDAY" />
+		<result property="normal_WORK_DAY" column="NORMAL_WORK_DAY" />
+		<result property="extension_WORK_DAY" column="EXTENSION_WORK_DAY" />
+		
+		<result property="weekday_NORMAL_WORK_TIME" column="WEEKDAY_NORMAL_WORK_TIME" />
+		<result property="weekday_EXTENSION_WORK_TIME" column="WEEKDAY_EXTENSION_WORK_TIME" />
+		<result property="weekday_NIGHT_WORK_TIME" column="WEEKDAY_NIGHT_WORK_TIME" />
+		
+		<result property="holiday_NORMAL_WORK_TIME" column="HOLIDAY_NORMAL_WORK_TIME" />
+		<result property="holiday_EXTENSION_WORK_TIME" column="HOLIDAY_EXTENSION_WORK_TIME" />
+		<result property="holiday_NIGHT_WORK_TIME" column="HOLIDAY_NIGHT_WORK_TIME" />
+		
+		<result property="payment_DATE" column="PAYMENT_DATE" />
+		<result property="payment_CODE" column="PAYMENT_CODE" />
+	</resultMap>
+	
+	<!-- /////////////////////////////////////EMP_SEARCHLIST ////////////////////////////////////////-->
+	<select id = "EMP_searchList" resultMap="P0001resultVO" parameterType="java.util.Map">
+		<![CDATA[
+			SELECT DISTINCT(E.EMPLOYEE_CODE), E.EMPLOYEE_NAME, S.SITE_NAME,D.DEPARTMENT_NAME, D.DEPARTMENT_CODE  
+			FROM EMPLOYEE E, EMPLOYEE_WORK EW, DEPARTMENT D, SITE S, WORKING_STATUS WS
+			WHERE E.EMPLOYEE_CODE = EW.EMPLOYEE_CODE(+)
+			AND D.SITE_CODE = S.SITE_CODE(+)
+			AND EW.DEPARTMENT_CODE = D.DEPARTMENT_CODE(+)
+			AND E.EMPLOYEE_CODE = WS.EMPLOYEE_CODE(+)
+			
+		]]>
+		<choose>	
+			<when test= " SiteList != ''  and  SiteList != null">
+				and S.SITE_NAME = #{SiteList,jdbcType=VARCHAR}
+			</when> <!-- 3 사업장 부서 -->
+	   </choose>
+	 
+	 		<choose>	
+			<when test= " DeptList != ''  and  DeptList != null">
+				and D.DEPARTMENT_NAME = #{DeptList,jdbcType=VARCHAR}
+			</when> <!-- 3 사업장 부서 -->
+			
+	 </choose>			
+		
+		<choose>
+			<when test= "Employee_Select.equals('employee_name') and p_text != '' and p_text != null">
+				and E.EMPLOYEE_NAME LIKE '%'||#{p_text,jdbcType=VARCHAR}||'%'
+			</when> <!--1 년월 사업장 부서 사원명 -->
+			</choose> 
+			
+		<choose>
+	
+			<when test= " Employee_Select.equals('employee_code') and p_text != '' and p_text != null">
+
+				and E.EMPLOYEE_CODE LIKE '%'||#{p_text,jdbcType=VARCHAR}||'%'
+				order by E.EMPLOYEE_CODE ASC 
+			</when> <!-- 2 사업장 부서 사원코드 -->
+			</choose> 
+			
+			
+	<choose>
+		  <when test="access_range == '부서' ">
+      and d.department_code = #{Sdepartment_code}
+      	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="access_range == '사원' ">
+      and e.employee_code = #{Semployee_code}
+	  </when>
+	</choose>
+	
+	<choose>
+		  <when test="WORKING_STATUS_MONTH != '' and WORKING_STATUS_MONTH != null ">
+			AND WS.WORKING_STATUS_MONTH = SUBSTR(#{P_WS_MONTH}, 1,4)||SUBSTR(#{P_WS_MONTH}, 6,7)
+	  </when>
+	   </choose>
+			
+	 	
+			
+				
+				ORDER BY E.EMPLOYEE_CODE ASC 
+	</select>
+	
+	<!-- //////////////////////////////////////WORKING_STATUS_SEARCHLIST ///////////////////////////////-->
+	<select id = "WS_searchList" resultMap="P0001resultVO" parameterType="java.util.Map">
+	<![CDATA[
+		select WS.WORKING_STATUS_CODE,WS.WORKING_STATUS_DATE,WS.WORKING_STATUS_START_TIME, WS.WORKING_STATUS_END_TIME, WS.WORKING_STATUS_TOTAL_TIME, WS.WORKING_STATUS_DESC, WS.WORKING_STATUS_YN
+		from WORKING_STATUS WS
+		where WS.EMPLOYEE_CODE = #{P_EMP_CODE}
+		AND WS.WORKING_STATUS_MONTH = SUBSTR(#{P_WS_MONTH}, 1,4)||SUBSTR(#{P_WS_MONTH}, 6,7)
+		ORDER BY WS.WORKING_STATUS_DATE ASC
+	]]>
+	</select>
+	
+	<!-- //////////////////////////////////////TOTAL_WORKING_STATUS_SEARCHLIST ///////////////////////////////-->
+	<select id = "TWS_searchList" resultMap="P0001resultVO" parameterType="java.util.Map">
+	<![CDATA[
+		select DISTINCT(TWS.TOTAL_MONTH),TWS.TOTAL_WORKING_STATUS_CODE,TWS.EMPLOYEE_CODE, TWS.WEEKDAY, TWS.HOLIDAY, TWS.NORMAL_WORK_DAY, TWS.EXTENSION_WORK_DAY, TWS.WEEKDAY_NORMAL_WORK_TIME, TWS.WEEKDAY_EXTENSION_WORK_TIME, TWS.WEEKDAY_NIGHT_WORK_TIME, TWS.HOLIDAY_NORMAL_WORK_TIME, TWS.HOLIDAY_EXTENSION_WORK_TIME, TWS.HOLIDAY_NIGHT_WORK_TIME
+		from TOTAL_WORKING_STATUS TWS
+		where TWS.EMPLOYEE_CODE = #{P_EMP_CODE}
+		AND TWS.TOTAL_MONTH = SUBSTR(#{P_WS_MONTH}, 1,4)||SUBSTR(#{P_WS_MONTH}, 6,7)
+	]]>
+	</select>
+	
+	
+	<!-- //////////////////////////////////////WORKING_STATUS_INSERT//////////////////////////////// -->
+	<insert id="insertData" parameterType="java.util.Map">
+		insert into WORKING_STATUS (WORKING_STATUS_CODE, EMPLOYEE_CODE, WORKING_STATUS_MONTH, WORKING_STATUS_DATE, WORKING_STATUS_START_TIME, WORKING_STATUS_END_TIME, WORKING_STATUS_TOTAL_TIME, WORKING_STATUS_DESC, WORKING_STATUS_YN,int_user_id, int_date)
+		values (WORKING_STATUS_CODE_SEQ.NEXTVAL, #{P_EMPLOYEE_CODE, jdbcType=VARCHAR}, #{working_STATUS_MONTH, jdbcType=VARCHAR}, #{working_STATUS_DATE, jdbcType=VARCHAR}, #{working_STATUS_START_TIME, jdbcType=VARCHAR}, #{working_STATUS_END_TIME, jdbcType=VARCHAR}, #{working_STATUS_TOTAL_TIME, jdbcType=VARCHAR}, #{working_STATUS_DESC, jdbcType=VARCHAR}, 'N',#{user},sysdate)
+	</insert> 
+	
+	<!-- ///////////////////////////////////////WORKING_STATUS_UPDATE////////////////////////////// -->
+	<update id="updateData" parameterType="java.util.Map">
+		update WORKING_STATUS
+		set WORKING_STATUS_MONTH = #{working_STATUS_MONTH, jdbcType=VARCHAR}
+		, WORKING_STATUS_DATE = #{working_STATUS_DATE, jdbcType=VARCHAR}
+		, WORKING_STATUS_START_TIME = #{working_STATUS_START_TIME, jdbcType=VARCHAR}
+		, WORKING_STATUS_END_TIME = #{working_STATUS_END_TIME, jdbcType=VARCHAR}
+		, WORKING_STATUS_TOTAL_TIME = #{working_STATUS_TOTAL_TIME, jdbcType=VARCHAR}
+		, WORKING_STATUS_DESC = #{working_STATUS_DESC, jdbcType=VARCHAR}
+		, upt_user_id = #{user, jdbcType=VARCHAR}
+		, upt_date = sysdate
+		where WORKING_STATUS_CODE = #{working_STATUS_CODE, jdbcType=VARCHAR}
+	</update>
+	
+	<!--///////////////////////////////////////////WORKING_STATUS_DELETE -->
+	<delete id="deleteData" parameterType="java.util.Map">
+		delete WORKING_STATUS
+		where WORKING_STATUS_CODE = #{working_STATUS_CODE}
+	</delete>
+	
+	<!-- //////////////////////////////////////////TOTAL_WORKING_STATUS_MERGE(있으면 UPDATE 없으면 INSERT)////////////////////////////// -->
+	
+	<insert id="TWS_insertData" parameterType="java.util.Map">
+		MERGE INTO TOTAL_WORKING_STATUS TWS
+		USING DUAL
+			ON (TWS.EMPLOYEE_CODE = #{PP_EMPLOYEE_CODE, jdbcType=VARCHAR} AND TWS.TOTAL_MONTH = SUBSTR(#{P_WS_MONTH}, 1,4)||SUBSTR(#{P_WS_MONTH}, 6,7))
+			WHEN MATCHED THEN
+    			update set WEEKDAY=#{weekday, jdbcType=VARCHAR}, HOLIDAY=#{holiday, jdbcType=VARCHAR}, NORMAL_WORK_DAY=#{normal_WORK_DAY, jdbcType=VARCHAR}, EXTENSION_WORK_DAY=#{extension_WORK_DAY, jdbcType=VARCHAR}, WEEKDAY_NORMAL_WORK_TIME=#{weekday_NORMAL_WORK_TIME, jdbcType=VARCHAR}, WEEKDAY_EXTENSION_WORK_TIME=#{weekday_EXTENSION_WORK_TIME, jdbcType=VARCHAR}, WEEKDAY_NIGHT_WORK_TIME=#{weekday_NIGHT_WORK_TIME, jdbcType=VARCHAR}, HOLIDAY_NORMAL_WORK_TIME=#{holiday_NORMAL_WORK_TIME, jdbcType=VARCHAR}, HOLIDAY_EXTENSION_WORK_TIME=#{holiday_EXTENSION_WORK_TIME, jdbcType=VARCHAR}, HOLIDAY_NIGHT_WORK_TIME=#{holiday_NIGHT_WORK_TIME, jdbcType=VARCHAR}, upt_user_id = #{user, jdbcType=VARCHAR} , upt_date = sysdate
+    			where EMPLOYEE_CODE = #{PP_EMPLOYEE_CODE, jdbcType=VARCHAR}
+    			AND TOTAL_MONTH = SUBSTR(#{P_WS_MONTH}, 1,4)||SUBSTR(#{P_WS_MONTH}, 6,7)
+			WHEN NOT MATCHED THEN
+    			insert (TOTAL_WORKING_STATUS_CODE, TOTAL_MONTH,EMPLOYEE_CODE, WEEKDAY, HOLIDAY, NORMAL_WORK_DAY, EXTENSION_WORK_DAY, WEEKDAY_NORMAL_WORK_TIME, WEEKDAY_EXTENSION_WORK_TIME, WEEKDAY_NIGHT_WORK_TIME, HOLIDAY_NORMAL_WORK_TIME, HOLIDAY_EXTENSION_WORK_TIME, HOLIDAY_NIGHT_WORK_TIME,int_user_id, int_date)
+					values (TOTAL_WORKING_STATUS_CODE_SEQ.NEXTVAL, SUBSTR(#{P_WS_MONTH}, 1,4)||SUBSTR(#{P_WS_MONTH}, 6,7) ,#{PP_EMPLOYEE_CODE, jdbcType=VARCHAR}, #{weekday, jdbcType=VARCHAR}, #{holiday, jdbcType=VARCHAR}, #{normal_WORK_DAY, jdbcType=VARCHAR},#{extension_WORK_DAY, jdbcType=VARCHAR}, #{weekday_NORMAL_WORK_TIME, jdbcType=VARCHAR}, #{weekday_EXTENSION_WORK_TIME, jdbcType=VARCHAR}, #{weekday_NIGHT_WORK_TIME, jdbcType=VARCHAR}, #{holiday_NORMAL_WORK_TIME, jdbcType=VARCHAR}, #{holiday_EXTENSION_WORK_TIME, jdbcType=VARCHAR}, #{holiday_NIGHT_WORK_TIME, jdbcType=VARCHAR},#{user},sysdate)
+	</insert>
+	
+	<!-- ///////////////////////////////////////////WORKING_STATUS_YN_UPDATE ///////////////////////////-->
+	<update id="WS_YN_updateData" parameterType="java.util.Map">
+		update
+    		(select WS.WORKING_STATUS_YN, WS.UPT_USER_ID, WS.UPT_DATE
+    		from WORKING_STATUS WS
+    		where WS.EMPLOYEE_CODE = #{PP_EMPLOYEE_CODE, jdbcType=VARCHAR} 
+    		AND WS.WORKING_STATUS_MONTH = SUBSTR(#{P_WS_MONTH}, 1,4)||SUBSTR(#{P_WS_MONTH}, 6,7)) 
+		SET WORKING_STATUS_YN = 'Y'
+			, upt_user_id = #{user, jdbcType=VARCHAR}
+		    , upt_date = sysdate
+		WHERE WORKING_STATUS_YN = 'N'
+	</update>
+	
+	<!-- ///////////////////////////////////////////WORKING_STATUS_YN_ROLLBACK ///////////////////////////-->
+	<update id="WS_YN_rollbackData" parameterType="java.util.Map">
+		update
+    		(select WS.WORKING_STATUS_YN, WS.UPT_USER_ID, WS.UPT_DATE
+    		from WORKING_STATUS WS
+    		where WS.EMPLOYEE_CODE = #{PP_EMPLOYEE_CODE, jdbcType=VARCHAR} 
+    		AND WS.WORKING_STATUS_MONTH = SUBSTR(#{P_WS_MONTH}, 1,4)||SUBSTR(#{P_WS_MONTH}, 6,7)) 
+		SET WORKING_STATUS_YN = 'N'
+		, upt_user_id = #{user, jdbcType=VARCHAR}
+		, upt_date = sysdate
+		WHERE WORKING_STATUS_YN = 'Y'
+	</update>
+	
+</mapper>

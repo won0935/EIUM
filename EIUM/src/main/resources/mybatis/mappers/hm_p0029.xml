@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.hm_p0029">
+	<resultMap id="P0029resultVO" type="HM_P0029VO">
+		<!-- <result property="employee_TRAINING_CODE" column="EMPLOYEE_TRAINING_CODE" 
+			/> <result property="employee_TRAINING_NAME" column="EMPLOYEE_TRAINING_NAME" 
+			/> -->
+		<!-- <result property="work_STATUS_CODE" column="WORK_STATUS_CODE" /> <result 
+			property="work_STATUS_NAME" column="WORK_STATUS_NAME" /> -->
+	</resultMap>
+
+
+	<select id="searchList2" resultType="hashmap"
+		parameterType="java.util.Map">
+
+		select
+		${command}_CODE,
+		${command}_NAME
+		from ${command}
+
+	</select>
+
+	<select id="searchList_site" resultMap="P0029resultVO"
+		parameterType="java.util.Map">
+		select site_code, site_name
+		from site
+	</select>
+
+	<select id="searchList_TN" resultMap="P0029resultVO"
+		parameterType="java.util.Map">
+		select ET.EMPLOYEE_TRAINING_CODE, ET.EMPLOYEE_TRAINING_NAME,
+		ETL.EMPLOYEE_CODE, E.EMPLOYEE_NAME, ET.EMPLOYEE_TRAINING_START_DATE,
+		ET.EMPLOYEE_TRAINING_END_DATE, ETL.ASSESSMENT_DESC
+		from EMPLOYEE_TRAINING ET, EMPLOYEE_TRAINING_LIST ETL, EMPLOYEE E,
+		EMPLOYEE_WORK EW, DEPARTMENT D, SITE S
+		where ETL.employee_training_code = ET.employee_training_code
+		and E.employee_code = ETL.employee_code
+		and EW.employee_code = E.employee_code
+		and D.DEPARTMENT_CODE = EW.DEPARTMENT_CODE
+		and D.SITE_CODE = S.SITE_CODE
+		
+
+		<choose>
+			<when
+				test="Poption_code_temp == 0 and Poption_code != null and Poption_code !='' ">
+				AND S.site_code = #{Poption_code}
+			</when>
+		</choose>
+		<choose>
+			<when
+				test="Poption_code_temp == 1 and Poption_code != null and Poption_code !='' ">
+				AND D.department_code = #{Poption_code}
+			</when>
+		</choose>
+		<choose>
+			<when test="WORK_STATUS_CODE != null and WORK_STATUS_CODE !='' ">
+				AND EW.WORK_STATUS_CODE = #{WORK_STATUS_CODE}
+			</when>
+		</choose>
+		<choose>
+			<when test="POSITION_CODE != null and POSITION_CODE !='' ">
+				AND EW.POSITION_CODE = #{POSITION_CODE}
+			</when>
+		</choose>
+		<choose>
+			<when
+				test="date_start != ''  and  date_start != null and date_end != '' and date_end != null">
+				and TO_DATE(ET.EMPLOYEE_TRAINING_START_DATE, 'YYYY-MM-DD') <![CDATA[>=]]>
+				#{date_start}
+				and TO_DATE(ET.EMPLOYEE_TRAINING_END_DATE, 'YYYY-MM-DD') <![CDATA[<=]]>
+				#{date_end}
+			</when>
+		</choose>
+		<choose>
+			<when test="date_start != null and date_start !='' ">
+				and TO_DATE(ET.EMPLOYEE_TRAINING_START_DATE, 'YYYY-MM-DD') <![CDATA[>=]]>
+				#{date_start}
+			</when>
+		</choose>
+		<choose>
+			<when test="date_end != null and date_end !='' ">
+				and TO_DATE(ET.EMPLOYEE_TRAINING_END_DATE, 'YYYY-MM-DD') <![CDATA[<=]]>
+				#{date_end}
+			</when>
+		</choose>
+		<choose>
+			<when
+				test="EMPLOYEE_TRAINING_CODE != null and EMPLOYEE_TRAINING_CODE !='' ">
+				AND ETL.EMPLOYEE_TRAINING_CODE = #{EMPLOYEE_TRAINING_CODE}
+			</when>
+		</choose>
+		<choose>
+			<when test="resigner == null">
+				AND EW.EMPLOYEE_RESIGNATION_DATE IS NULL
+			</when>
+		</choose>
+		<choose>
+			<when test="resigner == 1">
+				AND 1=1
+			</when>
+		</choose>
+	<choose>
+		  <when test="access_range == '부서' ">
+      and D.department_code = #{Sdepartment_code}
+      	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="access_range == '사원' ">
+      and E.employee_code = #{Semployee_code}
+	  </when>
+	</choose>
+	
+					order by ET.EMPLOYEE_TRAINING_CODE
+	
+		</select>
+
+	<select id="searchList_BN" resultMap="P0029resultVO"
+		parameterType="java.util.Map">
+		select EBT.EMPLOYEE_CODE, E.EMPLOYEE_NAME, C.COUNTRY_NAME, EBT.AREA,
+		EBT.START_DATE, EBT.END_DATE, EBT.FLIGHT_COST, EBT.TOTAL_COST,
+		EBT.PURPOSE ,EBT.BUSINESS_TRIP_CODE
+		from EMPLOYEE E,EMPLOYEE_BUSINESS_TRIP EBT, COUNTRY C, EMPLOYEE_WORK EW,
+		DEPARTMENT D, SITE S
+		where C.COUNTRY_CODE = EBT.COUNTRY_CODE
+		and E.EMPLOYEE_CODE = EBT.EMPLOYEE_CODE
+		and EW.employee_code = E.employee_code
+		and D.DEPARTMENT_CODE = EW.DEPARTMENT_CODE
+		and D.SITE_CODE = S.SITE_CODE
+
+		<choose>
+			<when
+				test="Poption_code_temp == 0 and Poption_code != null and Poption_code !='' ">
+				AND S.site_code = #{Poption_code}
+			</when>
+		</choose>
+		<choose>
+			<when
+				test="Poption_code_temp == 1 and Poption_code != null and Poption_code !='' ">
+				AND D.department_code = #{Poption_code}
+			</when>
+		</choose>
+		<choose>
+			<when test="WORK_STATUS_CODE != null and WORK_STATUS_CODE !='' ">
+				AND EW.WORK_STATUS_CODE = #{WORK_STATUS_CODE}
+			</when>
+		</choose>
+		<choose>
+			<when test="POSITION_CODE != null and POSITION_CODE !='' ">
+				AND EW.POSITION_CODE = #{POSITION_CODE}
+			</when>
+		</choose>
+		<choose>
+			<when
+				test="date_start != ''  and  date_start != null and date_end != '' and date_end != null">
+				and TO_DATE(EBT.START_DATE, 'YYYY-MM-DD') <![CDATA[>=]]>
+				#{date_start}
+				and TO_DATE(EBT.END_DATE, 'YYYY-MM-DD') <![CDATA[<=]]>
+				#{date_end}
+			</when>
+		</choose>
+		<choose>
+			<when test="date_start != null and date_start !='' ">
+				and TO_DATE(EBT.START_DATE, 'YYYY-MM-DD') <![CDATA[>=]]>
+				#{date_start}
+			</when>
+		</choose>
+		<choose>
+			<when test="date_end != null and date_end !='' ">
+				and TO_DATE(EBT.END_DATE, 'YYYY-MM-DD') <![CDATA[<=]]>
+				#{date_end}
+			</when>
+		</choose>
+		<choose>
+			<when test="COUNTRY_CODE != null and COUNTRY_CODE !='' ">
+				AND C.COUNTRY_CODE = #{COUNTRY_CODE}
+			</when>
+		</choose>
+		<choose>
+			<when test="resigner == null">
+				AND EW.EMPLOYEE_RESIGNATION_DATE IS NULL
+			</when>
+		</choose>
+		<choose>
+			<when test="resigner == 1">
+				AND 1=1
+			</when>
+		</choose>
+	<choose>
+		  <when test="access_range == '부서' ">
+      and D.department_code = #{Sdepartment_code}
+      	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="access_range == '사원' ">
+      and E.employee_code = #{Semployee_code}
+	  </when>
+	</choose>
+			order by EBT.BUSINESS_TRIP_CODE
+	</select>
+
+	<select id="searchList_LI" resultMap="P0029resultVO"
+		parameterType="java.util.Map">
+		select EL.EMPLOYEE_CODE, E.EMPLOYEE_NAME, L.LICENSE_NAME,
+		L.LICENSE_CODE, EL.START_DATE, EL.END_DATE, EL.LICENSE_NUMBER,
+		EL.INSTITUTE, EL.BONUS
+		from EMPLOYEE E,EMPLOYEE_LICENSE EL, LICENSE L, EMPLOYEE_WORK EW,
+		DEPARTMENT D, SITE S
+		where E.EMPLOYEE_CODE = EL.EMPLOYEE_CODE
+		and L.LICENSE_CODE = EL.LICENSE_CODE
+		and EW.employee_code = E.employee_code
+		and D.DEPARTMENT_CODE = EW.DEPARTMENT_CODE
+		and D.SITE_CODE = S.SITE_CODE
+
+		<choose>
+			<when
+				test="Poption_code_temp == 0 and Poption_code != null and Poption_code !='' ">
+				AND S.site_code = #{Poption_code}
+			</when>
+		</choose>
+		<choose>
+			<when
+				test="Poption_code_temp == 1 and Poption_code != null and Poption_code !='' ">
+				AND D.department_code = #{Poption_code}
+			</when>
+		</choose>
+		<choose>
+			<when test="WORK_STATUS_CODE != null and WORK_STATUS_CODE !='' ">
+				AND EW.WORK_STATUS_CODE = #{WORK_STATUS_CODE}
+			</when>
+		</choose>
+		<choose>
+			<when test="POSITION_CODE != null and POSITION_CODE !='' ">
+				AND EW.POSITION_CODE = #{POSITION_CODE}
+			</when>
+		</choose>
+		<choose>
+			<when test="LICENSE_CODE != null and LICENSE_CODE !='' ">
+				AND L.LICENSE_CODE = #{LICENSE_CODE}
+			</when>
+		</choose>
+		<choose>
+			<when test="resigner == null">
+				AND EW.EMPLOYEE_RESIGNATION_DATE IS NULL
+			</when>
+		</choose>
+		<choose>
+			<when test="resigner == 1">
+				AND 1=1
+			</when>
+		</choose>
+	<choose>
+		  <when test="access_range == '부서' ">
+      and D.department_code = #{Sdepartment_code}
+      	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="access_range == '사원' ">
+      and E.employee_code = #{Semployee_code}
+	  </when>
+	</choose>
+			order by L.LICENSE_CODE
+	</select>
+
+	<select id="searchList_LA" resultMap="P0029resultVO"
+		parameterType="java.util.Map">
+		select ELA.EMPLOYEE_CODE, E.EMPLOYEE_NAME, LA.LANGUAGE_NAME,
+		LA.LANGUAGE_CODE, ELA.START_DATE, ELA.END_DATE, ELA.GRADE,
+		ELA.PERCENT, ELA.INSTITUTE
+		from EMPLOYEE E,EMPLOYEE_LANGUAGE ELA, LANGUAGE LA, EMPLOYEE_WORK EW,
+		DEPARTMENT D, SITE S
+		where E.EMPLOYEE_CODE = ELA.EMPLOYEE_CODE
+		and
+		LA.LANGUAGE_CODE = ELA.LANGUAGE_CODE
+		and EW.employee_code =
+		E.employee_code
+		and D.DEPARTMENT_CODE = EW.DEPARTMENT_CODE
+		and
+		D.SITE_CODE = S.SITE_CODE
+
+		<choose>
+			<when
+				test="Poption_code_temp == 0 and Poption_code != null and Poption_code !='' ">
+				AND S.site_code = #{Poption_code}
+			</when>
+		</choose>
+		<choose>
+			<when
+				test="Poption_code_temp == 1 and Poption_code != null and Poption_code !='' ">
+				AND D.department_code = #{Poption_code}
+			</when>
+		</choose>
+		<choose>
+			<when test="WORK_STATUS_CODE != null and WORK_STATUS_CODE !='' ">
+				AND EW.WORK_STATUS_CODE = #{WORK_STATUS_CODE}
+			</when>
+		</choose>
+		<choose>
+			<when test="POSITION_CODE != null and POSITION_CODE !='' ">
+				AND EW.POSITION_CODE = #{POSITION_CODE}
+			</when>
+		</choose>
+		<choose>
+			<when test="LANGUAGE_CODE != null and LANGUAGE_CODE !='' ">
+				AND LA.LANGUAGE_CODE = #{LANGUAGE_CODE}
+			</when>
+		</choose>
+		<choose>
+			<when test="resigner == null">
+				AND EW.EMPLOYEE_RESIGNATION_DATE IS NULL
+			</when>
+		</choose>
+		<choose>
+			<when test="resigner == 1">
+				AND 1=1
+			</when>
+		</choose>
+		
+	<choose>
+		  <when test="access_range == '부서' ">
+      and D.department_code = #{Sdepartment_code}
+      	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="access_range == '사원' ">
+      and E.employee_code = #{Semployee_code}
+	  </when>
+	</choose>
+			order by LA.LANGUAGE_CODE
+	</select>
+</mapper>

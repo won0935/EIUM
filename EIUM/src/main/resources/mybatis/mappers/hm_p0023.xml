@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.hm_p0023">
+	<resultMap id="P0023resultVO" type="HM_P0023VO">
+		<result property="appoint_DATE" column="appoint_DATE" />
+        <result property="appoint_CODE" column="appoint_CODE" />
+        <result property="appoint_TITLE" column="appoint_TITLE" />
+        <result property="appoint_YN" column="appoint_YN" />
+        <result property="masterEmployee_CODE" column="masterEmployee_CODE" />
+        <result property="masterEmployee_NAME" column="masterEmployee_NAME" />
+        <result property="appoint_HISTORY_CODE" column="appoint_HISTORY_CODE" />
+        <result property="employee_CODE" column="employee_CODE" />
+        <result property="employee_NAME" column="employee_NAME" />
+        <result property="hr_APPOINT_INDEX_NAME" column="hr_APPOINT_INDEX_NAME" />
+        <result property="appoint_INDEX_NAME" column="appoint_INDEX_NAME" />
+        <result property="work_STATE" column="work_STATE" />
+        <result property="join_DATE" column="join_DATE" />
+        <result property="site_NAME" column="site_NAME" />
+        <result property="department_NAME" column="department_NAME" />
+        <result property="job_CLASS_NAME" column="job_CLASS_NAME" />
+ 	    <result property="position_NAME" column="position_NAME" />	              
+ 		<result property="duty_NAME" column="duty_NAME" />
+	    <result property="job_DIS_NAME" column="job_DIS_NAME" />
+	    <result property="pay_TYPE_NAME" column="pay_TYPE_NAME" />
+	    <result property="pay_GRADE_NAME" column="pay_GRADE_NAME" />
+	    <result property="out_REASON_NAME" column="out_REASON_NAME" />
+        <result property="work_STATUS_NAME" column="work_STATUS_NAME" />
+	    
+	</resultMap> 
+
+	<select  id="appointList" resultMap="P0023resultVO" parameterType="java.util.Map">
+	    <![CDATA[
+SELECT HAH.APPOINT_EMPLOYEE_CODE AS EMPLOYEE_CODE,
+E.EMPLOYEE_NAME,
+HAH.APPOINT_CODE,
+HAH.START_DATE,
+HAH.END_DATE,
+AI.HR_APPOINT_INDEX_NAME,
+WS.WORK_STATUS_NAME,
+EW.EMPLOYEE_JOIN_DATE,
+S.SITE_NAME,
+D.DEPARTMENT_NAME,
+JC.JOB_CLASS_NAME,
+P.POSITION_NAME,
+DT.DUTY_NAME,
+JD.JOB_DIS_NAME,
+PT.PAY_TYPE_NAME,
+PG.PAY_GRADE_NAME,
+ORN.OUT_REASON_NAME,
+HAH.START_DATE,
+HAH.END_DATE
+
+FROM HR_APPOINT_HISTORY HAH,
+    EMPLOYEE_WORK EW,
+    EMPLOYEE E,
+    HR_APPOINT_INDEX AI,
+    SITE S,
+    DEPARTMENT D,
+    JOB_CLASS JC,
+    POSITION P,
+    DUTY DT,
+    JOB_DIS JD,
+    PAY_TYPE PT,
+    PAY_GRADE PG,
+    OUT_REASON ORN,
+    HR_APPOINT AP,
+    WORK_STATUS ws
+
+
+WHERE HAH.APPOINT_EMPLOYEE_CODE = E.EMPLOYEE_CODE(+)
+AND HAH.appoint_index_code = AI.hr_appoint_index_code(+)
+AND HAH.APPOINT_EMPLOYEE_CODE=EW.EMPLOYEE_CODE(+)
+AND D.SITE_CODE = S.SITE_CODE(+)
+AND EW.DEPARTMENT_CODE=D.DEPARTMENT_CODE(+)
+AND EW.JOB_CLASS_CODE=JC.JOB_CLASS_CODE(+)
+AND EW.POSITION_CODE=P.POSITION_CODE(+)
+AND EW.DUTY_CODE=DT.DUTY_CODE(+)
+AND EW.JOB_DIS_CODE = JD.JOB_DIS_CODE(+)
+AND EW.PAY_TYPE_CODE = PT.PAY_TYPE_CODE(+)
+AND EW.PAY_GRADE_CODE = PG.PAY_GRADE_CODE(+)
+AND EW.OUT_REASON_CODE = ORN.OUT_REASON_CODE(+)
+AND HAH.appoint_code = AP.appoint_CODE(+)
+AND EW.work_status_code = ws.work_status_code(+)
+AND AP.APPOINT_YN = '마감완료'
+   
+			]]>
+			
+	<choose>
+	 	<when test="data != '' and date2 !='' ">
+	AND to_date(hah.start_date,'YYYY-MM-DD') BETWEEN  #{date} AND #{date2}
+	</when>
+	</choose>
+	
+	<choose>
+	  <when test="appoint_index !='' and appoint_index != null ">
+	AND AI.hr_appoint_INDEX_NAME=#{appoint_index}
+	</when>
+	</choose>
+	
+	<choose>
+	  <when test="employee !='' and employee != null ">
+	AND e.employee_name=#{employee}	
+	</when>
+	</choose>		
+	
+	<choose>
+	  <when test="department !='' and department != null ">
+	AND d.department_NAME=#{department}	
+	</when>
+	</choose>		
+	
+	<choose>
+		  <when test="access_range == '부서' ">
+      and d.department_code = #{Sdepartment_code}
+      	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="access_range == '사원' ">
+      and e.employee_code = #{Semployee_code}
+	  </when>
+	</choose>
+	
+	order by EMPLOYEE_CODE
+				
+	</select>
+
+</mapper>

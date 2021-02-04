@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.pm_p0003">
+	<resultMap id="P0003resultVO" type="PM_P0003VO">
+		<result property="employee_code" column="employee_code" />
+		<result property="payment_receipt_code" column="payment_receipt_code" />
+		<result property="payment_receipt_item" column="payment_receipt_item" />
+		<result property="payment_receipt_price" column="payment_receipt_price" />
+		<result property="employee_name" column="employee_name" />
+		<result property="payment_code" column="payment_code" />
+		<result property="payment_date" column="payment_date" />
+		<result property="payment_des_name" column="payment_des_name" />
+		<result property="position_name" column="position_name" />
+		<result property="pay_grade_name" column="pay_grade_name" />
+		<result property="salary" column="salary" />
+		<result property="weekday_normal_work_time" column="weekday_normal_work_time" />
+		<result property="weekday_extension_work_time" column="weekday_extension_work_time" />
+		<result property="weekday_night_work_time" column="weekday_night_work_time" />
+		<result property="holiday_normal_work_time" column="holiday_normal_work_time" />
+		<result property="holiday_extension_work_time" column="holiday_extension_work_time" />
+		<result property="holiday_night_work_time" column="holiday_night_work_time" />
+	</resultMap>
+	
+	<select id = "typeList" resultMap="P0003resultVO" parameterType="java.util.Map">
+	<choose>	
+			<when test= "searchSite=='all'">
+			select department_name
+			from department
+   		    </when>
+   		    
+   		    <when test= "searchSite!='all'">
+			select department_name
+			from department d, site s
+			where d.site_code = s.site_code
+			and s.site_name = #{searchSite}
+			 </when>
+	</choose>	
+			
+	</select>
+	
+
+	<select id = "paydate_searchList" resultMap="P0003resultVO" parameterType="java.util.Map">
+	<![CDATA[
+		select p.payment_code, p.payment_date, pd.payment_des_name
+		from payment p, payment_des pd
+		where p.payment_des_code = pd.payment_des_code 
+        and SUBSTR(TO_DATE(SUBSTR(p.payment_date,1,6), 'YYYY-MM'),1,5) = #{date,jdbcType=VARCHAR}
+	]]> 
+	</select>
+	
+<select id = "searchReceipt" resultMap="P0003resultVO" parameterType="java.util.Map">
+		
+		select  payment_receipt_item, payment_receipt_price
+		from payment_receipt
+		where payment_code =  #{y}
+		and employee_code =  #{x}
+</select>
+		
+	
+	<select id = "searchList" resultMap="P0003resultVO" parameterType="java.util.Map">
+	<choose>	
+	
+			<when test= " access_range =='사업장' and searchSite  =='all' and searchTYPE == 'all'">	
+			<![CDATA[		
+ 			select distinct ew.employee_code, e.employee_name, p.payment_code, d.department_name, s.site_name
+			from payment p,  payment_receipt pr, employee_work ew, employee e, department d, site s
+			where p.payment_code = pr.payment_code
+			and ew.department_code =d.department_code
+			and pr.employee_code = ew.employee_code
+			and ew.employee_code =e.employee_code
+			and d.site_code = s.site_code
+			and p.payment_code = #{Ppayment_code}
+			order by ew.employee_code
+			]]> 
+   		    </when>
+   		    
+   		    <when test= " access_range =='사업장' and searchSite  =='all' and searchTYPE != 'all'">
+   		    <![CDATA[		
+ 			select distinct ew.employee_code, e.employee_name, p.payment_code, d.department_name, s.site_name
+			from payment p,  payment_receipt pr, employee_work ew, employee e, department d, site s
+			where p.payment_code = pr.payment_code
+			and ew.department_code =d.department_code
+			and pr.employee_code = ew.employee_code
+			and ew.employee_code =e.employee_code
+			and d.site_code = s.site_code
+			and p.payment_code = #{Ppayment_code}
+ 			and d.department_name =  #{searchTYPE}
+ 			order by ew.employee_code
+ 			 
+ 			]]> 
+			</when>
+			
+			<when test= " access_range =='사업장' and searchSite  !='all' and searchTYPE == 'all'">	
+			<![CDATA[		
+ 			select distinct ew.employee_code, e.employee_name, p.payment_code, d.department_name, s.site_name
+			from payment p,  payment_receipt pr, employee_work ew, employee e, department d, site s
+			where p.payment_code = pr.payment_code
+			and ew.department_code =d.department_code
+			and pr.employee_code = ew.employee_code
+			and ew.employee_code =e.employee_code
+			and d.site_code = s.site_code
+			and p.payment_code = #{Ppayment_code}
+			and s.site_name = #{searchSite}
+			order by ew.employee_code
+			]]> 
+   		    </when>
+   		    
+   		    <when test= " access_range =='사업장' and searchSite  !='all' and searchTYPE != 'all'">	
+			<![CDATA[		
+ 			select distinct ew.employee_code, e.employee_name, p.payment_code, d.department_name, s.site_name
+			from payment p,  payment_receipt pr, employee_work ew, employee e, department d, site s
+			where p.payment_code = pr.payment_code
+			and ew.department_code =d.department_code
+			and pr.employee_code = ew.employee_code
+			and ew.employee_code =e.employee_code
+			and d.site_code = s.site_code
+			and p.payment_code = #{Ppayment_code}
+			and s.site_name = #{searchSite}
+			and d.department_name =  #{searchTYPE}
+			order by ew.employee_code 
+			
+			]]> 
+   		    </when>		
+   		    
+
+			<when test= " access_range =='사원' and searchSite  =='all' and searchTYPE == 'all'">	
+			<![CDATA[		
+ 			select distinct ew.employee_code, e.employee_name, p.payment_code, d.department_name, s.site_name
+			from payment p,  payment_receipt pr, employee_work ew, employee e, department d, site s
+			where p.payment_code = pr.payment_code
+			and ew.department_code =d.department_code
+			and pr.employee_code = ew.employee_code
+			and ew.employee_code =e.employee_code
+			and d.site_code = s.site_code
+			and p.payment_code = #{Ppayment_code}
+ 			and e.employee_code = #{Semployee_code}
+			order by ew.employee_code
+			]]> 
+   		    </when>
+   		    
+   		    <when test= " access_range =='사원' and searchSite  =='all' and searchTYPE != 'all'">
+   		    <![CDATA[		
+ 			select distinct ew.employee_code, e.employee_name, p.payment_code, d.department_name, s.site_name
+			from payment p,  payment_receipt pr, employee_work ew, employee e, department d, site s
+			where p.payment_code = pr.payment_code
+			and ew.department_code =d.department_code
+			and pr.employee_code = ew.employee_code
+			and ew.employee_code =e.employee_code
+			and d.site_code = s.site_code
+			and p.payment_code = #{Ppayment_code}
+ 			and d.department_name =  #{searchTYPE} 
+ 			and e.employee_code = #{Semployee_code}
+ 			order by ew.employee_code
+ 			
+ 			]]> 
+			</when>
+			
+			<when test= " access_range =='사원' and  searchSite  !='all' and searchTYPE == 'all'">	
+			<![CDATA[		
+ 			select distinct ew.employee_code, e.employee_name, p.payment_code, d.department_name, s.site_name
+			from payment p,  payment_receipt pr, employee_work ew, employee e, department d, site s
+			where p.payment_code = pr.payment_code
+			and ew.department_code =d.department_code
+			and pr.employee_code = ew.employee_code
+			and ew.employee_code =e.employee_code
+			and d.site_code = s.site_code
+			and p.payment_code = #{Ppayment_code}
+			and s.site_name = #{searchSite}
+			and e.employee_code = #{Semployee_code}
+			order by ew.employee_code
+			
+			]]> 
+   		    </when>
+   		    
+   		    <when test= " access_range =='사원' and searchSite  !='all' and searchTYPE != 'all'">	
+			<![CDATA[		
+ 			select distinct ew.employee_code, e.employee_name, p.payment_code, d.department_name, s.site_name
+			from payment p,  payment_receipt pr, employee_work ew, employee e, department d, site s
+			where p.payment_code = pr.payment_code
+			and ew.department_code =d.department_code
+			and pr.employee_code = ew.employee_code
+			and ew.employee_code =e.employee_code
+			and d.site_code = s.site_code
+			and p.payment_code = #{Ppayment_code}
+			and s.site_name = #{searchSite}
+			and d.department_name =  #{searchTYPE} 
+			and e.employee_code = #{Semployee_code}
+			order by ew.employee_code
+			
+			
+			]]> 
+   		    </when>
+   		    
+   		    
+   		    <when test= " access_range =='부서' and searchSite  =='all' and searchTYPE == 'all'">	
+			<![CDATA[		
+ 			select distinct ew.employee_code, e.employee_name, p.payment_code, d.department_name, s.site_name
+			from payment p,  payment_receipt pr, employee_work ew, employee e, department d, site s
+			where p.payment_code = pr.payment_code
+			and ew.department_code =d.department_code
+			and pr.employee_code = ew.employee_code
+			and ew.employee_code =e.employee_code
+			and d.site_code = s.site_code
+			and p.payment_code = #{Ppayment_code}
+			and d.department_code =  #{Sdepartment_code}
+			order by ew.employee_code 
+			
+			]]> 
+   		    </when>
+   		    
+   		    <when test= " access_range =='부서' and searchSite  =='all' and searchTYPE != 'all'">
+   		    <![CDATA[		
+ 			select distinct ew.employee_code, e.employee_name, p.payment_code, d.department_name, s.site_name
+			from payment p,  payment_receipt pr, employee_work ew, employee e, department d, site s
+			where p.payment_code = pr.payment_code
+			and ew.department_code =d.department_code
+			and pr.employee_code = ew.employee_code
+			and ew.employee_code =e.employee_code
+			and d.site_code = s.site_code
+			and p.payment_code = #{Ppayment_code}
+			and d.department_code =  #{Sdepartment_code}
+ 			order by ew.employee_code
+ 			]]> 
+			</when>
+			
+			<when test= " access_range =='부서' and searchSite  !='all' and searchTYPE == 'all'">	
+			<![CDATA[		
+ 			select distinct ew.employee_code, e.employee_name, p.payment_code, d.department_name, s.site_name
+			from payment p,  payment_receipt pr, employee_work ew, employee e, department d, site s
+			where p.payment_code = pr.payment_code
+			and ew.department_code =d.department_code
+			and pr.employee_code = ew.employee_code
+			and ew.employee_code =e.employee_code
+			and d.site_code = s.site_code
+			and p.payment_code = #{Ppayment_code}
+			and s.site_name = #{searchSite}
+			and d.department_code =  #{Sdepartment_code}
+			order by ew.employee_code
+			
+			]]> 
+   		    </when>
+   		    
+   		    <when test= " access_range =='부서' and searchSite  !='all' and searchTYPE != 'all'">	
+			<![CDATA[		
+ 			select distinct ew.employee_code, e.employee_name, p.payment_code, d.department_name, s.site_name
+			from payment p,  payment_receipt pr, employee_work ew, employee e, department d, site s
+			where p.payment_code = pr.payment_code
+			and ew.department_code =d.department_code
+			and pr.employee_code = ew.employee_code
+			and ew.employee_code =e.employee_code
+			and d.site_code = s.site_code
+			and p.payment_code = #{Ppayment_code}
+			and s.site_name = #{searchSite}
+			and d.department_code =  #{Sdepartment_code}
+ 			order by ew.employee_code
+			
+			]]> 
+   		    </when>	
+
+   		    </choose>
+   		  
+			
+	</select>
+	
+	
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.hm_p0021">
+	<resultMap id="P0021resultVO" type="HM_P0021VO">
+		<result property="EMPLOYEE_TRAINING_CODE" column="EMPLOYEE_TRAINING_CODE" />
+        <result property="EMPLOYEE_CODE" column="EMPLOYEE_CODE" />
+        <result property="FINISH_YN" column="FINISH_YN" />
+        <result property="ATTENDENCE_SCORE" column="ATTENDENCE_SCORE" />
+        <result property="ATTITUDE_SCORE" column="ATTITUDE_SCORE" />
+        <result property="SCORE" column="SCORE" />
+        <result property="TOTAL" column="TOTAL"/>
+        <result property="ASSESSMENT_DESC" column="ASSESSMENT_DESC" />
+        <result property="EMPLOYEE_NAME" column="EMPLOYEE_NAME" />
+        <result property="DEPARTMENT_NAME" column="DEPARTMENT_NAME" />
+        <result property="POSITION_NAME" column="POSITION_NAME" />
+	</resultMap> 
+
+	<select  id="eduScoreSearch" resultMap="P0021resultVO" parameterType="java.util.Map">
+	    <![CDATA[
+SELECT etl.total,etl.employee_code ,etl.finish_yn,etl.attendence_score,etl.attitude_score,etl.score,etl.assessment_desc,e.employee_name,d.department_name,p.position_name
+FROM EMPLOYEE_TRAINING_LIST etl,DEPARTMENT d,POSITION p,employee e, employee_work ew
+WHERE etl.employee_code=e.employee_code
+AND etl.employee_code=ew.employee_code
+AND ew.position_code=p.position_code
+AND ew.department_code=d.department_code
+AND etl.employee_training_code=#{eduCode}
+			]]>
+			
+			<choose>
+		  <when test="access_range == '부서' ">
+      and d.department_code = #{Sdepartment_code}
+      	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="access_range == '사원' ">
+      and e.employee_code = #{Semployee_code}
+	  </when>
+	</choose>
+	</select>
+	
+	<update id="eduScoreUpdate" parameterType="java.util.Map">
+		update EMPLOYEE_TRAINING_LIST
+		
+		set FINISH_YN=#{finish_YN},
+		ATTENDENCE_SCORE=#{attendence_SCORE},
+		ATTITUDE_SCORE=#{attitude_SCORE},
+		SCORE=#{score},
+		TOTAL=#{total},
+		ASSESSMENT_DESC=#{assessment_DESC},
+		upt_user_id = #{user, jdbcType=VARCHAR},
+		upt_date = sysdate
+		
+		
+		
+		where employee_CODE=#{employee_CODE}
+		and EMPLOYEE_TRAINING_CODE=#{eduCode}
+	</update>	
+		
+
+	
+	
+</mapper>

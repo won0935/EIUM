@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.sm_p0004">
+	<resultMap id="p0004Result" type="SM_P0004VO">
+		<result property="employee_code" column="employee_code" />
+        <result property="employee_name" column="employee_name" />
+        <result property="employee_id" column="employee_id" />
+        <result property="employee_available_yn" column="employee_available_yn" />
+        <result property="company_code" column="company_code" />
+        <result property="employee_password" column="employee_password" />
+        <result property="contact" column="contact" />
+        <result property="int_user_id" column="int_user_id" />
+        <result property="int_date" column="int_date" />
+        <result property="upt_user_id" column="upt_user_id" />
+        <result property="upt_date" column="upt_date" />
+	</resultMap> 
+	
+
+
+	<select id="selectAllp0004List" resultMap="p0004Result">
+      <![CDATA[
+		 select distinct e.employee_code, e.employee_name, e.employee_available_yn, ac.employee_id , ac.employee_password, ei.contact, ew.company_code, c.company_name
+         from employee e, account ac, employee_hr_info ei, employee_work ew, company c
+         where e.employee_code = ei.employee_code(+)
+         and e.employee_code = ac.employee_code(+)
+         and e.employee_code = ew.employee_code(+)
+         and ew.company_code = c.company_code(+)
+         order by e.employee_code
+      ]]>
+	</select>
+	
+		<select id="companyList" resultMap="p0004Result">
+      <![CDATA[
+         select company_code, company_name
+         from company
+         order by company_code
+      ]]>
+	</select>
+	
+ 	<insert id="insertData1" parameterType="java.util.Map">
+
+		insert into employee(employee_code, employee_name, employee_available_yn, int_user_id, int_date) values(#{employee_code}, #{employee_name},  #{employee_available_yn}, #{user}, sysdate)
+			
+	</insert>
+	
+	 	<insert id="insertData2" parameterType="java.util.Map">
+
+		insert into account(employee_id, employee_password, employee_code, int_user_id, int_date) values(#{employee_id}, #{employee_password}, #{employee_code}, #{user}, sysdate)	
+			
+	</insert>
+	
+		 	<insert id="insertData3" parameterType="java.util.Map">
+
+		insert into employee_hr_info(employee_code, contact, int_user_id, int_date) values(#{employee_code}, #{contact}, #{user}, sysdate)	
+	</insert>
+		 	<insert id="insertData4" parameterType="java.util.Map">
+
+		insert into employee_salary(employee_code, int_user_id, int_date) values(#{employee_code}, #{user}, sysdate)	
+	</insert>	
+			<insert id="insertData5" parameterType="java.util.Map">
+
+		insert into employee_work(employee_code, company_code, int_user_id, int_date) values(#{employee_code}, #{company_code}, #{user}, sysdate)	
+	</insert>
+	
+				
+
+<!--	insert into employee_hr_info(employee_code, contact) values(#{employee_code}, #{contact})	
+	 insert into department(deplartment_code, department_name) values(#{department_code}, #{department_name}),
+		insert into account(employee_id, employee_password, employee_code) values(#{employee_code}, #{employee_password}, #{employee_code}), -->
+<!-- 		insert into user_auth(employee_id, authority_code) values(#{employee_code}, #{authority_code}) -->
+	
+	<update id="updateData1" parameterType="java.util.Map">
+		update employee
+		set employee_name = #{employee_name, jdbcType=VARCHAR}
+			, employee_available_yn = #{employee_available_yn, jdbcType=VARCHAR}
+			, upt_user_id = #{user, jdbcType=VARCHAR}
+			, upt_date = sysdate
+		where employee_code = #{employee_code, jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateData2" parameterType="java.util.Map">
+		update account
+		set employee_id = #{employee_id, jdbcType=VARCHAR}
+		    , employee_password = #{employee_password, jdbcType=VARCHAR}
+			, upt_user_id = #{user, jdbcType=VARCHAR}
+			, upt_date = sysdate
+		where employee_code = #{employee_code, jdbcType=VARCHAR}
+	</update>
+	
+	<update id="updateData3" parameterType="java.util.Map">
+		update employee_hr_info
+		set contact = #{contact, jdbcType=VARCHAR}
+			, upt_user_id = #{user, jdbcType=VARCHAR}
+			, upt_date = sysdate
+		where employee_code = #{employee_code, jdbcType=VARCHAR}
+	</update>
+	
+		<update id="updateData4" parameterType="java.util.Map">
+		update employee_work
+		set company_code = #{company_code, jdbcType=VARCHAR}
+			, upt_user_id = #{user, jdbcType=VARCHAR}
+			, upt_date = sysdate
+		where employee_code = #{employee_code, jdbcType=VARCHAR}
+	</update>
+
+	
+	
+	
+	<delete id="deleteData1" parameterType="java.util.Map">
+		delete employee
+		where employee_code = #{employee_code}
+	</delete>
+	
+		<delete id="deleteData2" parameterType="java.util.Map">
+		delete account
+		where employee_code = #{employee_code}
+	</delete>
+	
+		<delete id="deleteData3" parameterType="java.util.Map">
+		delete employee_hr_info
+		where employee_code = #{employee_code}
+	</delete>
+	
+	
+	<delete id="deleteData4" parameterType="java.util.Map">
+		delete employee_business_trip
+		where employee_code = #{employee_code}
+	</delete>
+	
+	<delete id="deleteData5" parameterType="java.util.Map">
+		delete employee_education
+		where employee_code = #{employee_code}
+	</delete>
+	
+	<delete id="deleteData6" parameterType="java.util.Map">
+		delete employee_career
+		where employee_code = #{employee_code}
+	</delete>
+	
+	<delete id="deleteData7" parameterType="java.util.Map">
+		delete employee_salary
+		where employee_code = #{employee_code}
+	</delete>
+	
+	<delete id="deleteData8" parameterType="java.util.Map">
+		delete employee_license
+		where employee_code = #{employee_code}
+	</delete>
+	
+	<delete id="deleteData9" parameterType="java.util.Map">
+		delete employee_language
+		where employee_code = #{employee_code}
+	</delete>
+
+	
+		<delete id="deleteData10" parameterType="java.util.Map">
+		delete hr_assessment
+		where employee_code = #{employee_code}
+	</delete>
+	
+		<delete id="deleteData11" parameterType="java.util.Map">
+		delete hr_rnp
+		where employee_code = #{employee_code}
+	</delete>
+	
+		<delete id="deleteData12" parameterType="java.util.Map">
+		delete vacation_change_history
+		where employee_code = #{employee_code}
+	</delete>
+	
+	<delete id="deleteData13" parameterType="java.util.Map">
+		delete employee_training_list
+		where employee_code = #{employee_code}
+	</delete>
+	
+	<delete id="deleteData14" parameterType="java.util.Map">
+		delete salary_deposit
+		where employee_code = #{employee_code}
+	</delete>
+	
+	<delete id="deleteData15" parameterType="java.util.Map">
+		delete payment_receipt
+		where employee_code = #{employee_code}
+	</delete>
+	
+	<delete id="deleteData16" parameterType="java.util.Map">
+		delete working_status
+		where employee_code = #{employee_code}
+	</delete>
+	
+	<delete id="deleteData17" parameterType="java.util.Map">
+		delete total_working_status
+		where employee_code = #{employee_code}
+	</delete>
+	
+		<delete id="deleteData18" parameterType="java.util.Map">
+		delete employee_work
+		where employee_code = #{employee_code}
+	</delete>
+	
+		<delete id="deleteData19" parameterType="java.util.Map">
+		delete vacation_remain
+		where employee_code = #{employee_code}
+	</delete>
+	
+		<delete id="deleteData20" parameterType="java.util.Map">
+		delete board
+		where employee_id = #{employee_id}
+	</delete>
+	
+			<delete id="deleteData21" parameterType="java.util.Map">
+		delete contract
+		where employee_code = #{employee_code}
+	</delete>
+	
+		<delete id="deleteData22" parameterType="java.util.Map">
+		delete user_auth
+		where employee_id = #{employee_id}
+		
+		
+	</delete>				
+</mapper>

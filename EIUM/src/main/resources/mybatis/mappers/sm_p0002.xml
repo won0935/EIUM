@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.sm_p0002">
+	<resultMap id="P0002resultVO" type="SM_P0002VO">
+		<result property="site_CODE" column="SITE_CODE" />
+		<result property="company_CODE" column="COMPANY_CODE" />
+        <result property="site_NAME" column="SITE_NAME" />
+        <result property="site_RESISTRATION_NUMBER" column="SITE_RESISTRATION_NUMBER" />
+        <result property="site_CORPARATION_NUMBER" column="SITE_CORPARATION_NUMBER" />
+        <result property="site_REPRESENTATIVE_NAME" column="SITE_REPRESENTATIVE_NAME" />
+        <result property="site_ZIP_CODE" column="SITE_ZIP_CODE" />
+        <result property="site_ADDRESS" column="SITE_ADDRESS" />
+        <result property="site_ADDRESS_DETAIL" column="SITE_ADDRESS_DETAIL" />
+        <result property="site_CONTACT" column="SITE_CONTACT" />
+        <result property="site_FAX" column="SITE_FAX" />
+        <result property="site_CATEGORY" column="SITE_CATEGORY" />
+        <result property="site_TYPE" column="SITE_TYPE" />
+        <result property="site_OPENBUSINESS_DATE" column="SITE_OPENBUSINESS_DATE" />
+        <result property="site_CLOSEBUSINESS_DATE" column="SITE_CLOSEBUSINESS_DATE" />
+        <result property="site_BUSINESS_AVAILABLE" column="SITE_BUSINESS_AVAILABLE" />
+	</resultMap> 
+ 
+	<select id="searchList" resultMap="P0002resultVO" parameterType="java.util.Map"> 
+      <![CDATA[
+         select COMPANY_CODE,SITE_CODE,SITE_NAME,SITE_RESISTRATION_NUMBER,SITE_CORPARATION_NUMBER,SITE_REPRESENTATIVE_NAME,SITE_ZIP_CODE,SITE_ADDRESS,SITE_ADDRESS_DETAIL,SITE_CONTACT,SITE_FAX,SITE_CATEGORY,SITE_TYPE,SITE_OPENBUSINESS_DATE,SITE_CLOSEBUSINESS_DATE,SITE_BUSINESS_AVAILABLE           
+         from SITE
+         where COMPANY_CODE = #{param}
+      ]]>
+      
+	</select>
+	
+	
+	<select id="searchList2" resultType="hashmap"
+		parameterType="java.util.Map">
+
+		select 
+		COMPANY_CODE,
+		COMPANY_NAME
+		from COMPANY
+
+	</select>
+	
+	
+	<update id="updateData" parameterType="java.util.Map">
+		update SITE
+		set  
+		     SITE_NAME = #{site_NAME}
+		   , SITE_RESISTRATION_NUMBER = #{site_RESISTRATION_NUMBER}
+		   , SITE_CORPARATION_NUMBER = #{site_CORPARATION_NUMBER}
+		   , SITE_REPRESENTATIVE_NAME = #{site_REPRESENTATIVE_NAME}
+		   , SITE_ZIP_CODE = #{site_ZIP_CODE}
+		   , SITE_ADDRESS = #{site_ADDRESS}
+		   , SITE_ADDRESS_DETAIL = #{site_ADDRESS_DETAIL}
+		   , SITE_CONTACT = #{site_CONTACT}
+		   , SITE_FAX = #{site_FAX}
+		   , SITE_CATEGORY = #{site_CATEGORY}
+		   , SITE_TYPE = #{site_TYPE}
+		   , SITE_OPENBUSINESS_DATE = #{site_OPENBUSINESS_DATE}
+		   , SITE_CLOSEBUSINESS_DATE = #{site_CLOSEBUSINESS_DATE}
+		   , SITE_BUSINESS_AVAILABLE = #{site_BUSINESS_AVAILABLE}
+		   , COMPANY_CODE = #{company_CODE}
+		where TRIM(SITE_CODE) = #{site_CODE}
+	</update>	
+	
+ <insert id="insertData" parameterType="java.util.Map">
+		insert into SITE(SITE_CODE,SITE_NAME,SITE_RESISTRATION_NUMBER,SITE_CORPARATION_NUMBER,SITE_REPRESENTATIVE_NAME,SITE_ZIP_CODE,SITE_ADDRESS,SITE_ADDRESS_DETAIL,SITE_CONTACT,SITE_FAX,SITE_CATEGORY,SITE_TYPE,SITE_OPENBUSINESS_DATE,SITE_CLOSEBUSINESS_DATE,SITE_BUSINESS_AVAILABLE,COMPANY_CODE) 
+		values(#{site_CODE},#{site_NAME},#{site_RESISTRATION_NUMBER},#{site_CORPARATION_NUMBER},#{site_REPRESENTATIVE_NAME},#{site_ZIP_CODE},#{site_ADDRESS}, #{site_ADDRESS_DETAIL},#{site_CONTACT},#{site_FAX},#{site_CATEGORY},#{site_TYPE},#{site_OPENBUSINESS_DATE},#{site_CLOSEBUSINESS_DATE},#{site_BUSINESS_AVAILABLE},#{company_code})
+	</insert>	
+	
+	<delete id="deleteData" parameterType="java.util.Map">
+		delete SITE
+		where TRIM(SITE_CODE) = #{site_CODE}
+	</delete>
+
+
+</mapper>

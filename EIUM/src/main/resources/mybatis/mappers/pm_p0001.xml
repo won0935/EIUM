@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.pm_p0001">
+	<resultMap id="P0001resultVO" type="PM_P0001VO">
+		<result property="employee_code" column="employee_code" />
+		<result property="payment_receipt_code" column="payment_receipt_code" />
+		<result property="payment_receipt_item" column="payment_receipt_item" />
+		<result property="payment_receipt_price" column="payment_receipt_price" />
+		<result property="employee_name" column="employee_name" />
+		<result property="payment_code" column="payment_code" />
+		<result property="payment_date" column="payment_date" />
+		<result property="payment_des_name" column="payment_des_name" />
+		<result property="position_name" column="position_name" />
+		<result property="pay_grade_name" column="pay_grade_name" />
+		<result property="salary" column="salary" />
+		
+		
+		<result property="weekday_normal_work_time" column="weekday_normal_work_time" />
+		<result property="weekday_extension_work_time" column="weekday_extension_work_time" />
+		<result property="weekday_night_work_time" column="weekday_night_work_time" />
+		<result property="holiday_normal_work_time" column="holiday_normal_work_time" />
+		<result property="holiday_extension_work_time" column="holiday_extension_work_time" />
+		<result property="holiday_night_work_time" column="holiday_night_work_time" />
+	</resultMap>
+	
+	<!-- /////////////////////////////////////EMP_SEARCHLIST ////////////////////////////////////////-->
+	<select id = "typeList" resultMap="P0001resultVO" parameterType="java.util.Map">
+	<choose>	
+			<when test= "searchSite=='all'">
+			select department_name
+			from department
+   		    </when>
+   		    
+   		    <when test= "searchSite!='all'">
+			select department_name
+			from department d, site s
+			where d.site_code = s.site_code
+			and s.site_name = #{searchSite}
+			 </when>
+	</choose>	
+			
+	</select>
+	
+
+	<select id = "paydate_searchList" resultMap="P0001resultVO" parameterType="java.util.Map">
+	<![CDATA[
+		select p.payment_code, p.payment_date, pd.payment_des_name
+		from payment p, payment_des pd
+		where p.payment_des_code = pd.payment_des_code 
+        and SUBSTR(TO_DATE(SUBSTR(p.payment_date,1,6), 'YYYY-MM'),1,5) = #{date,jdbcType=VARCHAR}
+	]]> 
+	</select>
+	
+<select id = "searchReceipt" resultMap="P0001resultVO" parameterType="java.util.Map">
+		
+		select payment_receipt_code, payment_receipt_item, payment_receipt_price
+		from payment_receipt
+		where payment_code =  #{y}
+		and employee_code =  #{x}
+</select>
+
+<select id = "paygradeList" resultMap="P0001resultVO" parameterType="java.util.Map">
+	<![CDATA[
+			select  p.position_name, pg.pay_grade_name, pt.salary
+		from employee_work e, position p, pay_grade pg, pay_grade_table pt
+        where e.position_code = p.position_code
+        and e.pay_grade_code = pg.pay_grade_code
+        and e.pay_grade_code = pt.pay_grade_code
+        and e.position_code =pt.position_code
+        and SUBSTR(TO_DATE(SUBSTR(pt.start_date,1,6), 'YYYY-MM'),1,5) <=   SUBSTR(to_char(sysdate, 'YYYY/MM/DD'),3,5)
+        and  SUBSTR(to_char(sysdate, 'YYYY/MM/DD'),3,5) <= SUBSTR(TO_DATE(SUBSTR(pt.end_date,1,6), 'YYYY-MM'),1,5)
+        and e.employee_code =  #{x}
+        	]]> 
+</select>
+	
+	<insert id="insertData" parameterType="java.util.Map">
+		insert into payment_receipt(payment_receipt_code, payment_receipt_item, payment_receipt_price, employee_code, payment_code, int_user_id, int_date) 
+		values(payment_receipt_code_seq.nextval, #{payment_receipt_item}, #{payment_receipt_price}, #{x}, #{y}, #{user}, sysdate)
+	</insert>
+	
+		<update id="updateData" parameterType="java.util.Map">
+		update payment_receipt
+		set payment_receipt_item = #{payment_receipt_item}
+		   , payment_receipt_price = #{payment_receipt_price}
+		   , upt_user_id = #{user}
+		   , upt_date = sysdate
+		where payment_receipt_code = #{payment_receipt_code}
+	</update>	
+	
+	<delete id="deleteData" parameterType="java.util.Map">
+		delete payment_receipt
+		where payment_receipt_code = #{payment_receipt_code}
+	</delete>
+			
+	
+	<select id = "searchList" resultMap="P0001resultVO" parameterType="java.util.Map">
+	<choose>	
+			<when test= " searchSite  =='all' and searchTYPE == 'all'">	
+			<![CDATA[		
+ 			select distinct e.employee_code, e.employee_name, p.payment_code, pd.payment_des_name, pt.salary, t.weekday_normal_work_time, t.weekday_extension_work_time, t.weekday_night_work_time, t.holiday_normal_work_time, t.holiday_extension_work_time, t.holiday_night_work_time, s.site_name, d.department_name
+			from employee e, employee_work ew, payment p, payment_des pd, pay_grade_table pt, total_working_status t, selection_of_payment sp, department d, site s, pay_grade pg
+			where  p.payment_code = sp.payment_code
+			and p.payment_des_code = pd.payment_des_code
+			and sp.job_class_code = ew.job_class_code
+			and ew.department_code = d.department_code
+			and s.site_code = d.site_code
+			and ew.employee_code = e.employee_code
+			and e.employee_code = t.employee_code
+			and ew.pay_grade_code = pg.pay_grade_code
+			and ew.pay_grade_code = pt.pay_grade_code
+			and ew.position_code = pt.position_code 
+			and TO_DATE(SUBSTR(pt.start_date,1,6), 'YYYY-MM')< sysdate
+			and sysdate < TO_DATE(SUBSTR(pt.end_date,1,6), 'YYYY-MM')
+			and p.payment_code = #{Ppayment_code}
+			and SUBSTR(TO_DATE(t.total_month, 'YYYY-MM'),1,5) = #{monthpicker}
+			]]> 
+   		    </when>
+   		    
+   		    <when test= " searchSite  =='all' and searchTYPE != 'all'">
+   		    <![CDATA[		
+			select distinct e.employee_code, e.employee_name, p.payment_code, pd.payment_des_name, pt.salary, t.weekday_normal_work_time, t.weekday_extension_work_time, t.weekday_night_work_time, t.holiday_normal_work_time, t.holiday_extension_work_time, t.holiday_night_work_time, s.site_name, d.department_name
+			from employee e, employee_work ew, payment p, payment_des pd, pay_grade_table pt, total_working_status t, selection_of_payment sp, department d, site s, pay_grade pg
+			where  p.payment_code = sp.payment_code
+			and p.payment_des_code = pd.payment_des_code
+			and sp.job_class_code = ew.job_class_code
+			and ew.department_code = d.department_code
+			and s.site_code = d.site_code
+			and ew.employee_code = e.employee_code
+			and e.employee_code = t.employee_code
+			and ew.pay_grade_code = pg.pay_grade_code
+			and ew.pay_grade_code = pt.pay_grade_code
+			and ew.position_code = pt.position_code 
+			and TO_DATE(SUBSTR(pt.start_date,1,6), 'YYYY-MM')< sysdate
+			and sysdate < TO_DATE(SUBSTR(pt.end_date,1,6), 'YYYY-MM')
+			and p.payment_code = #{Ppayment_code}
+ 			and d.department_name =  #{searchTYPE}
+ 			and SUBSTR(TO_DATE(t.total_month, 'YYYY-MM'),1,5) = #{monthpicker}
+ 			 
+ 			]]> 
+			</when>
+			
+			<when test= " searchSite  !='all' and searchTYPE == 'all'">	
+			<![CDATA[		
+ 			select distinct e.employee_code, e.employee_name, p.payment_code, pd.payment_des_name, pt.salary, t.weekday_normal_work_time, t.weekday_extension_work_time, t.weekday_night_work_time, t.holiday_normal_work_time, t.holiday_extension_work_time, t.holiday_night_work_time, s.site_name, d.department_name
+			from employee e, employee_work ew, payment p, payment_des pd, pay_grade_table pt, total_working_status t, selection_of_payment sp, department d, site s, pay_grade pg
+			where  p.payment_code = sp.payment_code
+			and p.payment_des_code = pd.payment_des_code
+			and sp.job_class_code = ew.job_class_code
+			and ew.department_code = d.department_code
+			and s.site_code = d.site_code
+			and ew.employee_code = e.employee_code
+			and e.employee_code = t.employee_code
+			and ew.pay_grade_code = pg.pay_grade_code
+			and ew.pay_grade_code = pt.pay_grade_code
+			and ew.position_code = pt.position_code 
+			and TO_DATE(SUBSTR(pt.start_date,1,6), 'YYYY-MM')< sysdate
+			and sysdate < TO_DATE(SUBSTR(pt.end_date,1,6), 'YYYY-MM')
+			and p.payment_code = #{Ppayment_code}
+			and s.site_name = #{searchSite}
+			and SUBSTR(TO_DATE(t.total_month, 'YYYY-MM'),1,5) = #{monthpicker}
+			]]> 
+   		    </when>
+   		    
+   		    <when test= " searchSite  !='all' and searchTYPE != 'all'">	
+			<![CDATA[		
+ 			select distinct e.employee_code, e.employee_name, p.payment_code, pd.payment_des_name, pt.salary, t.weekday_normal_work_time, t.weekday_extension_work_time, t.weekday_night_work_time, t.holiday_normal_work_time, t.holiday_extension_work_time, t.holiday_night_work_time, s.site_name, d.department_name
+			from employee e, employee_work ew, payment p, payment_des pd, pay_grade_table pt, total_working_status t, selection_of_payment sp, department d, site s, pay_grade pg
+			where  p.payment_code = sp.payment_code
+			and p.payment_des_code = pd.payment_des_code
+			and sp.job_class_code = ew.job_class_code
+			and ew.department_code = d.department_code
+			and s.site_code = d.site_code
+			and ew.employee_code = e.employee_code
+			and e.employee_code = t.employee_code
+			and ew.pay_grade_code = pg.pay_grade_code
+			and ew.pay_grade_code = pt.pay_grade_code
+			and ew.position_code = pt.position_code 
+			and TO_DATE(SUBSTR(pt.start_date,1,6), 'YYYY-MM')< sysdate
+			and sysdate < TO_DATE(SUBSTR(pt.end_date,1,6), 'YYYY-MM')
+			and p.payment_code = #{Ppayment_code}
+			and s.site_name = #{searchSite}
+			and d.department_name =  #{searchTYPE} 
+			and SUBSTR(TO_DATE(t.total_month, 'YYYY-MM'),1,5) = #{monthpicker}
+			
+			]]> 
+   		    </when>		
+			</choose> 
+	</select>
+	
+	
+</mapper>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.pm_p0010">
+	<resultMap id="P0010resultVO" type="PM_P0010VO">
+		<result property="employee_CODE" column="EMPLOYEE_CODE" />
+		<result property="employee_NAME" column="EMPLOYEE_NAME" />
+		<result property="department_CODE" column="DEPARTMENT_CODE" />
+		<result property="department_NAME" column="DEPARTMENT_NAME" />
+		<result property="basic_SALARY" column="BASIC_SALARY" />
+		<result property="position_SALARY" column="POSITION_SALARY" />
+		<result property="bonus_SALARY" column="BONUS_SALARY" />
+		<result property="total_SALARY" column="TOTAL_SALARY" />
+		<result property="total_basic_SALARY" column="total_BASIC_SALARY" />
+		<result property="total_position_SALARY" column="total_POSITION_SALARY" />
+		<result property="total_bonus_SALARY" column="total_BONUS_SALARY" />
+		<result property="employee_COUNT" column="EMPLOYEE_COUNT" />
+		<result property="payment_DATE" column="PAYMENT_DATE" />
+		<result property="payment_CODE" column="PAYMENT_CODE" />
+
+
+	</resultMap>
+	<select id="searchList" resultMap="P0010resultVO"
+		parameterType="java.util.Map"> 
+   
+  				select x.payment_code,(select substr(payment_date,0,6)
+                          				from payment z
+                          				where x.payment_code= z.payment_code) as "payment_DATE", 
+                            			count(distinct x.employee_code) as "employee_COUNT", 
+                            			sum(case when x.PAYMENT_RECEIPT_ITEM='기본급' then x.PAYMENT_RECEIPT_PRICE end) as "basic_SALARY", 
+                						sum(case when x.PAYMENT_RECEIPT_ITEM='직책수당' then x.PAYMENT_RECEIPT_PRICE end) as "position_SALARY",
+                						sum(case when x.PAYMENT_RECEIPT_ITEM='상여급' then x.PAYMENT_RECEIPT_PRICE end) as "bonus_SALARY"               
+               	from payment_receipt x,department c, employee_work d, site o
+               	where x.payment_code in (select y.payment_code
+                                        from payment y
+                                        where substr(to_date(y.payment_date,'yyyy/mm/dd'),1,5) between #{searchDate1} and #{searchDate2}  )
+                and c.department_code=d.department_code
+                and d.employee_code=x.employee_code
+                and o.site_code =  c.site_code
+                            
+                <if test="searchSite != '전체' and searchSite!=null and searchSite!=''">
+				and o.site_name = #{searchSite}
+				</if>
+        		<if test="DeptList != '전체' and DeptList!=null and DeptList!=''">
+				and c.department_name = #{DeptList}
+				</if>       
+				
+                group by  x.payment_code
+
+	</select>
+	
+	<select id="searchList2" resultMap="P0010resultVO"
+		parameterType="java.util.Map"> 
+   
+  				select c.department_code as DEPARTMENT_CODE, 
+       			c.department_name as DEPARTMENT_NAME, 
+        		a.employee_code as EMPLOYEE_CODE, 
+       			a.employee_name as EMPLOYEE_NAME,
+      			z."total_basic_SALARY" as total_BASIC_SALARY,z."total_position_SALARY" as total_POSITION_SALARY , z."total_bonus_SALARY" as total_BONUS_SALARY,
+       			t."basic_SALARY" as BASIC_SALARY,t."position_SALARY" as POSITION_SALARY , t."bonus_SALARY" as BONUS_SALARY
+				from employee a,
+                (select x.employee_code, sum(case when x.PAYMENT_RECEIPT_ITEM='기본급' then x.PAYMENT_RECEIPT_PRICE end) as "basic_SALARY", 
+                sum(case when x.PAYMENT_RECEIPT_ITEM='직책수당' then x.PAYMENT_RECEIPT_PRICE end) as "position_SALARY",
+                sum(case when x.PAYMENT_RECEIPT_ITEM='상여급' then x.PAYMENT_RECEIPT_PRICE end) as "bonus_SALARY"               
+                from payment_receipt x	 
+				where x.payment_code = #{payment_CODE}
+			         
+                group by employee_code) t,
+
+                (select x.employee_code, sum(case when x.PAYMENT_RECEIPT_ITEM='기본급' then x.PAYMENT_RECEIPT_PRICE end) as "total_basic_SALARY", 
+                sum(case when x.PAYMENT_RECEIPT_ITEM='직책수당' then x.PAYMENT_RECEIPT_PRICE end) as "total_position_SALARY",
+                sum(case when x.PAYMENT_RECEIPT_ITEM='상여급' then x.PAYMENT_RECEIPT_PRICE end) as "total_bonus_SALARY"               
+                from payment_receipt x,payment p 
+                
+				where x.payment_code = p.payment_code
+                and substr(to_date(p.payment_date,'yyyy/mm/dd'),1,2) in substr(to_date(CONCAT(#{payment_DATE},'01') ,'YYYYmmdd'),1,2)
+                group by employee_code) z,
+                department c,
+                employee_work d,
+                site o
+where a.employee_code = z.employee_code
+and c.department_code=d.department_code
+and d.employee_code=a.employee_code
+and o.site_code =  c.site_code 
+and t.employee_code = z.employee_code
+   <if test="searchSite != '전체' and searchSite!=null and searchSite!=''">
+				and o.site_name = #{searchSite}
+				</if>
+        		<if test="DeptList != '전체' and DeptList!=null and DeptList!=''">
+				and c.department_name = #{DeptList}
+				</if>   
+	</select>
+
+<select id="searchList3" resultMap="P0010resultVO"
+		parameterType="java.util.Map"> 
+   
+  	select x.payment_code,(select substr(payment_date,0,6)
+                          				from payment z
+                          				where x.payment_code= z.payment_code) as "payment_DATE", 
+                            			sum(case when x.PAYMENT_RECEIPT_ITEM='기본급' then x.PAYMENT_RECEIPT_PRICE end) as "basic_SALARY", 
+                						sum(case when x.PAYMENT_RECEIPT_ITEM='직책수당' then x.PAYMENT_RECEIPT_PRICE end) as "position_SALARY",
+                						sum(case when x.PAYMENT_RECEIPT_ITEM='상여급' then x.PAYMENT_RECEIPT_PRICE end) as "bonus_SALARY",
+                						sum(x.PAYMENT_RECEIPT_PRICE) as "total_SALARY"              
+               	from payment_receipt x,department c, employee_work d, site o
+               	where x.payment_code in (select y.payment_code
+                                        from payment y
+                                        where to_date(y.payment_date,'yyyymmdd') between add_months(CONCAT(#{payment_DATE},'01'),-6) and add_months(CONCAT(#{payment_DATE},'01'),6)  )
+                and c.department_code=d.department_code
+                and d.employee_code=x.employee_code
+                and o.site_code =  c.site_code
+                   
+                <if test="employee_CODE!=null and employee_CODE!=''">
+				and x.employee_code = #{employee_CODE}
+				</if>
+        	    	
+                group by  x.payment_code
+
+	</select>
+</mapper>

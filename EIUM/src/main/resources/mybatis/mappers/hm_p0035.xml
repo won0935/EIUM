@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.hm_p0035">
+	<resultMap id="p0035Result" type="HM_P0035VO">
+	    <result property="SITE_NAME" column="SITE_NAME" />
+	    <result property="SITE_CODE" column="SITE_CODE" />
+	    
+	    <result property="DEPARTMENT_NAME" column="DEPARTMENT_NAME" />
+	    <result property="DEPARTMENT_CODE" column="DEPARTMENT_CODE" />
+		
+		<result property="EMPLOYEE_ID" column="EMPLOYEE_ID" />
+		<result property="EMPLOYEE_NAME" column="EMPLOYEE_NAME" />
+		<result property="EMPLOYEE_CODE" column="EMPLOYEE_CODE" />
+		
+		<result property="DUTY_NAME" column="DUTY_NAME" />
+		<result property="EMPLOYEE_JOIN_DATE" column="EMPLOYEE_JOIN_DATE" />
+		<result property="JOB_CLASS_NAME" column="JOB_CLASS_NAME" />
+		<result property="PAY_TYPE_NAME" column="PAY_TYPE_NAME" />
+		<result property="CONTRACT_START_MONTH" column="CONTRACT_START_MONTH" />
+		<result property="CONTRACT_YEAR_PAY" column="CONTRACT_YEAR_PAY" />
+		<result property="CONTRACT_MONTH_PAY" column="CONTRACT_MONTH_PAY" />
+		<result property="CONTRACT_DAY_PAY" column="CONTRACT_DAY_PAY" />
+		<result property="CONTRACT_TIME_PAY" column="CONTRACT_TIME_PAY" />
+	</resultMap>
+	
+	<select id="searchSiteList" resultMap="p0035Result" parameterType="java.util.List">
+	  <![CDATA[
+         select SITE_NAME, SITE_CODE FROM SITE
+      ]]>
+	</select>
+	
+	<select id="searchDeptList" resultMap="p0035Result" parameterType="java.util.List">
+	  <![CDATA[
+         select DEPARTMENT_CODE,DEPARTMENT_NAME
+         from department d, site si
+      ]]>
+      <choose>
+			<when test= " SiteList != ''  and  SiteList != null">
+				where d.site_code=si.site_code
+				and site_name=#{SiteList,jdbcType=VARCHAR}
+			</when>
+			<otherwise>
+				where d.site_code=si.site_code
+			</otherwise>
+			</choose>
+	</select> 
+
+	<select id="searchList" resultMap="p0035Result" parameterType="java.util.List">
+      <![CDATA[
+         SELECT ew.employee_code, e.employee_name, de.department_name, du.duty_name, ew.employee_join_date, j.job_class_name, pt.pay_type_name, c.contract_start_month, c.contract_year_pay, c.contract_month_pay, c.contract_day_pay, c.contract_time_pay
+         FROM employee e, employee_work ew, department de, duty du, job_class j, pay_type pt, contract c, site s
+      ]]>
+			    WHERE ew.employee_code = e.employee_code(+)
+                AND ew.department_code = de.department_code(+)
+                AND ew.duty_code = du.duty_code(+)
+                AND ew.job_class_code = j.job_class_code(+)
+                AND ew.pay_type_code = pt.pay_type_code(+)
+                AND de.site_code = s.site_code(+)
+                AND ew.employee_code = c.employee_code
+                
+    <choose>
+	<when test="SiteList != null and SiteList !='' ">
+	AND s.site_name = #{SiteList}
+	</when>
+	</choose>
+	
+	<choose>
+	<when test="DeptList != null and DeptList !='' ">
+	AND de.department_name = #{DeptList}
+	</when>
+	</choose>
+	
+	<choose>
+	<when test="searchDate1 != null and searchDate1 !='' ">
+	AND TO_CHAR(TO_DATE(c.contract_start_month, 'YYYYMM'),'YYYY/MM') <![CDATA[>=]]> #{searchDate1}
+	</when>
+	</choose>
+	
+	<choose>
+	<when test="searchDate2 != null and searchDate2 !='' ">
+	AND TO_CHAR(TO_DATE(c.contract_start_month, 'YYYYMM'),'YYYY/MM') <![CDATA[<=]]> #{searchDate2}
+	</when>
+	</choose>
+	
+	<choose>
+	 <when test="resigner == 0 " >
+	  AND ew.employee_resignation_date is null
+	  </when>  
+	</choose>
+	
+		<choose>
+		  <when test="access_range == '부서' ">
+      and de.department_code = #{Sdepartment_code}
+      	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="access_range == '사원' ">
+      and e.employee_code = #{Semployee_code}
+	  </when>
+	</choose>
+	
+	ORDER BY ew.employee_code
+
+	</select>
+</mapper>

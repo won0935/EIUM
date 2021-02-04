@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.pm_p0009">
+	<resultMap id="P0009resultVO" type="PM_P0009VO">
+		<result property="employee_CODE" column="EMPLOYEE_CODE" />
+		<result property="employee_NAME" column="EMPLOYEE_NAME" />
+		<result property="department_CODE" column="DEPARTMENT_CODE" />
+		<result property="department_NAME" column="DEPARTMENT_NAME" />
+		<result property="basic_SALARY" column="BASIC_SALARY" />
+		<result property="position_SALARY" column="POSITION_SALARY" />
+		<result property="bonus_SALARY" column="BONUS_SALARY" />
+		<result property="bonus_SALARY" column="BONUS_SALARY" />
+		<result property="payment_CODE" column="PAYMENT_CODE" />
+		<result property="payment_DATE1" column="PAYMENT_DATE1" />
+		<result property="payment_DATE2" column="PAYMENT_DATE2" />
+		<result property="payment_DES_NAME" column="PAYMENT_DES_NAME" />
+
+
+	</resultMap>
+	<select id="searchList" resultMap="P0009resultVO"
+		parameterType="java.util.Map"> 
+   
+     select 
+SUBSTR(TO_DATE(SUBSTR(y.payment_date,1,6), 'YYYY-MM'),1,5) as payment_DATE1,
+y.payment_date as payment_DATE2,
+z.payment_code,
+yg.payment_des_name,
+c.department_code as DEPARTMENT_CODE, 
+       c.department_name as DEPARTMENT_NAME, 
+        a.employee_code as EMPLOYEE_CODE, 
+       a.employee_name as EMPLOYEE_NAME,
+       z."basic_SALARY" as BASIC_SALARY,z."position_SALARY" as POSITION_SALARY , z."bonus_SALARY" as BONUS_SALARY
+from employee a,(select 
+                x.payment_code,
+                x.employee_code, 
+                sum(case when x.PAYMENT_RECEIPT_ITEM='기본급' then x.PAYMENT_RECEIPT_PRICE end) as "basic_SALARY", 
+                sum(case when x.PAYMENT_RECEIPT_ITEM='직책수당' then x.PAYMENT_RECEIPT_PRICE end) as "position_SALARY",
+                sum(case when x.PAYMENT_RECEIPT_ITEM='상여급' then x.PAYMENT_RECEIPT_PRICE end) as "bonus_SALARY"               
+                from payment_receipt x
+                
+		<choose>
+			<when test="Ppayment_code == '' or Ppayment_code == null">
+				where x.payment_code = (select max(g.payment_code) from payment_receipt g)
+			</when>
+			<when test="Ppayment_code != '' and Ppayment_code != null">
+				where x.payment_code = #{Ppayment_code}
+			</when>
+		</choose>
+                
+               group by employee_code, payment_code) z,
+                payment y,
+                payment_des yg,
+                department c,
+                employee_work d,
+                site o
+where a.employee_code = z.employee_code
+and c.department_code=d.department_code
+and d.employee_code=a.employee_code
+and o.site_code =  c.site_code
+and z.payment_code=y.payment_code
+and yg.payment_des_code= y.payment_des_code
+<if test="searchSite != '전체' and searchSite!=null and searchSite!=''">
+and o.site_name = #{searchSite}
+</if>
+<if test="DeptList != '전체' and DeptList!=null and DeptList!=''">
+and c.department_name = #{DeptList}
+</if>
+order by c.DEPARTMENT_CODE
+
+	</select>
+
+
+</mapper>

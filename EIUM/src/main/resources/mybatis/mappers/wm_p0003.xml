@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.wm_p0003">
+	<resultMap id="p0003Result" type="WM_P0003VO">
+	    <result property="EMPLOYEE_NAME" column="EMPLOYEE_NAME" />
+		<result property="EMPLOYEE_CODE" column="EMPLOYEE_CODE" />
+		<result property="DEPARTMENT_NAME" column="DEPARTMENT_NAME" />
+	    <result property="DEPARTMENT_CODE" column="DEPARTMENT_CODE" />
+		
+		<result property="POSITION_CODE" column="POSITION_CODE" />
+		<result property="POSITION_NAME" column="POSITION_NAME" />
+		<result property="VACATION_CODE" column="VACATION_CODE" />
+		<result property="VACATION_TYPE" column="VACATION_TYPE" />
+		<result property="VACATION_START_DATE" column="VACATION_START_DATE" />
+		<result property="VACATION_END_DATE" column="VACATION_END_DATE" />
+		<result property="VACATION_APPLY_DATE" column="VACATION_APPLY_DATE" />
+		<result property="BEFORE_VACATION_REMAIN_DATE" column="BEFORE_VACATION_REMAIN_DATE" />
+		<result property="VACATION_REMAIN_DATE" column="VACATION_REMAIN_DATE" />
+		
+	    <result property="SITE_NAME" column="SITE_NAME" />
+	    <result property="SITE_CODE" column="SITE_CODE" />
+		
+		
+	</resultMap>
+	<select id="searchList" resultMap="p0003Result" parameterType="java.util.List">
+      <![CDATA[
+         SELECT vh.vacation_code, e.employee_code, e.employee_name, d.department_name, p.position_name, vh.vacation_type, vh.VACATION_START_DATE, vh.VACATION_END_DATE, vh.VACATION_APPLY_DATE, vh.BEFORE_VACATION_REMAIN_DATE
+         FROM employee e, employee_work ew, department d, position p, vacation_remain vr, vacation_change_history vh, site s
+         WHERE ew.employee_code = e.employee_code
+         and ew.employee_code = vr.employee_code
+         and ew.employee_code = vh.employee_code
+         and ew.department_code = d.department_code
+         and ew.position_code = p.position_code
+         and d.site_code = s.site_code
+      ]]>
+
+    <choose>
+	  <when test="date != null and date !='' ">
+	  and TO_DATE(VACATION_START_DATE, 'YYYY-MM-DD') <![CDATA[>=]]> #{date}
+	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="date2 != null and date2 !='' ">
+	  and TO_DATE(VACATION_END_DATE, 'YYYY-MM-DD') <![CDATA[<=]]> #{date2}
+	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="vacaTYPE != null and vacaTYPE !='' ">
+	  and vacation_type = #{vacaTYPE}
+	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="SiteList != null and SiteList !='' ">
+      and s.site_name=#{SiteList}
+	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="DeptList != null and DeptList !='' ">
+      and d.department_name=#{DeptList}
+	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="Employee_Select.equals('employee_name') and p_text != null and p_text !='' ">
+      and e.employee_name LIKE <![CDATA['%'||#{p_text,jdbcType=VARCHAR}||'%']]>
+	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="Employee_Select.equals('employee_code') and p_text != null and p_text !='' ">
+      and e.employee_code LIKE <![CDATA['%'||#{p_text,jdbcType=VARCHAR}||'%']]>
+	  </when>
+	</choose>
+	
+	<choose>
+		  <when test="access_range == '부서' ">
+      and d.department_code = #{Sdepartment_code}
+      	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="access_range == '사원' ">
+      and e.employee_code = #{Semployee_code}
+	  </when>
+	</choose>
+	
+	order by vh.VACATION_END_DATE DESC
+            
+            
+	</select>
+
+
+</mapper>

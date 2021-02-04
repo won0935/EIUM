@@ -1,0 +1,940 @@
+/* -----------------------------------------------------------------------*/
+/* ----------------- "Main" IBSheet style definition ---------------------*/
+/* -----------------------------------------------------------------------*/
+
+/* Base tags */
+.TM1Image {padding-bottom:256px;}
+.TM1None {display:none;}
+.TM1Section,.TM1SectionFF3, .TM1ChildPart {table-layout:fixed; width:0;}
+.TM1SectionFF3 {border-collapse:collapse; }
+
+/* Sections */
+.TM1MainTable {border:1px solid #1878a2; border-collapse:separate; text-align:left; background:#ffffff; font:12px NanumGothic,Helvetica,AppleGothic,Sans-serif;}
+.TM1FootLeft,.TM1FootMid,.TM1FootRight {border-top:1px solid #f6881f;}
+.TM1HeadLeft,.TM1BodyLeft,.TM1FootLeft,.TM1HScrollLeft {border-right:1px solid #c7c7c7;}    
+.TM1HeadRight,.TM1BodyRight,.TM1FootRight,.TM1HScrollRight {border-left:1px solid #c7c7c7;} 
+.TM1VScroll {padding-top:1px; padding-bottom:1px;}
+.TM1HScrollLeft,.TM1HScrollMid,.TM1HScrollLeftResizeTouch,.TM1HScrollRightResizeTouch {padding-left:1px; padding-right:1px; cursor:default;}
+.TM1HScrollLeftResizeTouch {border-right:2px solid #000000; padding-right:18px; background:#F4F4F4;}
+.TM1HScrollRightResizeTouch {border-left:2px solid #000000; padding-left:18px; background:#F4F4F4;}
+.TM1HScrollMidLeftResizeTouch {border-left:1px solid #000000; padding-left:19px; background:#F4F4F4;}
+.TM1HScrollMidRightResizeTouch {border-right:1px solid #000000; padding-right:19px; background:#F4F4F4;}
+.TM1HScrollWide {padding-right:1px;}
+.TM1HScrollHidden {overflow:visible !important; background:#F4F4F4; cursor:default; }
+.TM1XScroll {background:#F4F4F4;}
+.TM1Page {border-top:0px solid #E0E0E0;}
+
+/* Rows */
+.TM1SpaceRowHeight{height:21px; }
+.TM1RowHeight     {height:18px; }
+.TM1RowHeightTouch{height:22px; }
+.TM1SpaceMargin   {margin:0; }
+.TM1SpaceMarginTouch{margin:0; }
+.TM1SpaceRow {background:#ffffff; white-space:nowrap; overflow:hidden; padding-top:2px; padding-bottom:2px; border-bottom:1px solid #e0e0ff;}
+.TM1GroupRow,.TM1SearchRow,.TM1PagerRow 
+{background-color:#0171bc; white-space:nowrap; padding-top:1px; padding-bottom:1px; overflow:hidden; border-bottom:1px solid #99BCE8;} 
+.TM1GroupRow,.TM1PagerRow {background-position:0 -1801px; padding-top: 4px; padding-bottom: 4px}
+.TM1FillRow {background:#ffffff; }
+.TM1RowAbove,.TM1RowBelow {border-left:1px solid #9cb6c8; border-right:1px solid #9cb6c8;}
+.TM1RowAbove { margin-top:3px; overflow:hidden;}
+.TM1RowBelow {margin-bottom:3px; overflow:hidden;}
+.TM1CountRowTop {background-color:#fdfdfd; white-space:nowrap;padding-top:1px; padding-bottom:1px; overflow:hidden; border-bottom:1px solid #c7c7c7;}
+.TM1CountRowBottom {background-color:#fdfdfd; white-space:nowrap; padding-top:1px; padding-bottom:1px; overflow:hidden; border-top:1px solid #c7c7c7;}
+.TM1CountFont { font-size:/*IBFS*/12px; font-family:/*IBFN*/"NanumGothic", "Helvetica", "AppleGothic", sans-serif; text-shadow: 0 0 1px rgba(0,0,0,0.2); color:#666666; }
+.TM1NoDataRow {padding-top:0px; padding-bottom:0px; background-color:#ffffff; color:#000000;}
+
+/* Cell */
+.TM1Cell,.TM1CellPanel,.TM1CellFilter,.TM1HeaderDrag,.TM1HeaderGroup 
+ {border-bottom:1px solid #D6D6D6; border-right:1px solid #D6D6D6; border-left:0; border-top:0;vertical-align:top; overflow:hidden; height:auto; font-size:/*IBFS*/12px; font-family:/*IBFN*/"NanumGothic", "Helvetica", "AppleGothic", sans-serif;}
+
+.TM1CellHeader,.TM1CellHeaderEmpty
+ {vertical-align:middle; overflow:hidden;height:auto; background-color:#1293cd; padding-top:1px; border-right:1px solid #1878a2; border-bottom:1px solid #1878a2;} 
+
+.TM1HeaderGroup, .TM1HeaderGroupCustom { vertical-align: middle; height:20px; text-align: center; }
+
+.TM1CellBorderFF3 {border-left:0;border-top:0;} 
+.TM1CellSpace {vertical-align:middle;}
+/*.TM1CellSpace {vertical-align:top; padding-top:5px !important; }*/
+.TM1CellSpacePanel,.TM1CellSpaceBool {vertical-align:top; }
+.TM1CellSpaceRadio { padding-top:3px !important;}
+.TM1CellSpaceEditButton { vertical-align:top; padding-top:4px !important; border:1px solid #000000 !important; background-color:#ffffff !important; }
+.TM1CellSpaceButtonButton { vertical-align:top; }
+.TM1CellSpaceButton { vertical-align:top; padding-top:5px !important; white-space:nowrap; }
+.TM1CellSpaceAbove { border-top:1px solid #9cb6c8; }
+.TM1CellSpaceBelow { border-bottom:1px solid #9cb6c8; }
+.TM1CellPanel,.TM1CellHeaderPanel{ white-space:nowrap; } 
+.TM1CellHidden { background:transparent!important; border-top:none!important; border-bottom:none!important; }
+.TM1HeaderButton { padding:0; }
+.TM1HeaderGroup {background: #FDFDFD; color:#505050; font-weight: bold; border-radius: 5px; margin:0 2px 0 2px; line-height:20px;}
+.TM1HeaderGroupFocus {background-color: #C0C0A0; }
+.TM1HeaderGroupDelete {background-color: #F0F0E0; color: #F0F0E0; }
+.TM1HeaderGroupCustom {color:#fff; padding-left:5px; cursor:default; white-space:nowrap; }
+.TM1HeaderDrag {background: #9FB9E9; cursor:default; overflow:hidden; }
+.TM1HeaderFocus {background: #9FB9E9;}
+.TM1Panel {padding-left:80px;}
+.TM1NoTreeLines1 {text-align:right;}
+.TM1NoTreeLines2 {text-align:right; vertical-align:middle; padding-top:0;}
+.TM1Tree {padding-top:0; white-space:nowrap;}
+.TM1SpannedTree {vertical-align:top;}
+.TM1CellClassInner {padding-top:0; padding-bottom:0;}
+
+/* Inside cell */
+.TM1Status,.TM1Seq,.TM1Popup,.TM1PopupEdit,.TM1Html,.TM1Text,.TM1Lines,.TM1Pass,.TM1Int,.TM1Float,.TM1Date,.TM1Number,
+.TM1Link,.TM1Img,.TM1Radio,.TM1RadioText,.TM1List,.TM1Enum,.TM1Abs,.TM1PagerEdit,.TM1User,.TM1Result,.TM1Btn 
+ {white-space:nowrap;vertical-align: middle;padding:5px 6px;}  /*IH*/
+.TM1Int,.TM1Float { text-align:right; }
+.TM1Lines,.TM1Radio,.TM1Html,.TM1List { white-space:normal; }   
+.TM1Img,.TM1Html {padding:0; } 
+.TM1Radio,.TM1RadioText { padding:0; font-weight:normal !important; }
+.TM1Bool { text-align:center; }
+.TM1Icon { background-repeat:no-repeat; }
+.TM1HiddenSpace { display:none; }
+
+
+.TM1HeaderText {color: #ffffff; vertical-align:middle; font-size:/*IBFS*/12px; text-shadow: 0 0 1px rgba(0,0,0,0.2); font-weight:600; font-family:/*IBFN*/"NanumGothic", "Helvetica", "AppleGothic", sans-serif;}
+.TM1Abs { padding:0; }
+.TM1User { padding:0; }
+.TM1PagerEdit { text-align:right; padding-top:5px; padding:0 !important;}
+.TM1PagerTotal { text-align:left; padding-top:0px; }
+.TM1EditPager { /*background-color:#ffffff; border:1px solid gray;*/font-size:/*IBFS*/12px; font-family:/*IBFN*/"NanumGothic", "Helvetica", "AppleGothic", sans-serif;}
+.TM1MergedCellH {padding:0 0 5px 0}
+.TM1MergedCellV {padding:0 0 1px 0}
+
+.TM1Wrap0 { white-space:nowrap; }
+.TM1Wrap1 { white-space:normal; }
+.TM1Ellipsis { white-space:nowrap; text-overflow:ellipsis;}
+
+.TM1AlignLeft { text-align:left; }
+.TM1AlignCenter { text-align:center; }
+.TM1AlignJustify { text-align:center; }
+.TM1AlignRight { text-align:right;}
+
+.TM1ValignTop { vertical-align:top; }
+.TM1ValignMiddle { vertical-align:middle; }
+.TM1ValignBottom { vertical-align:bottom;}
+
+.TM1CellButtonBase {
+    color: #fff;
+    display: inline-block;
+    padding: 2px 10px 3px;
+    text-decoration: none;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    border-bottom: 1px solid rgba(0,0,0,0.25);
+    line-height: 1;
+    border:0;
+    font-family: "Dotum";
+    font-weight: bold;
+    text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+    height: 20px;
+}
+.TM1CellButton {
+    cursor: pointer;
+    background-color: #5689b9;
+}
+.TM1CellButton0 {
+    cursor:default;
+    background-color: #c8c8c8;
+}
+.TM1CellButton:hover { background-color: #3a6ea0; }
+.TM1CellButton0:hover {}
+
+/* Tree Img with lines */
+.TM1000,.TM1010,.TM1001,.TM1011,.TM1100,.TM1110,.TM1101,.TM1111, 
+.TM1000T,.TM1010T,.TM1001T,.TM1011T,.TM1100T,.TM1110T,.TM1101T,.TM1111T,
+.TM100,.TM101,.TM110,.TM111,.TM100T,.TM101T,.TM110T,.TM111T,
+.TM10T,.TM11T,.TM10TL,.TM11TL,.TM10C,.TM11C,.TM10CL,.TM11CL,.TM10E,.TM11E,.TM10EL,.TM11EL,
+.TM10,.TM11,.TM1T,.TM1TL,.TM1C,.TM1CL,.TM1E,.TM1EL,.TM1D0,.TM1D1,.TM1D2,.TM1D3,.TM1D4,.TM1D0L,.TM1D1L,.TM1D2L,.TM1D3L,.TM1D4L 
+{background-image:url(Tree.gif); vertical-align:top; background-size: 2000px;}
+
+u.TM1000,u.TM1010,u.TM1001,u.TM1011,u.TM1100,u.TM1110,u.TM1101,u.TM1111 { padding-left:39px; }
+u.TM1000T,u.TM1010T,u.TM1001T,u.TM1011T,u.TM1100T,u.TM1110T,u.TM1101T,u.TM1111T { padding-left:60px; }
+u.TM100,u.TM101,u.TM110,u.TM111 { padding-left:26px; }   
+u.TM100T,u.TM101T,u.TM110T,u.TM111T { padding-left:47px; }   
+u.TM10T,u.TM11T,u.TM10TL,u.TM11TL,u.TM10C,u.TM11C,u.TM10CL,u.TM11CL,u.TM10E,u.TM11E,u.TM10EL,u.TM11EL { padding-left:34px; }   
+u.TM10,u.TM11 { padding-left:13px; }
+u.TM1T,u.TM1TL,u.TM1C,u.TM1CL,u.TM1E,u.TM1EL,u.TM1D0,u.TM1D1,u.TM1D2,u.TM1D3,u.TM1D4,u.TM1D0L,u.TM1D1L,u.TM1D2L,u.TM1D3L,u.TM1D4L { padding-left:21px; }   
+
+.TM1000,.TM1000T{ background-position:-24px 0px; }
+.TM1010,.TM1010T{ background-position:-136px 0; }
+.TM1001,.TM1001T{ background-position:-272px 0; }
+.TM1011,.TM1011T{ background-position:-392px 0; }
+.TM1100,.TM1100T{ background-position:-512px 0; }
+.TM1110,.TM1110T{ background-position:-640px 0; }
+.TM1101,.TM1101T{ background-position:-768px 0; }
+.TM1111,.TM1111T{ background-position:-896px 0; }
+.TM100,.TM100T  { background-position:-37px 0;  }
+.TM110,.TM110T  { background-position:-149px 0; }
+.TM101,.TM101T  { background-position:-285px 0; }
+.TM111,.TM111T  { background-position:-405px 0; }
+.TM10,.TM10T    { background-position:-50px 0;  }
+.TM11,.TM11T    { background-position:-298px 0; }
+.TM1T          { background-position:-63px 0;  }
+.TM10TL        { background-position:-1032px 0; }
+.TM11TL        { background-position:-1088px 0; }
+.TM10C         { background-position:-1160px 0; }
+.TM11C         { background-position:-1216px 0; }
+.TM10CL        { background-position:-1288px 0; }
+.TM11CL        { background-position:-1344px 0; }
+.TM10E         { background-position:-1416px 0; }
+.TM11E         { background-position:-1472px 0; }
+.TM10EL        { background-position:-1544px 0; }
+.TM11EL        { background-position:-1600px 0; }
+.TM1TL         { background-position:-1045px 0; }
+.TM1C          { background-position:-1173px 0; }
+.TM1CL         { background-position:-1301px 0; }
+.TM1E          { background-position:-1429px 0; }
+.TM1EL         { background-position:-1557px 0; }
+.TM1D0         { background-position:-1664px 0; }
+.TM1D1         { background-position:-1696px 0; }
+.TM1D2         { background-position:-1728px 0; }
+.TM1D3         { background-position:-1760px 0; }
+.TM1D0L        { background-position:-1792px 0; }
+.TM1D1L        { background-position:-1824px 0; }
+.TM1D2L        { background-position:-1856px 0; }
+.TM1D3L        { background-position:-1888px 0; }
+.TM1D4         { background-position:-1920px 0; }
+.TM1D4L        { background-position:-1952px 0; }
+
+/* Tree Img without lines  */
+.TM1ND0,.TM1ND1,.TM1ND2,.TM1ND3,.TM1ND4,.TM1NC,.TM1NE,.TM1NCR,.TM1NER {background-image:url(TreeN.png); background-repeat:no-repeat; vertical-align:top; }
+u.TM1ND0,u.TM1ND1,u.TM1ND2,u.TM1ND3,u.TM1ND4,u.TM1NC,u.TM1NE,u.TM1NCR,u.TM1NER { padding-left:20px; }
+.TM1ND0 { background-position: -6px 0; }
+.TM1ND1 { background-position: -56px 0; }
+.TM1ND2 { background-position: -106px 0; }
+.TM1ND3 { background-position: -156px 0; }
+.TM1ND4 { background-position: -206px 0; }
+.TM1NC { background-position:right -50px;}
+.TM1NE { background-position:right -2000px;}
+.TM1NCR { background-position:-255px -50px;}
+.TM1NER { background-position:-255px -2000px;}
+u.TM1NL { padding-left:21px; }
+
+/* Tree Node Image */
+.TM1TreeNodeIcon0, .TM1TreeNodeIcon1, .TM1TreeNodeIcon2 { background-position:2px 4px; background-repeat:no-repeat; background-size:16px; }
+.TM1TreeNodeIcon0 { background-image:url(treenode0.png); }
+.TM1TreeNodeIcon1 { background-image:url(treenode1.png); }
+.TM1TreeNodeIcon2 { background-image:url(treenode2.png); }
+
+/* Cell images */
+.TM1IconLink { text-decoration:none; width:1000px; display:inline-block; }
+.TM1IconLeft,.TM1IconRight,.TM1IconCenter {  background-repeat:no-repeat; }
+.TM1IconLeft { background-position:left 0; padding-left:20px !important; }
+.TM1IconRight { background-position:right 0; padding-right:20px !important; }
+.TM1IconCenter { background-position:center 0; }
+.TM1PopupRight { background:url(popup.png) no-repeat 0px center; background-size:14px; }
+.TM1ExpandLeft,.TM1CollapseLeft,.TM1ExpandHeaderLeft,.TM1CollapseHeaderLeft { padding-left:20px!important; }
+.TM1DateRight{ padding-right:20px!important;}
+u.TM1DateRight,u.TM1PopupRight { padding-right:0!important; padding-left:17px; }
+.TM1DateRight {background:url(calendar.png) no-repeat 0px center; background-size:14px;}
+.TM1EnumRight { background:url(combo.png) no-repeat 0px center; background-size:16px;}
+u.TM1EnumRight {padding-right:0; padding-left:17px}
+.TM1ExpandLeft { background:url(ic_plus.png) no-repeat 3px center; background-size: 12px; padding:2px 0 0  18px; _padding:0 0 0 18px }
+.TM1CollapseLeft { background:url(ic_minus.png) no-repeat 3px center; background-size: 12px; padding:2px 0 0  18px; _padding:0 0 0 18px }
+
+.TM1Radio0Left,.TM1Radio1Left,.TM1Radio2Left,.TM1Radio3Left,.TM1RadioRO0Left,.TM1RadioRO1Left,.TM1RadioRO2Left,.TM1RadioRO3Left { padding-left:17px; padding-right:10px; line-height:17px; background-repeat:no-repeat; background-position:3px 50%;}
+.TM1Radio0Right,.TM1Radio1Right,.TM1Radio2Right,.TM1Radio3Right,.TM1RadioRO0Right,.TM1RadioRO1Right,.TM1RadioRO2Right,.TM1RadioRO3Right {line-height:17px; padding-right:17px; padding-left:10px; background-repeat:no-repeat; background-position:3px 50%;}
+.TM1Radio0Left  { background-image:url(chk2.png); background-size:14px;} 
+.TM1RadioRO0Left  { background-image:url(chk2R.png); background-size:14px;} 
+.TM1Radio1Left  { background-image:url(chk3.png); background-size:14px;} 
+.TM1RadioRO1Left  { background-image:url(chk3R.png); background-size:14px;} 
+.TM1Radio2Left  { background-image:url(chk0.png); background-size:14px;}
+.TM1RadioRO2Left  { background-image:url(chk0R.png); background-size:14px;}
+.TM1Radio3Left  { background-image:url(chk1.png); background-size:14px;}
+.TM1RadioRO3Left  { background-image:url(chk1R.png); background-size:14px;}
+.TM1Radio0Right { background-image:url(chk2.png); background-size:14px;} 
+.TM1RadioRO0Right { background-image:url(chk2R.png); background-size:14px;} 
+.TM1Radio1Right { background-image:url(chk3.png); background-size:14px;} 
+.TM1RadioRO1Right { background-image:url(chk3R.png); background-size:14px;} 
+.TM1Radio2Right { background-image:url(chk0.png); background-size:14px;}
+.TM1RadioRO2Right { background-image:url(chk0R.png); background-size:14px;}
+.TM1Radio3Right { background-image:url(chk1.png); background-size:14px;}
+.TM1RadioRO3Right { background-image:url(chk1R.png); background-size:14px;}
+
+u.TM1Filter0,u.TM1Filter1 { padding-left:16px; }
+.TM1Bool0,.TM1Bool0RO,.TM1Bool1,.TM1Bool1RO,.TM1Bool2,.TM1Bool2RO,.TM1Bool3,.TM1Bool3RO {background-position:center center; background-repeat:no-repeat;}
+
+.TM1Check0Left, .TM1Check1Left, .TM1CheckRO0Left, .TM1CheckRO1Left { background-repeat:no-repeat; padding-left:20px!important; background-position:3px 50%;}
+.TM1Check0Left   { background-image:url(chk0.png); background-size: 14px;}
+.TM1Check1Left   { background-image:url(chk1.png); background-size: 14px;}
+.TM1CheckRO0Left { background-image:url(chk0R.png); background-size: 14px;}
+.TM1CheckRO1Left { background-image:url(chk1R.png); background-size: 14px;}
+
+.TM1Bool0   { background-image:url(chk0.png); background-size: 14px; }
+.TM1Bool0RO { background-image:url(chk0R.png); background-size: 14px; }
+
+.TM1Bool1   { background-image:url(chk1.png); background-size: 14px; }
+.TM1Bool1RO { background-image:url(chk1R.png); background-size: 14px; }
+
+.TM1Bool2   { background-image:url(chk2.png); background-size: 14px; }
+.TM1Bool2RO { background-image:url(chk2R.png); background-size: 14px; }
+
+.TM1Bool3   { background-image:url(chk3.png); background-size: 14px; }
+.TM1Bool3RO { background-image:url(chk3R.png); background-size: 14px; }
+
+/* Filter images  */
+.TM1Filter0Left,.TM1Filter1Left,.TM1Filter2Left,.TM1Filter3Left,.TM1Filter4Left,.TM1Filter5Left,.TM1Filter6Left,.TM1Filter7Left,
+.TM1Filter8Left,.TM1Filter9Left,.TM1Filter10Left,.TM1Filter11Left,.TM1Filter12Left {width:100%; height:18px; padding-left:18px;}
+
+.TM1Filter0Left,.TM1Filter0Menu   { background:url(filter0.png) no-repeat left center; background-size: 18px;}   
+.TM1Filter1Left,.TM1Filter1Menu   { background:url(filter1.png) no-repeat left center; background-size: 18px;}
+.TM1Filter2Left,.TM1Filter2Menu   { background:url(filter2.png) no-repeat left center; background-size: 18px;}
+.TM1Filter3Left,.TM1Filter3Menu   { background:url(filter3.png) no-repeat left center; background-size: 18px;}
+.TM1Filter4Left,.TM1Filter4Menu   { background:url(filter4.png) no-repeat left center; background-size: 18px;}
+.TM1Filter5Left,.TM1Filter5Menu   { background:url(filter5.png) no-repeat left center; background-size: 18px;}   
+.TM1Filter6Left,.TM1Filter6Menu   { background:url(filter6.png) no-repeat left center; background-size: 18px;}
+.TM1Filter7Left,.TM1Filter7Menu   { background:url(filter7.png) no-repeat left center; background-size: 18px;}
+.TM1Filter8Left,.TM1Filter8Menu   { background:url(filter8.png) no-repeat left center; background-size: 18px;}
+.TM1Filter9Left,.TM1Filter9Menu   { background:url(filter9.png) no-repeat left center; background-size: 18px;}
+.TM1Filter10Left,.TM1Filter10Menu { background:url(filter10.png) no-repeat left center; background-size: 18px;}
+.TM1Filter11Left,.TM1Filter11Menu { background:url(filter11.png) no-repeat left center; background-size: 18px;}
+.TM1Filter12Left,.TM1Filter12Menu { background:url(filter12.png) no-repeat left center; background-size: 18px;}
+
+.TM1Filter0Menu,.TM1Filter1Menu,.TM1Filter2Menu,.TM1Filter3Menu,.TM1Filter4Menu,.TM1Filter5Menu,.TM1Filter6Menu,.TM1Filter7Menu,.TM1Filter8Menu,.TM1Filter9Menu,
+.TM1Filter10Menu,.TM1Filter11Menu,.TM1Filter12Menu {width:18px; height:18px; overflow:hidden; margin: 4px 0 0 -1px;}
+.TM1FilterMenuHeader { padding-left:2px; border-bottom:0 !important; } 
+
+/*  Keyfield Image */
+.TM1Keyfield {background-image:url(keyfield.png); background-size: 7px; display:inline-block; vertical-align:middle; background-repeat: no-repeat; background-position:center 1px; padding: 0 2px 0 4px; line-height: 9px;}
+
+/* TM1Keyfield : hack OP*/
+ @media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) 
+ { .TM1Keyfield{  background-position: center 3px;padding: 0 2px 0 4px; line-height: 9px; }}
+
+/* CheckBox Header Image */
+.TM1CheckHeader0 {background-image:url(chk0.png); background-size: 14px; display:inline-block; vertical-align:middle; background-repeat:no-repeat; padding:2px 7px 0 6px; margin:0 2px 0 0;}
+
+/* TM1CheckHeader0 : hack CR,SF*/
+@media screen and (-webkit-min-device-pixel-ratio:0) 
+{.TM1CheckHeader0{background-size: 14px; padding: 2px 6px 0 6px; }}
+
+/* TM1CheckHeader0 : hack FF*/
+.TM1CheckHeader0, x:-moz-any-link, x:default { background-size: 14px; padding: 2px 6px 0 6px; }
+
+/* TM1CheckHeader0 : hack OP*/
+ @media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) 
+ { .TM1CheckHeader0{background-size: 14px; padding:1px  17px 0 0; }}
+
+.TM1CheckHeader1 {background-image:url(chk1.png); background-size: 14px; display:inline-block; vertical-align:middle; background-repeat:no-repeat; padding:2px 6px 0 6px; margin:0 2px 0 0}
+
+/* TM1CheckHeader1 : hack CR,SF*/
+@media screen and (-webkit-min-device-pixel-ratio:0) 
+{.TM1CheckHeader1{background-size: 14px; padding: 2px 6px 0 6px; }}
+
+/* TM1CheckHeader1 : hack FF*/
+.TM1CheckHeader1, x:-moz-any-link, x:default { background-size: 14px; padding: 2px 6px 0 6px; }
+
+/* TM1CheckHeader1 : hack OP*/
+ @media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) 
+ { .TM1CheckHeader1 { background-size: 14px; padding:1px  17px 0 0;  }}
+
+/* Sort images */
+.TM1Sort {position:absolute; right:2px;}
+
+.TM1Sort1 { background: url(sort1.png) no-repeat right center; background-size: 8px; width:10px; }
+.TM1Sort2 { background: url(sort2.png) no-repeat right center; background-size: 8px; width:10px; }
+.TM1Sort3 { background: url(sort3.png) no-repeat right center; background-size: 8px; width:10px; }
+.TM1Sort4 { background: url(sort4.png) no-repeat right center; background-size: 8px; width:10px; }
+.TM1Sort5 { background: url(sort5.png) no-repeat right center; background-size: 8px; width:10px; }
+.TM1Sort6 { background: url(sort6.png) no-repeat right center; background-size: 8px; width:10px; }
+
+/* State classes */
+/* The colors must be set by numbers not by names */
+.TM1ColorDefault  { background-color:#FFFFFF;}
+.TM1ColorNoFocus  { background-color:#E8F4FF;}
+.TM1ColorReadOnly { background-color:#F2F2F2;}
+.TM1ColorPreview  { background-color:#FFFFFF;}
+.TM1ColorAlternate{ background-color:#f3fbff;}
+.TM1ColorSelected { background-color:/*#FFFF80*/#aadbff; }
+
+.TM1ColorFilter {background-color:#FFFFFF;}
+
+/*//.TM1ClassSelected { }*/
+.TM1ColorError   { background-color:#FF6969; }
+.TM1ColorDeleted { background-color:#FFCDCD; }
+.TM1ClassDeleted { font-style:italic; }
+.TM1ColorAdded   { background-color:#CDFFCD; }
+.TM1ClassAdded   { font-weight:bold; }
+.TM1ColorMoved1  { background-color:#FFFFFF; }
+.TM1ColorMoved2  { background-color:#D7EBEB; }
+.TM1ColorChanged { background-color:#EBEBFF; }
+.TM1ColorChangedCell { background-color:#E1E1FF; }
+.TM1ClassChangedCell { font-weight:bold; }
+.TM1ColorMaxChildren { background-color:#FFFFF0; }
+.TM1ColorDetail { background-color:#FFF0FF; }
+.TM1ColorDetailSelected { background-color:#FFF0E0; }
+.TM1ColorDragged{ background-color:#E0E0C0; }
+.TM1ColorFound1 { background-color:#FF87FF; }
+.TM1ColorFound2 { background-color:#FFC387; }
+.TM1ColorFound3 { background-color:#87FF87; }
+
+.TM1ColorHovered             { background-color:#f4edfe; }
+.TM1ColorHoveredCell         { background-color:#d7c6ee; }
+.TM1ColorHoveredCellReadOnly { background-color:#d7c6ee; }
+.TM1ColorHoveredCellSpace    { background-color:#FFFFFF; }
+.TM1ColorHoveredCellSpaceEdit{ background-color:#C0C0FF; }
+.TM1ColorHoveredCellSpaceBool{ background-color:#FFFFFF; }
+.TM1ColorHoveredCellButton   { background-color:#d0dde7; }
+.TM1ColorHoveredCellButton1  { background-color:#add4f5; }
+
+.TM1ColorFocused             { background-color:#e9f5d0; }
+.TM1ColorFocusedCell         { background-color:#FFFFFE; }
+.TM1ColorFocusedCellSpace    { background-color:#E6E6E6; }
+.TM1ColorFocusedCellButton   { background-color:#BCD; }
+.TM1ColorFocusedCellHeader   { background-color:#FFFFFE; }
+.TM1ColorFocusedCellPanel    { background-color:#FFFFFE; }
+.TM1ColorEditedCell          { background-color:#FFFFFF; }
+.TM1ColorViewedCell          { background-color:#FFFFFF; }
+.TM1ColorMultiRowFocused     { background-color:#e9f5d0; }
+
+/* Hover, focus, edit cursors */
+.TM1HoverRowBackground 	{ opacity:0.2; filter:alpha(opacity=20); background:#8238f0; } /* 일반모드에서의 Hover Row의 Background*/
+.TM1HoverRowBorder		{ z-index:0; border-top:1px solid #bda7dc; border-bottom:1px solid #bda7dc; } /* 일반모드에서의 Hover Row의 Border*/
+.TM1HoverCellBorder 		{ z-index:0; border:1px solid #bda7dc; cursor:default; } /* 일반모드에서의 Hover Cell의 Border*/
+.TM1FocusRowBackground   { opacity:0.1; filter:alpha(opacity=20); background:/*IBSB*/#009788; } /* <-- Sheet : Selected Row Background */
+.TM1FocusRowBorder       { z-index:0; border:1px solid /*IBSB*/#009788; } /* <-- Sheet : Selected Row Border */
+.TM1FocusCellBorder      { z-index:0; border:2px solid #009788;} /* <-- Sheet : Selected Cell Border */
+.TM1FocusCellSpaceBorder,.TM1EditCellSpaceBorder { z-index:4; }
+.TM1EditCellBorder       { z-index:0; border:2px solid #009788; outline: 0;
+							-webkit-box-shadow: inset 0 1px 1px #009788, 0 0 10px #009788;/*-webkit-focus-ring-color;*/
+							-moz-box-shadow: inset 0 1px 1px #009788, 0 0 10px #009788;
+							box-shadow: 0 0 10px rgba(0, 136, 204, 1);
+							-moz-outline-offset: 0;
+							text-rendering: optimizeLegibility;
+							-webkit-font-smoothing: antialiased;  }    /*<-- Sheet : CellEdit Border */
+.TM1EditCellInput        { position:relative; overflow:hidden; z-index:2; } 
+/* IH */
+.TM1CursorBackground, .TM1CursorBorderLeft ,.TM1CursorBorderRight,.TM1CursorBorderTop,.TM1CursorBorderBottom 
+ {position:relative;overflow:hidden;}
+
+.TM1CursorBackground  {border:none; padding:0;}
+.TM1CursorBorderLeft  {padding-right:0; padding-top:0; padding-bottom:0; border-right:none; border-top:none; border-bottom:none;  width:0; height:0; }
+.TM1CursorBorderRight {padding-left:0; padding-top:0; padding-bottom:0; border-left:none; border-top:none; border-bottom:none;  width:0; height:0;}
+.TM1CursorBorderTop   {padding-bottom:0; padding-left:0; padding-right:0; border-bottom:none; border-left:none; border-right:none;  width:0; height:0;}
+.TM1CursorBorderBottom{padding-top:0; padding-left:0; padding-right:0; border-top:none; border-left:none; border-right:none; width:0; height:0;}
+
+/* Cell edges */
+.TM1NoLeft { border-left:0; }
+.TM1NoRight { border-right:0; }
+
+/* Dragging */
+.TM1MouseObject { opacity:0.5; filter:alpha(opacity=50); z-index:300; overflow:hidden;}
+.TM1DragObject {z-index:300; margin-left:10px; margin-top:10px; padding-left:3px; padding-right:3px;background:#E4E5F0 ; border:1px solid #777;}
+.TM1UserDragObject {z-index:300; margin-left:10px; margin-top:10px;}
+.TM1DragColInsideTop,.TM1DragColInsideBottom,.TM1DragColOutsideTop,.TM1DragColOutsideBottom{position:absolute;width:10px; height:11px; overflow:hidden; z-index:258;}
+.TM1DragColInsideTop     {background:url(in_top.gif) no-repeat;}     
+.TM1DragColInsideBottom  {background:url(in_bottom.gif) no-repeat;}  
+.TM1DragColOutsideTop    {background:url(out_top.gif) no-repeat;}    
+.TM1DragColOutsideBottom {background:url(out_bottom.gif) no-repeat;}  
+
+/* Messages */
+.TM1Disabled{position:absolute; z-index:264; background:#ffffff; opacity:0.5; filter:alpha(opacity=50); } 
+.TM1Process {position: absolute; left:0; top:0; background:#E2F0FF; border:1px solid #777; white-space:nowrap; text-align:center; visibility:hidden; z-index:266;}
+.TM1Message {background:#E2F0FF; border:1px solid #000000; padding:10px; white-space:nowrap; text-align:center;
+             position: absolute; left:0; top:0; visibility:hidden; z-index:266;}
+.TM1MessageShadow 
+{display:none; position:absolute; margin-left:3px; margin-top:3px; z-index:265;background:#888; opacity:0.5; filter:alpha(opacity=50); left:0; top:0; visibility:hidden;}
+      
+/* Other */
+/* !!! No .TM1 style prefix here !!! */
+.GridTmpTag { position:absolute; left:5px; top:5px; visibility:hidden; }
+
+/* Popup menus */
+.TM1MenuMain  {position:absolute;left:0;top:0; z-index:258;}
+.TM1MenuOuter {overflow:hidden; background:#fff; margin:2px; margin-left:-2px; margin-top:1px; border:1px solid #92999E;}
+.TM1MenuHeader{overflow:hidden; position:absolute; z-index:0;border:0px solid #b0b0c0; background:#fff; cursor:pointer; _cursor:hand;}
+.TM1MenuHead {color:#15498B; cursor:pointer; text-align:left; font-weight:bold; padding-top:5px; padding-bottom:4px;
+    background: #fdfdfd; /* Old browsers */
+    background: -moz-linear-gradient(top,  #fdfdfd 0%, #99bce8 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fdfdfd), color-stop(100%,#99bce8)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #fdfdfd 0%,#99bce8 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #fdfdfd 0%,#99bce8 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #fdfdfd 0%,#99bce8 100%); /* IE10+ */
+    background: linear-gradient(top,  #fdfdfd 0%,#99bce8 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdfdfd', endColorstr='#99bce8',GradientType=0 ); /* IE6-9 */
+}
+.TM1MenuClose {float:right!important; width:14px; cursor:pointer; _cursor:hand; display:none;}
+.TM1MenuBody {cursor:default; }
+.TM1MenuShadow {position:absolute;margin:3px 0 0 3px;z-index:0;display:none; background-color:#888; opacity:0.5; filter:alpha(opacity=50);}
+.TM1MenuCheckedIconRight {padding-right:17px; background:url(chk1.png) no-repeat 96% center; background-size: 16px;}
+.TM1MenuUncheckedIconRight { padding-right:17px;background:url(chk0.png) no-repeat 96% center ; background-size: 16px;}
+
+.TM1MenuCursorIcon {background-image:url(d_gray_right.gif); background-repeat:no-repeat; background-position: 3px center;_background-color:#fff}
+.TM1MenuHoverIcon {background-image:url(d-right.png); background-repeat:no-repeat; background-size: 5px; background-position: 3px center; _background-color:#ffeeaa }   
+
+.TM1MenuNextIcon { padding-right:10px; }
+.TM1MenuNextIconRtl { padding-left:10px; }
+
+.TM1MenuItemText,.TM1MenuItemIcon,.TM1MenuEnum,.TM1MenuEnumHeader,.TM1MenuEdit,.TM1FilterMenuItemText 
+{white-space:nowrap; overflow:hidden; vertical-align: middle; padding:2px 0 2px 0; font-size:/*IBFS*/12px; font-family:/*IBFN*/"NanumGothic", "Helvetica", "AppleGothic", sans-serif;}
+.TM1MenuItemDisabled {opacity:0.50; filter:alpha(opacity=30); overflow:hidden; }
+.TM1MenuLevel {color:blue;text-align:center; }  
+.TM1MenuEnumParent,.TM1MenuEditParent {padding-left:5px; padding-right:2px}
+.TM1MenuItemIcon {background-repeat:no-repeat;}
+.TM1MenuEnum {border:1px solid #DDD; border-top:1px solid #666; border-left:1px solid #666; padding-left:15px; overflow:hidden;}
+.TM1MenuEnumHeader  {padding:1px 0 2px 16px; cursor:default; } 
+.TM1MenuEdit{border:1px solid #DDD; border-top:1px solid #666; border-left:1px solid #666; background:white; overflow:hidden;white-space:nowrap;
+  padding-left:2px; padding-right:2px;}
+.TM1MenuEditInput,.TM1MenuEditTextarea {margin:0;padding:0;border:0; background:#FDD;_margin:-1px; _padding-right:1px; _padding_left:1px; }   
+.TM1MenuEditTextarea { line-height:13px;  }   
+.TM1MenuEditInt,.TM1MenuEditFloat,.TM1MenuEditDate { text-align:right; } 
+.TM1MenuEditMulti { white-space:normal; }
+.TM1MenuItem {background-color:#ffffff;padding:2px;}  
+.TM1MenuItemHover {background-color:#ffeeaa; border:1px solid #aaaadd;margin:0 1px; padding:1px 0;}
+.TM1MenuFocusHover {margin:1px; background-color:#CAE1F3; border:1px solid #000000;}
+.TM1MenuFocus      {margin:1px; background-color:#CAE1F3; border:1px solid #aaaadd;}
+.TM1MenuSeparator {margin:1px 3px 0 3px; height:1px; border-top:1px solid #aaaadd; overflow:hidden;}
+.TM1MenuCaption {padding:2px; background:#ffffff; color:blue; text-align:center;}
+.TM1MenuVSeparator { border-right:1px solid #DDD; }
+.TM1MenuFoot { border-top:none; text-align:center; white-space:nowrap; }
+.TM1MenuButton {font-size:11px;background:#dcecf8; text-align:center; border:1px solid #8a8fb5;margin:5px 2px 4px 2px;padding:0;white-space:nowrap;width:48px;} 
+.TM1MenuButtonHover { background:#ffeeaa; border:1px solid #aaaadd; }
+
+.TM1EnumMenuItem {background-color:#ffffff;padding:2px;padding-top:0px;padding-bottom:0px;}  
+.TM1EnumMenuFocus      {margin:1px; background-color:rgba(0,136,204,0.2); border:1px solid #2d8cdb;}
+.TM1EnumMenuFocusHover {margin:1px; background-color:rgba(0,136,204,0.2); border:1px solid #2d8cdb;}
+.TM1EnumMenuItemHover {background-color:#f2f2f2; border:0px solid #aaaadd;margin:0 1px; padding:1px;padding-top:0px;padding-bottom:0px;}
+.TM1EnumMenuColBorderColor {border-color:#e0e0ff; font-size:/*IBFS*/12px; font-family:/*IBFN*/"NanumGothic", "Helvetica", "AppleGothic", sans-serif;}
+
+.TM1SuggestMenuItem {background-color:#ffffff;padding:2px;padding-top:0px;padding-bottom:0px;}  
+.TM1SuggestMenuFocus       {margin:1px; background-color:#CAE1F3; border:1px solid #aaaadd;}
+.TM1SuggestMenuFocusHover {margin:1px; background-color:#CAE1F3; border:1px solid #000000;}
+.TM1SuggestMenuItemHover {background-color:#ffeeaa; border:0px solid #aaaadd;margin:0 1px; padding:1px;padding-top:0px;padding-bottom:0px;}
+.TM1SuggestMenuColBorderColor {border-color:#e0e0ff;}
+
+/* Grid configuration menus */
+.TM1CfTM1enuOuter,.TM1ColumnsMenuOuter { border:1px solid #000000; }
+.TM1CfTM1enuHead,.TM1ColumnsMenuHead { padding-left:3px; }
+.TM1CfTM1enuBody,.TM1ColumnsMenuBody { padding-left:4px; padding-right:4px;}
+.TM1CfTM1enuFoot,.TM1ColumnsMenuFoot { padding-right:3px; padding-left:3px;}
+.TM1CfTM1enuButton { width:70px; } 
+.TM1CfTM1enuItemText,.TM1ColumnsMenuItemText { padding-left:3px; }
+.TM1ColumnsMenuItemText { white-space:nowrap; }
+.TM1CfTM1enuItem,.TM1ColumnsMenuItem { padding-top:3px; padding-bottom:3px;}
+.TM1CfTM1enuItemHover,.TM1CfTM1enuFocus,.TM1CfTM1enuFocusHover,
+.TM1ColumnsMenuItemHover,.TM1ColumnsMenuFocus,.TM1ColumnsMenuFocusHover { padding-top:2px; padding-bottom:2px;}
+
+/* Popup grid dialog */
+.TM1PopupGridOuter { border:0; overflow:visible; }
+.TM1PopupGridHead { padding:0; }
+.TM1PopupGridBody { padding:0; }
+.TM1PopupGridFoot { padding:0; }
+.TM1PopupGridButton { width:50px;margin-top:-2px; margin-bottom:3px;} 
+
+/* Calendar */
+/* calendar small design */
+.TM1PickMain  {position:absolute; left:0; top:0; z-index:258; font-size:/*IBFS*/12px; font-family:/*IBFN*/"NanumGothic", "Helvetica", "AppleGothic", sans-serif;}
+.TM1PickOuter {overflow:hidden; background:white; border:1px solid #E1E3E4; }
+.TM1PickHeader{overflow:hidden; position:absolute; z-index:258; border:1px solid black; background:#ffffff; cursor:pointer; _cursor:hand;}
+.TM1PickHeaderBottom{border-bottom:0; padding-bottom:1px;}
+.TM1PickHeaderTop{border-top:0; padding-bottom:1px; }
+.TM1PickHead {background:#5c8397; font:10px NanumGothic,Verdana,Arial; color:white; cursor:default; padding-left:5px; padding-top:1px; padding-bottom:1px;border-bottom:1px solid white;}
+.TM1PickClose{float:right; width:14px; cursor:pointer; _cursor:hand; display:none;}
+.TM1PickBody {cursor:default; padding:0; }
+.TM1PickShadow{position:absolute; background:#888; z-index:257; margin:3px 0 0 3px;opacity:0.5; filter:alpha(opacity=50);} 
+.TM1PickFooter,.TM1Pick2Footer{text-align:center; padding:2px; cursor:default; background:#EFF0F1; border-top:1px solid #E3E4E6}
+ 
+.TM1PickMY{background-color:#383838;border-bottom:1px solid #99BCE8;color:#fff;text-shadow:0 0 1px rgba(0,0,0,0.2); cursor:default;text-align:center;padding:7px 0 7px 0;}
+   
+.TM1PickMYDown{padding-right:13px; background:url(d-down.png) no-repeat right; cursor:pointer; _cursor:hand; background-size: 10px; font-weight:600;}
+.TM1PickMYUp {padding-right:13px; background:url(d-up.png) no-repeat right center; cursor:pointer; _cursor:hand; background-size: 10px; font-weight:600;}
+
+.TM1PickMYRtl{padding-right:0; padding-left:13px; }
+.TM1PickBL,.TM1PickBR{padding-top:13px; cursor:pointer; _cursor:hand; width:16px; height:14px; overflow:hidden;}
+
+.TM1PickBL {float:left !important; background:url(d-left.png) no-repeat 50%; background-size: 7px}
+.TM1PickBR {float:right !important; background:url(d-right.png) no-repeat 50%; background-size: 7px}
+
+.TM1PickTable{width:234px !important;}
+.TM1PickRow  {background:#ffffff;}
+.TM1PickRowW {background:#EFEFEF;}
+.TM1PickCell {width:27px; height:24px; border:1px solid #EFEFEF; vertical-align: middle;}
+.TM1PickWDN {background:transparent; color:#333333;text-align:center; cursor:default; text-shadow:0 0 1px rgba(0,0,0,0.2); margin:3px 5.2px;padding:1px;}
+
+.TM1PickHover,.TM1PickSelHover,.TM1PickWD,.TM1PickSa,.TM1PickSu,.TM1PickHo,.TM1PickSel,.TM1PickNow,.TM1PickWDNE,.TM1PickSaNE,.TM1PickSuNE,
+.TM1PickSelNE,.TM1PickNowNE,.TM1PickOM,.TM1PickOMNE {text-align:center; border:1px solid #ffffff; cursor:pointer; _cursor:hand;}
+.TM1PickWN,.TM1PickWNE {text-align:center; cursor:pointer; _cursor:hand;padding:5px 4px; background:#EFEFEF; white-space:nowrap;}
+
+.TM1PickWDNE,.TM1PickSaNE,.TM1PickSuNE,.TM1PickSelNE,.TM1PickNowNE,.TM1PickWNE {cursor:default;}
+.TM1PickWD{background-color:#ffffff; font-family:'Arial'; text-shadow:0 0 1px rgba(0,0,0,0.2);}
+.TM1PickSa{background-color:#ffffff; color:blue; font-family:'Arial'; text-shadow:0 0 1px rgba(0,0,0,0.2);}
+.TM1PickSu{background-color:#ffffff; color:red; font-family:'Arial'; text-shadow:0 0 1px rgba(0,0,0,0.2);}
+.TM1PickHo {background-color:#ffffff; color:orange; font-family:'Arial'; text-shadow:0 0 1px rgba(0,0,0,0.2);}
+.TM1PickSel{background:radial-gradient(ellipse at center, #3873ff 0%, #376efe 44%, #294fe0 100%); border:0; color:#fff; padding:5px 6px; font-family:'Arial'; text-shadow:0 0 1px rgba(0,0,0,0.2);
+background: -moz-radial-gradient(center, ellipse cover, #3873ff 0%, #376efe 44%, #294fe0 100%);
+background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #3873ff), color-stop(44%, #376efe), color-stop(100%, #294fe0));
+background: -webkit-radial-gradient(center, ellipse cover, #3873ff 0%, #376efe 44%, #294fe0 100%);
+background: -o-radial-gradient(center, ellipse cover, #3873ff 0%, #376efe 44%, #294fe0 100%);
+background: -ms-radial-gradient(center, ellipse cover, #3873ff 0%, #376efe 44%, #294fe0 100%);
+}
+.TM1PickSelNE{background-color:#fbea54; border:1px solid #dad1d1; font-family:'Arial'; text-shadow:0 0 1px rgba(0,0,0,0.2);}
+.TM1PickNow {background:radial-gradient(ellipse at center, #ff670f 0%, #FF843D 44%, #ff670f 100%); border:0; color:#fff; padding:5px 6px; font-family:'Arial'; text-shadow:0 0 1px rgba(0,0,0,0.2);
+background: -moz-radial-gradient(center, ellipse cover, #ff670f 0%, #FF843D 44%, #ff670f 100%);
+background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #ff670f), color-stop(44%, #FF843D), color-stop(100%, #ff670f));
+background: -webkit-radial-gradient(center, ellipse cover, #ff670f 0%, #FF843D 44%, #ff670f 100%);
+background: -o-radial-gradient(center, ellipse cover, #ff670f 0%, #FF843D 44%, #ff670f 100%);
+background: -ms-radial-gradient(center, ellipse cover, #ff670f 0%, #FF843D 44%, #ff670f 100%);
+}
+.TM1PickNowNE{background-color:#c0f3ff; border:1px solid #dad1d1; font-family:'Arial'; text-shadow:0 0 1px rgba(0,0,0,0.2);}
+.TM1PickHover{background:radial-gradient(ellipse at center, #585858 0%, #3b3b3b 44%, #313131 100%); color:#fff; border:0; padding:5px 6px; font-family:'Arial';
+background: -moz-radial-gradient(center, ellipse cover, #585858 0%, #3b3b3b 44%, #313131 100%);
+background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #585858), color-stop(44%, #3b3b3b), color-stop(100%, #313131));
+background: -webkit-radial-gradient(center, ellipse cover, #585858 0%, #3b3b3b 44%, #313131 100%);
+background: -o-radial-gradient(center, ellipse cover, #585858 0%, #3b3b3b 44%, #313131 100%);
+background: -ms-radial-gradient(center, ellipse cover, #585858 0%, #3b3b3b 44%, #313131 100%);
+}
+.TM1PickSelHover{background-color:#eeeeaa; border:0; font-family:'Arial'; text-shadow:0 0 1px rgba(0,0,0,0.2);}
+.TM1PickOM{background-color:white; color:#aaaaaa; font-family:'Arial'; text-shadow:0 0 1px rgba(0,0,0,0.2);}
+.TM1PickOMNE{color:#aaaaaa;}
+
+.TM1PickEmpty{background:url(d_blank.png) no-repeat 50%; cursor:pointer; _cursor:hand;padding:3px 0; background-size: 14px}
+
+.TM1PickTimeCell 
+{text-align:right; padding-bottom:4px; padding-top:6px; padding-right:5px; border-top:1px solid #8CA9E1; background:#EFF0F1;}
+
+.TM1PickTime 
+{border:0px none; white-space:nowrap; text-align:right; background:#EFF0F1;}
+
+.TM1PickButton{background:#FDFDFD; text-align:center; border:1px solid #B5B0B0; cursor:pointer; text-shadow:0 0 1px rgba(0,0,0,0.2); width:45px; height:24px; font:inherit; margin:2px; border-radius: 4px;}
+    
+.TM1PickButtonHover{background:#FDFDFD; border:1px solid #373737; }
+.TM1Pick2Table{width:234px !important; vertical-align:middle}
+.TM1Pick2CellM{height:20px; width:55px; }
+.TM1Pick2CellY{height:20px; width:55px; vertical-align:middle }
+.TM1Pick2CellSep{height:20px; width:5px; }
+.TM1Pick2Cell{vertical-align:middle}
+.TM1Pick2M,.TM1Pick2Y,.TM1Pick2MSel,.TM1Pick2YSel,.TM1Pick2MHover,.TM1Pick2YHover,.TM1Pick2MSelHover,.TM1Pick2YSelHover
+{cursor:pointer; _cursor:hand; text-align:center; margin-left:1px; margin-right:1px; padding-left:4px; padding-right:4px; overflow:hidden; }
+   
+.TM1Pick2MSel,.TM1Pick2YSel {background-color:rgba(0,136,204,0.2); border:1px solid #2d8cdb; margin-left:0; margin-right:0;}
+.TM1Pick2MHover,.TM1Pick2YHover {background:#DDD; border:1px solid #ffffff; margin-left:0; margin-right:0;}
+.TM1Pick2MSelHover,.TM1Pick2YSelHover {background-color:rgba(0,136,204,0.2); border:1px solid #2d8cdb; margin-left:0; margin-right:0;}   
+.TM1Pick2SepH {width:1px; height:1px; overflow:hidden; }
+.TM1Pick2Sep {width:1px; background:#E3E4E6; overflow:hidden; margin-left:2px; margin-right:2px; height:20px;}
+.TM1Pick2BL,.TM1Pick2BR {width:54px; cursor:pointer; _cursor:hand; }
+
+
+.TM1Pick2BL {background:url(d_left_cal.png) no-repeat center center; background-size: 12px;}
+.TM1Pick2BR {background:url(d_right_cal.png) no-repeat center center; background-size: 12px;}
+
+/* calendar large design */
+/*
+.TM1PickMain { position:absolute; left:0px; top:0px; z-index:258; font-size:12px; font-family:"NanumGothic", "Helvetica", "AppleGothic", sans-serif;}
+.TM1PickOuter { overflow:hidden; border:1px solid black; background:white; }
+.TM1PickHeader { overflow:hidden; position:absolute; z-index:258; border:1px solid black; background:white; cursor:pointer; _cursor:hand; }
+.TM1PickHeaderBottom { border-bottom:0px none; padding-bottom:1px; }
+.TM1PickHeaderTop { border-top:0px none; padding-bottom:1px; }
+.TM1PickHead { background:white; font:bold 13px "Microsoft Sans Serif",Arial; cursor:default; padding-left:5px; padding-top:3px; padding-bottom:4px; }
+.TM1PickClose { float:right; width:14px; cursor:pointer; _cursor:hand; display:none; background:url(Menu.gif) no-repeat right -353px; }
+.TM1PickBody { cursor:default; border:none;}
+.TM1PickShadow { position:absolute; background:#888; z-index:257; margin-left:3px; margin-top:3px; opacity:0.5; filter:alpha(opacity=50); }   
+.TM1PickFooter,.TM1Pick2Footer { border-top:1px solid #E3E4E6; background:#EFF0F1; color:blue; cursor:default; padding:2px; text-align:center; }
+
+.TM1PickMY{background-color:#0062b1; color:white; cursor:default; text-align:center; padding:4px 0 4px 0;}
+
+.TM1PickMYNone { font:15px "Microsoft Sans Serif",Arial; padding-right:13px; }
+.TM1PickMYDown { font:15px "Microsoft Sans Serif",Arial; padding-right:13px; background:url(d_l_down.gif) no-repeat right; cursor:pointer; _cursor:hand; }   
+.TM1PickMYUp { font:15px "Microsoft Sans Serif",Arial; padding-right:13px; background:url(d_l_up.gif) no-repeat right; cursor:pointer; _cursor:hand; }
+.TM1PickMYRtl { padding-right:0px; padding-left:13px; }
+
+.TM1PickBL,.TM1PickBR { padding-top:10px; cursor:pointer; _cursor:hand; width:16px; overflow:hidden; }
+.TM1PickBL { float:left !important; background:url(d_l_left.gif) no-repeat 50%;}
+.TM1PickBR { float:right !important; background:url(d_l_right.gif) no-repeat 50%;}
+
+.TM1PickTableParent { padding-left:3px; padding-right:5px; padding-bottom:5px; padding-top:3px; clear:both; }
+.TM1PickTable { width:240px !important; }
+.TM1PickRow { background:white; }
+.TM1PickRowW { background:#a8daff;}   
+.TM1PickCell { width:30px;}
+.TM1PickWDN {
+   text-align:center; padding:1px; color:#010101;
+   padding-left:3px; padding-right:3px; padding-top:2px; padding-bottom:2px;border-left:1px solid #fff;
+   font:15px "Microsoft Sans Serif",Arial; cursor:default;
+   }
+.TM1PickHover,.TM1PickSelHover,.TM1PickWD,.TM1PickSa,.TM1PickSu,.TM1PickHo,.TM1PickSel,.TM1PickNow,.TM1PickWDNE,.TM1PickSaNE,.TM1PickSuNE,.TM1PickSelNE,.TM1PickNowNE,.TM1PickOM,.TM1PickOMNE {
+   text-align:center; padding-top:4px; padding-bottom:4px; padding-left:3px; padding-right:3px;
+   font:15px "Microsoft Sans Serif",Arial; cursor:pointer; _cursor:hand;border-bottom:1px solid #e4e4e4;border-right:1px solid #e4e4e4;
+   }
+.TM1PickWN,.TM1PickWNE { 
+   text-align:center; font:15px "Microsoft Sans Serif",Arial; cursor:pointer; _cursor:hand;
+   padding-left:4px; padding-right:4px; padding-top:4px; padding-bottom:4px;
+   background:#488; color:white;
+   }
+.TM1PickWDNE,.TM1PickSaNE,.TM1PickSuNE,.TM1PickSelNE,.TM1PickNowNE,.TM1PickWNE { cursor:default; background-color:#e4e4e4; color:#000; border-bottom:1px solid #d0d0d0; border-left:1px solid #d0d0d0;}
+.TM1PickWD { background-color:#fff; }
+.TM1PickSa { color:#0d3def; } 
+.TM1PickSu { color:#e40505; } 
+.TM1PickHo { color:orange; } 
+.TM1PickSel { color:#05467c;font-weight:bold;background-color:#e4e4e4; }
+.TM1PickSelNE { color:#05467c;font-weight:bold;background-color:#e4e4e4; }
+.TM1PickNow { background-color:#a8daff; }
+.TM1PickNowNE { background-color:#ffe0ff; }
+.TM1PickOM { background-color:inherit; color:#c1c1c1; }
+.TM1PickOMNE { color:#aaaaaa; }
+.TM1PickEmpty { background:url(d_blank.gif) no-repeat 50%; cursor:pointer; _cursor:hand; padding:6px 0 0 0;}
+.TM1PickHover { background-color:#DDD; }
+.TM1PickSelHover { background-color:#eeee77; }
+
+.TM1PickTimeCell { text-align:right; background-color:white; padding-bottom:4px; padding-top:6px; padding-right:5px; }
+.TM1PickTime { font:13px Verdana,Arial; border:0px none; white-space:nowrap; text-align:right; }
+.TM1PickButton {font:14px "Microsoft Sans Serif",Arial; background:#dcecf8; text-align:center; border:1px solid #8a8fb5; width:60px; height:20px; font:inherit;}
+    
+.TM1PickButtonHover{background:#9cd0fa; border:1px solid #aaaadd; }
+
+.TM1Pick2TableParent { padding-left:3px; padding-right:3px; padding-bottom:1px; padding-top:2px; text-align:center; }
+.TM1Pick2Table { vertical-align:middle; width:240px !important; }
+.TM1Pick2Row { background:white;}
+.TM1Pick2CellM { height:35px; width:76px; }
+.TM1Pick2CellY { vertical-align:middle; height:27px; width:55px;text-align:center;}
+.TM1Pick2CellSep { height:27px; width:10px; }
+.TM1Pick2Cell { vertical-align:middle; height:27px; width:55px;}
+.TM1Pick2M,.TM1Pick2Y,.TM1Pick2MSel,.TM1Pick2YSel,.TM1Pick2MHover,.TM1Pick2YHover,.TM1Pick2MSelHover,.TM1Pick2YSelHover {
+   font:14px "Microsoft Sans Serif",Arial; overflow:hidden;
+   margin-left:1px; margin-right:1px;
+   padding-left:4px; padding-right:4px; overflow:hidden;
+   background-color:white; cursor:pointer; _cursor:hand; text-align:center;
+   }
+.TM1Pick2MSel,.TM1Pick2YSel { background-color:#d1ebff; border:1px solid #dad1d1; margin-left:0; margin-right:0;}
+.TM1Pick2MHover,.TM1Pick2YHover { background-color:#DDD; border:1px solid #ffffff; margin-left:0; margin-right:0;}
+.TM1Pick2MSelHover,.TM1Pick2YSelHover { background-color:#9cd0fa; border:1px solid #ffffff; margin-left:0; margin-right:0;}   
+.TM1Pick2SepH { width:1px; height:1px; overflow:hidden; }
+.TM1Pick2Sep { width:1px; background:#E3E4E6; overflow:hidden; margin-left:4px; margin-right:5px; height:27px; }    
+.TM1Pick2BL,.TM1Pick2BR {width:24px !important; cursor:pointer; _cursor:hand;padding:3px 0px;margin:0 auto;}
+.TM1Pick2BL { background:url(d_l_left2.gif) no-repeat center center;}
+.TM1Pick2BR { background:url(d_l_right2.gif) no-repeat center center;}
+*/
+
+/* Edit controls */
+.TM1Edit,.TM1EditInline {padding:2px 4px;border:1px solid #DDD; border-top:1px solid #666; border-left:1px solid #666;background:#ffffff; white-space:nowrap; overflow:hidden;}
+  
+.TM1EditInline { display:inline-block; vertical-align:bottom; }
+.TM1EditInput,.TM1EditTextarea {border:0 solid transparent !important; margin:0; padding:0; padding-right:1px !important;vertical-align: middle; font-size:/*IBFS*/12px; font-family:/*IBFN*/"NanumGothic", "Helvetica", "AppleGothic", sans-serif;} 
+.TM1EditDate {z-index:-500 !important;}
+/*IH */
+
+.TM1EditTextarea { line-height:13px; }
+.TM1EditSpaceInput { vertical-align:middle; }
+.TM1EditNormalInput,.TM1EditNormalTextarea,.TM1EditSpaceTextarea { padding-left:5px; background-color:#FFFFFF; /*#FFDCFF;*/; } /* IH : Cell Textedit Padding */
+.TM1EditInt,.TM1EditFloat { text-align:right; }
+
+.TM1EditNormalTextarea {}
+
+.TM1EditMulti { white-space:normal; }
+.TM1EditReadOnly { background-color:#FFEEFF; }   
+.TM1EditParent { position:absolute; z-index:258; overflow:hidden; }
+
+.TM1EnumHeaderLeft,.TM1EnumHeaderRight,.TM1EnumHeaderNone 
+{background:white; cursor:pointer; _cursor:hand; vertical-align:middle; text-align:left; padding:2px 0 2px 2px; font-size:/*IBFS*/12px; font-family:/*IBFN*/"NanumGothic", "Helvetica", "AppleGothic", sans-serif;}
+
+.TM1EnumHeaderRight {background: url(combo.png) no-repeat right center;margin:3px 4px 0 6px;background-size:16px;}
+ @media screen and (-webkit-min-device-pixel-ratio:0) {.TM1EnumHeaderRight{margin:3px 4px 0 6px;}}/* hack:CR,SF */
+.TM1EnumHeaderRight, x:-moz-any-link, x:default {margin:3px 4px 0 6px;} /* hack:FF */
+ @media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) {.TM1EnumHeaderRight{ margin:1px 0 0 0;}}/* hack:OP */
+
+.TM1EnumMenuHeader { background:#ffffff; }
+
+.TM1EnumControl,.TM1EnumInline {
+   cursor:pointer; _cursor:hand; padding-left:15px; padding-right:4px; padding-top:2px; padding-bottom:2px;
+   border:1px solid #DDD; border-top:1px solid #666; border-left:1px solid #666; overflow:hidden;}
+   
+.TM1EnumInline { display:inline-block; vertical-align:bottom; }
+.TM1EnumHeader { cursor:pointer; _cursor:hand;padding-left:15px; padding-right:4px; padding-top:2px; padding-bottom:2px;} 
+
+/*  Custom scrollbars  */
+.TM1CustScroll1RightHidden { background:url(VScroll.png) left -108px; height:18px; overflow:hidden; }
+.TM1CustScroll1Right { padding-right:18px; background:url(VScroll.png) right 0; }
+.TM1CustScroll1RightHover { padding-right:18px; background:url(VScroll.png) right -18px; }
+.TM1CustScroll1Left { padding-left:18px;  background:url(VScroll.png) left 0; }
+.TM1CustScroll1LeftHover { padding-left:18px;  background:url(VScroll.png) left -18px; }
+.TM1CustScroll1SliderRight { padding-right:3px; background:url(VScroll.png) right -36px; }
+.TM1CustScroll1SliderLeft { padding-left:3px; background:url(VScroll.png) left -36px; }
+.TM1CustScroll1SliderHIn { height:18px; overflow:hidden; background:url(VScroll.png) center -54px; }
+.TM1CustScroll1SliderRightHover { padding-right:3px; background:url(VScroll.png) right -72px; }
+.TM1CustScroll1SliderLeftHover { padding-left:3px; background:url(VScroll.png) left -72px; }
+.TM1CustScroll1SliderHInHover { height:18px; overflow:hidden; background:url(VScroll.png) center -90px; }
+
+.TM1CustScroll2RightHidden { background:url(VScroll.png) left -460px; height:10px; overflow:hidden; }
+.TM1CustScroll2Right { padding-right:10px; background:url(VScroll.png) right -400px; }
+.TM1CustScroll2RightHover { padding-right:10px; background:url(VScroll.png) right -410px; }
+.TM1CustScroll2Left { padding-left:10px;  background:url(VScroll.png) left -400px; }
+.TM1CustScroll2LeftHover { padding-left:10px;  background:url(VScroll.png) left -410px; }
+.TM1CustScroll2SliderRight { padding-right:6px; background:url(VScroll.png) right -420px; }
+.TM1CustScroll2SliderLeft { padding-left:6px; background:url(VScroll.png) left -420px; }
+.TM1CustScroll2SliderHIn { height:10px; overflow:hidden; background:url(VScroll.png) center -430px; }
+.TM1CustScroll2SliderRightHover { padding-right:6px; background:url(VScroll.png) right -440px; }
+.TM1CustScroll2SliderLeftHover { padding-left:6px; background:url(VScroll.png) left -440px; }
+.TM1CustScroll2SliderHInHover { height:10px; overflow:hidden; background:url(VScroll.png) center -450px; }
+
+.TM1CustScroll3Right,.TM1CustScroll3RightHidden { background:white; height:9px; overflow:hidden; }
+.TM1CustScroll3SliderRight,.TM1CustScroll3SliderRightHover { padding-right:3px; height:9px; background:url(VScroll.png) right -126px; }
+.TM1CustScroll3SliderLeft,.TM1CustScroll3SliderLeftHover { height:9px; background:url(VScroll.png) left -126px; }
+.TM1CustScroll3SliderRightHover { background-position:right -135px; }
+.TM1CustScroll3SliderLeftHover { background-position:left -135px; }
+
+.TM1CustScroll4Right,.TM1CustScroll4RightHidden,.TM1CustScroll4SliderRight,.TM1CustScroll4SliderRightHover { height:1px; overflow:hidden; }
+
+.TM1CustScroll1DownHidden { background:url(HScroll.png) -108px top; width:18px; overflow:hidden; }
+.TM1CustScroll1Down { padding-bottom:18px; background:url(HScroll.png) 0px bottom; cursor:default; width:18px; overflow:hidden; }
+.TM1CustScroll1DownHover { padding-bottom:18px; background:url(HScroll.png) -18px bottom; width:18px; overflow:hidden; }
+.TM1CustScroll1Up { padding-top:18px; background:url(HScroll.png) 0px top; width:18px; overflow:hidden; }
+.TM1CustScroll1UpHover { padding-top:18px;  background:url(HScroll.png) -18px top; width:18px; overflow:hidden; }
+.TM1CustScroll1SliderDown { padding-bottom:3px; background:url(HScroll.png) -36px bottom; width:18px; overflow:hidden; }
+.TM1CustScroll1SliderUp { padding-top:3px; background:url(HScroll.png) -36px top; width:18px; overflow:hidden; }
+.TM1CustScroll1SliderVIn { background:url(HScroll.png) -54px center; width:18px; overflow:hidden; }
+.TM1CustScroll1SliderDownHover { padding-bottom:3px; background:url(HScroll.png) -72px bottom; width:18px; overflow:hidden; }
+.TM1CustScroll1SliderUpHover { padding-top:3px; background:url(HScroll.png) -72px top; width:18px; overflow:hidden; }
+.TM1CustScroll1SliderVInHover { background:url(HScroll.png) -90px center; width:18px; overflow:hidden; }
+
+.TM1CustScroll2DownHidden { background:url(HScroll.png) -460px top; width:10px; overflow:hidden; }
+.TM1CustScroll2Down { padding-bottom:10px; background:url(HScroll.png) -400px bottom; cursor:default; width:10px; overflow:hidden; }
+.TM1CustScroll2DownHover { padding-bottom:10px; background:url(HScroll.png) -410px bottom; width:10px; overflow:hidden; }
+.TM1CustScroll2Up { padding-top:10px; background:url(HScroll.png) -400px top; width:10px; overflow:hidden; }
+.TM1CustScroll2UpHover { padding-top:10px;  background:url(HScroll.png) -410px top; width:10px; overflow:hidden; }
+.TM1CustScroll2SliderDown { padding-bottom:6px; background:url(HScroll.png) -420px bottom; width:10px; overflow:hidden; }
+.TM1CustScroll2SliderUp { padding-top:6px; background:url(HScroll.png) -420px top; width:10px; overflow:hidden; }
+.TM1CustScroll2SliderVIn { background:url(HScroll.png) -430px center; width:10px; overflow:hidden; }
+.TM1CustScroll2SliderDownHover { padding-bottom:6px; background:url(HScroll.png) -440px bottom; width:10px; overflow:hidden; }
+.TM1CustScroll2SliderUpHover { padding-top:6px; background:url(HScroll.png) -440px top; width:10px; overflow:hidden; }
+.TM1CustScroll2SliderVInHover { background:url(HScroll.png) -450px center; width:10px; overflow:hidden; }
+
+.TM1CustScroll3Down,.TM1CustScroll3DownHidden { background:white; width:9px; overflow:hidden; cursor:default; }
+.TM1CustScroll3SliderDown,.TM1CustScroll3SliderDownHover { padding-bottom:3px; width:9px; background:url(HScroll.png) -126px bottom; }
+.TM1CustScroll3SliderUp,.TM1CustScroll3SliderUpHover { width:9px; background:url(HScroll.png) -126px top; cursor:default; }
+.TM1CustScroll3SliderDownHover { background-position:-135px bottom; }
+.TM1CustScroll3SliderUpHover { background-position:-135px top; cursor:default; }
+
+.TM1CustScroll4Down,.TM1CustScroll4DownHidden,.TM1CustScroll4SliderDown,.TM1CustScroll4SliderDownHover { width:1px; overflow:hidden; }
+
+/* Other messages */
+.TM1HintMain {position:absolute; margin-left:-1px; margin-top:-1px; left:0px; top:0px; z-index:260; background:#ffffff; cursor:default; }
+.TM1HintOuter {overflow:hidden; border:1px solid #000000; background:#ffffff !important; color:black; text-align:left; }
+.TM1HintHeaderOuter {background-color:#39aefb !important; color:#ffffff; border: 1px solid #ffffff; }
+.TM1HintShadow {position:absolute; z-index:259;background:#888; opacity:0.3; filter:alpha(opacity=30);margin-left:2px; margin-top:2px;}
+.TM1TipMain {position:absolute; left:0px; top:0px; z-index:262; visibility:hidden; }
+.TM1TipOuter  {overflow:hidden; cursor:default; font:12px Arial;padding-left:3px; padding-right:3px; background:#E4E5F0; border:1px solid #777;}
+.TM1TipBody {background:#E4E5F0; white-space:nowrap; }
+.TM1TipShadow {position:absolute;z-index:261;background:#888; opacity:0.3; filter:alpha(opacity=30);visibility:hidden; margin-left:3px; margin-top:3px}
+.TM1MouseOrig { background:yellow !important; opacity:0.5; filter:alpha(opacity=50); }
+.TM1MouseDragObject { position:absolute; z-index:260; background:#888; opacity:0.5; filter:alpha(opacity=50); }
+.TM1Focus { border:1px solid #AAF; border-top:1px solid #00F; border-left:1px solid #00F; background-color:#EEE; } 
+.GridDisabled { position:absolute; z-index:256; background:white; opacity:0.5; filter:alpha(opacity=50); } 
+
+/* Do not change, marks the style loaded */
+.TM1Loaded { border:1px solid #000000 !important;}
+
+/*sum*/
+.TM1SumCell{background:#f0ede6; color:#FF6407; text-shadow:0 0 1px rgba(0,0,0,0.2);}/*//text-align: right;font-weight:bold;*/
+.TM1SubSumCell{background: #FFFFEF; border-bottom:1px solid #F5D9CD; color:#FF6600}
+.TM1CumulateCell{background: #FFFFEF; border-bottom:1px solid #F5D9CD; color:#AE4600}
+
+/* FindDialog && PivotDialog */
+.TM1H1Pop,.TM1PPop{margin:0; padding:0}
+.TM1Paddingl10{padding-left:10px}
+.TM1PaddingT10{padding-top:10px}
+.TM1PPop{ padding:0 0 10px 0; text-align:center }
+.TM1Pop{width:410px; overflow:hidden; border:1px solid #426B8C; padding:0; font-size:12px;background:#EBF2F5; font-family:dotum, Arial, Helvetica, sans-serif}
+.TM1PopTitle{width:100%; border-bottom:1px solid #99BCE8; font-size:12px; font-weight:bold; display:block; line-height:28px; color:#15498B;
+background: #c9e1f5; /* Old browsers */
+background: -moz-linear-gradient(top,  #c9e1f5 0%, #99bce8 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c9e1f5), color-stop(100%,#99bce8)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #c9e1f5 0%,#99bce8 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #c9e1f5 0%,#99bce8 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #c9e1f5 0%,#99bce8 100%); /* IE10+ */
+background: linear-gradient(top,  #c9e1f5 0%,#99bce8 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c9e1f5', endColorstr='#99bce8',GradientType=0 ); /* IE6-9 */
+}
+.TM1PopSearch{margin:5px; overflow:hidden; }
+.TM1PopContent{border:1px solid #D0DBE8; background-color:#fff}
+.TM1PopUl,.TM1PopUl2{list-style:none; margin:0; padding:10px;}
+.TM1PopDiv{overflow:hidden; width:100%}
+.TM1PopDiv2{overflow:hidden; width:100%}
+.TM1PopLeft,.TM1PopLeft2, .TM1PopLeft3 {width:220px; float:left !important; }
+.TM1PopRight,.TM1PopRight2,.TM1PopRight3 {width:166px; float:right !important; }
+.TM1PopUl input {margin:-2px 2px 0px 0px;padding:0 ; width:13px; height:13px; vertical-align:middle;}
+.TM1PopUl li{ padding-top:4px; padding-bottom:3px; padding-left:5px}
+.TM1PopUl2 li{ padding-top:4px; padding-bottom:3px;}
+.TM1BtnArea {margin-top:10px; text-align:center }
+.TM1PopLeft, .TM1PopRight{ height:120px}
+.TM1PopLeft2, .TM1PopRight2{ height:120px}
+.TM1PopLabel{line-height:12px; margin:0 0 0 2px}
+.TM1PopSubtitle{font-weight:bold; color:#000; border-bottom:1px solid  #E0E0E0; background-color:#E7E7E7;padding-left:4px;}
+.TM1PopBtn {text-align: center;text-decoration: none;color:#fff;position: relative;border:1px solid #316290;
+          font-size:12px; width:50px !important; height:22px !important; cursor:pointer;}
+.TM1PopBtn2 {text-align: center;text-decoration: none;color:#fff;position: relative;border:1px solid #316290;
+          font-size:12px; height:22px !important; cursor:pointer;}
+.TM1PopBtn, .TM1PopBtn:hover {color:#fff;}
+.TM1PopBtnBlue {
+    background: #5689b9; /* Old browsers */
+    background: -moz-linear-gradient(top,  #5689b9 0%, #3a6ea0 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#5689b9), color-stop(100%,#3a6ea0)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #5689b9 0%,#3a6ea0 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #5689b9 0%,#3a6ea0 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #5689b9 0%,#3a6ea0 100%); /* IE10+ */
+    background: linear-gradient(top,  #5689b9 0%,#3a6ea0 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5689b9', endColorstr='#3a6ea0',GradientType=0 ); /* IE6-9 */
+}
+.TM1PopBtnBlue:hover {
+    background: #3a6ea0; /* Old browsers */
+    background: -moz-linear-gradient(top,  #3a6ea0 0%, #5689b9 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3a6ea0), color-stop(100%,#5689b9)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #3a6ea0 0%,#5689b9 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #3a6ea0 0%,#5689b9 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #3a6ea0 0%,#5689b9 100%); /* IE10+ */
+    background: linear-gradient(top,  #3a6ea0 0%,#5689b9 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3a6ea0', endColorstr='#5689b9',GradientType=0 ); /* IE6-9 */
+}
+
+.TM1PopDisc {margin:0px 8px 8px 8px; background-color:#ebf2f5; border:1px solid #D0DBE8;}
+.TM1PopDisc ul {padding:0px; margin-left:0; margin-top:10px; margin-bottom:0;}
+.TM1PopDisc li {list-style:none; background:url(bullet.gif) no-repeat 5px 3px; margin-bottom:8px; padding-left:13px; color:#426b8c; word-break:break-all;}
+
+.TM1PopChkArea {margin:8px; height:25px;}
+.TM1PopChkArea ul {margin:0; padding:0; float:right!important; background-color:#ebf2f5; border:1px solid #D0DBE8;}
+.TM1PopChkArea li {float:left!important; padding:3px 5px 0px 5px; list-style:none; color:#426b8c; font-weight:bold;}
+
+.TM1PopFilter {width:250px;}
+.TM1PopHelp0, .TM1PopHelp1, .TM1PopClose {
+    cursor:pointer;
+    margin-top:4px;padding-right:3px;float:right!important;height:20px;
+    border: 0px none; background-repeat: no-repeat; padding-left: 12px; background-image: url(filter_btn.gif);
+}
+.TM1PopHelp0 { background-position:0px 0px; }
+.TM1PopHelp1 { background-position:-23px 0px; }
+.TM1PopClose { background-position:-46px 0px; }
+
+/* Paging Icon */
+.TM1EditPager {margin:0; padding:0; padding-right:1px !important;vertical-align: middle; font-size:/*IBFS*/12px; font-family:/*IBFN*/"NanumGothic", "Helvetica", "AppleGothic", sans-serif;} 
+
+.TM1ToolPagerFirst, .TM1ToolPagerFirst1, .TM1ToolPagerPrev, .TM1ToolPagerPrev1, .TM1ToolPagerNext, .TM1ToolPagerNext1, .TM1ToolPagerLast, .TM1ToolPagerLast1 {
+	border: 0px none; background-repeat: no-repeat; padding-left: 16px; padding-right: 3px; background-image: url(pager.png); background-size: 350px;
+}
+
+.TM1ToolPagerFirst1 { background-position:0px 0px; }
+.TM1ToolPagerFirst { background-position:-30px 0px; }
+.TM1ToolPagerPrev1 { background-position:-120px 0px; }
+.TM1ToolPagerPrev { background-position:-150px 0px; }
+.TM1ToolPagerNext1 { background-position:-180px 0px; }
+.TM1ToolPagerNext { background-position:-210px 0px; }
+.TM1ToolPagerLast1 { background-position:-300px 0px; }
+.TM1ToolPagerLast { background-position:-330px 0px; }
+
+.TM1ToolExpand1, .TM1ToolCollapse1 {
+	border: 0px none; background-repeat: no-repeat; padding-left: 16px; padding-right: 3px; background-image: url(group.png);
+}
+
+.TM1ToolExpand1 { background-position:2px 2px; background-size: 42px }
+.TM1ToolCollapse1 { background-position:-21px 2px; background-size: 42px }
+
+/* FocusedSheet */
+/*
+.TM1FocusedSheet{
+    z-index:0; border:1px solid #d7d7d7 !important; outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px #d7d7d7, 0 0 10px #d7d7d7;
+    -moz-box-shadow: inset 0 1px 1px #d7d7d7, 0 0 10px #d7d7d7;
+    box-shadow: 0 0 10px #d7d7d7;
+}
+*/

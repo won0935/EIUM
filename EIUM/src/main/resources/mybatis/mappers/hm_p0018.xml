@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.hm_p0018">
+	<resultMap id="P0018resultVO" type="HM_P0018VO">
+		<result property="EMPLOYEE_TRAINING_CODE" column="EMPLOYEE_TRAINING_CODE" />
+        <result property="EMPLOYEE_TRAINING_NAME" column="EMPLOYEE_TRAINING_NAME" />
+        <result property="EMPLOYEE_TRAINING_START_DATE" column="EMPLOYEE_TRAINING_START_DATE" />
+        <result property="EMPLOYEE_TRAINING_END_DATE" column="EMPLOYEE_TRAINING_END_DATE" />
+        <result property="EMPLOYEE_TRAINING_DATE_COUNT" column="EMPLOYEE_TRAINING_DATE_COUNT" />
+        <result property="EMPLOYEE_TRAINING_GOAL" column="EMPLOYEE_TRAINING_GOAL" />
+        <result property="EMPLOYEE_TRAINING_LOCATION" column="EMPLOYEE_TRAINING_LOCATION" />
+        <result property="EMPLOYEE_TRAINING_TEACHER" column="EMPLOYEE_TRAINING_TEACHER" />
+        <result property="EMPLOYEE_TRAINING_INSITUTION" column="EMPLOYEE_TRAINING_INSITUTION" />
+        <result property="EMPLOYEE_TRAINING_TIME" column="EMPLOYEE_TRAINING_TIME" />
+        <result property="EMPLOYEE_TRAINING_PEOPLE" column="EMPLOYEE_TRAINING_PEOPLE" />
+        <result property="EMPLOYEE_TRAINING_IN_OUT" column="EMPLOYEE_TRAINING_IN_OUT" />
+	</resultMap> 
+
+	
+	
+	 
+	<select id="searchList" resultMap="P0018resultVO" parameterType="java.util.Map"> 
+			<choose>
+			<when test= "eduCode != ''  and  eduCode != null">
+			    <![CDATA[
+			    select EMPLOYEE_TRAINING_CODE,EMPLOYEE_TRAINING_NAME,EMPLOYEE_TRAINING_START_DATE,EMPLOYEE_TRAINING_END_DATE,EMPLOYEE_TRAINING_DATE_COUNT,EMPLOYEE_TRAINING_GOAL,EMPLOYEE_TRAINING_LOCATION,EMPLOYEE_TRAINING_TEACHER,EMPLOYEE_TRAINING_INSITUTION,EMPLOYEE_TRAINING_TIME,EMPLOYEE_TRAINING_PEOPLE,EMPLOYEE_TRAINING_IN_OUT   
+    	  	    from EMPLOYEE_TRAINING
+    	  	    where employee_training_code = #{eduCode}
+    	  	    order by employee_training_code
+								      ]]>
+			</when>
+			<otherwise>
+			     <![CDATA[
+         select EMPLOYEE_TRAINING_CODE,EMPLOYEE_TRAINING_NAME,EMPLOYEE_TRAINING_START_DATE,EMPLOYEE_TRAINING_END_DATE,EMPLOYEE_TRAINING_DATE_COUNT,EMPLOYEE_TRAINING_GOAL,EMPLOYEE_TRAINING_LOCATION,EMPLOYEE_TRAINING_TEACHER,EMPLOYEE_TRAINING_INSITUTION,EMPLOYEE_TRAINING_TIME,EMPLOYEE_TRAINING_PEOPLE,EMPLOYEE_TRAINING_IN_OUT   
+         from EMPLOYEE_TRAINING
+         order by employee_training_code
+      ]]>
+			</otherwise>
+			</choose>
+
+	</select>
+	
+	<select id="searchList2" resultMap="P0018resultVO" parameterType="java.util.Map"> 
+	
+				 select EMPLOYEE_TRAINING_CODE,EMPLOYEE_TRAINING_NAME,EMPLOYEE_TRAINING_START_DATE,EMPLOYEE_TRAINING_END_DATE
+    	  	    from EMPLOYEE_TRAINING
+			<choose>
+			<when test= "eduCode != 'null'  and  eduCode != null">
+			    <![CDATA[
+    	  	   where employee_training_code LIKE  '%' || #{eduCode,jdbcType=VARCHAR} || '%'
+								      ]]>
+			</when>
+			</choose>
+			order by EMPLOYEE_TRAINING_CODE
+	</select>
+	
+	
+	<update id="updateData" parameterType="java.util.Map">
+		update EMPLOYEE_TRAINING
+		set  
+		     EMPLOYEE_TRAINING_CODE = #{employee_TRAINING_CODE}
+		   , EMPLOYEE_TRAINING_NAME = #{employee_TRAINING_NAME}
+		   , EMPLOYEE_TRAINING_START_DATE = #{employee_TRAINING_START_DATE}
+		   , EMPLOYEE_TRAINING_END_DATE = #{employee_TRAINING_END_DATE}
+		   , EMPLOYEE_TRAINING_DATE_COUNT = #{employee_TRAINING_DATE_COUNT}
+		   , EMPLOYEE_TRAINING_GOAL = #{employee_TRAINING_GOAL}
+		   , EMPLOYEE_TRAINING_LOCATION = #{employee_TRAINING_LOCATION}
+		   , EMPLOYEE_TRAINING_TEACHER = #{employee_TRAINING_TEACHER}
+		   , EMPLOYEE_TRAINING_INSITUTION = #{employee_TRAINING_INSITUTION}
+		   , EMPLOYEE_TRAINING_TIME = #{employee_TRAINING_TIME}
+		   , EMPLOYEE_TRAINING_PEOPLE = #{employee_TRAINING_PEOPLE}
+		   , EMPLOYEE_TRAINING_IN_OUT = #{employee_TRAINING_IN_OUT}
+    	   , upt_user_id = #{user, jdbcType=VARCHAR}
+		   , upt_date = sysdate
+
+		where EMPLOYEE_TRAINING_CODE = #{employee_TRAINING_CODE}
+	</update>	
+	
+ <insert id="insertData" parameterType="java.util.Map">
+		insert into EMPLOYEE_TRAINING(EMPLOYEE_TRAINING_CODE,EMPLOYEE_TRAINING_NAME,EMPLOYEE_TRAINING_START_DATE,EMPLOYEE_TRAINING_END_DATE,EMPLOYEE_TRAINING_DATE_COUNT,EMPLOYEE_TRAINING_GOAL,EMPLOYEE_TRAINING_LOCATION,EMPLOYEE_TRAINING_TEACHER,EMPLOYEE_TRAINING_INSITUTION,EMPLOYEE_TRAINING_TIME,EMPLOYEE_TRAINING_PEOPLE,EMPLOYEE_TRAINING_IN_OUT,int_user_id, int_date) 
+		values(#{employee_TRAINING_CODE},#{employee_TRAINING_NAME},#{employee_TRAINING_START_DATE},#{employee_TRAINING_END_DATE},#{employee_TRAINING_DATE_COUNT},#{employee_TRAINING_GOAL}, #{employee_TRAINING_LOCATION},#{employee_TRAINING_TEACHER},#{employee_TRAINING_INSITUTION},#{employee_TRAINING_TIME},#{employee_TRAINING_PEOPLE},#{employee_TRAINING_IN_OUT},#{user},sysdate)
+	</insert>	
+	
+	<delete id="deleteData" parameterType="java.util.Map">
+	DELETE EMPLOYEE_TRAINING
+	WHERE EMPLOYEE_TRAINING_CODE=#{employee_TRAINING_CODE}
+	
+	</delete>
+
+
+
+ 
+	<select id="emplyoeeListSearch" resultMap="P0018resultVO" parameterType="java.util.Map"> 
+    <![CDATA[
+	select el.EMPLOYEE_CODE ,e.EMPLOYEE_NAME ,d.DEPARTMENT_NAME,p.POSITION_NAME,el.EMPLOYEE_TRAINING_CODE
+	from EMPLOYEE_WORK ew,EMPLOYEE_TRAINING_LIST el,department d,position p,employee e
+	where el.employee_code = e.employee_code
+    and e.employee_code= ew.employee_code
+	and ew.department_code=d.department_code
+	and ew.position_code=p.position_code
+	and EMPLOYEE_TRAINING_CODE=#{eduCode}
+	ORDER BY el.EMPLOYEE_CODE
+	 			]]>
+	</select>
+	
+ 
+	<select id="autocomplete" resultMap="P0018resultVO" parameterType="java.util.Map"> 
+    <![CDATA[
+	select employee_training_code , employee_training_name
+	from employee_training
+	where employee_training_code LIKE  '%' || #{eduCode} || '%'
+			]]>
+	</select>
+	
+	<update id="emplyoeeListupdateData" parameterType="java.util.Map">
+		update EMPLOYEE_TRAINING_LIST
+		set  employee_CODE=#{employee_CODE}, upt_user_id = #{user, jdbcType=VARCHAR}, upt_date = sysdate
+		
+		where employee_CODE=#{employee_CODE}
+
+	</update>	
+	
+ <insert id="emplyoeeListinsertData" parameterType="java.util.Map">
+		insert into EMPLOYEE_TRAINING_LIST(employee_CODE,EMPLOYEE_TRAINING_CODE,CODE,int_user_id, int_date) 
+		values(#{employee_CODE},#{employee_TRAINING_CODE,jdbcType=VARCHAR},EMPLOYEE_TRAINING_LIST_CODE.NEXTVAL,#{user},sysdate
+		)
+	</insert>	
+	
+	<delete id="emplyoeeListdeleteData" parameterType="java.util.Map">
+		delete EMPLOYEE_TRAINING_LIST
+		where EMPLOYEE_CODE = #{employee_CODE}
+	</delete>
+	
+	
+	 
+	<select id="employeeSearch" resultMap="P0018resultVO" parameterType="java.util.Map"> 
+
+	
+    	
+	SELECT E.EMPLOYEE_CODE,E.EMPLOYEE_NAME,D.department_NAME,P.POSITION_NAME
+	FROM EMPLOYEE E , DEPARTMENT D, POSITION P,EMPLOYEE_WORK EW
+	WHERE E.EMPLOYEE_CODE=EW.EMPLOYEE_CODE
+	AND EW.DEPARTMENT_CODE= D.DEPARTMENT_CODE
+	AND EW.POSITION_CODE=P.POSITION_CODE
+
+  
+	<choose>
+	<when test="E_id != '' and E_id != null">
+	    <![CDATA[
+	AND E.EMPLOYEE_NAME={#E_id}
+			]]>
+	</when>
+	</choose>
+    </select>
+	
+</mapper>

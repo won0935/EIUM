@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.login">
+	<resultMap id="loginResult" type="loginVO">
+		<result property="employee_id" column="employee_id" />
+		<result property="employee_name" column="employee_name" />
+        <result property="employee_password" column="employee_password" />
+        <result property="department_name" column="department_name" />        
+        <result property="company_name" column="company_name"/>
+        
+        <result property="employee_code" column="employee_code" />
+        <result property="authority_code" column="authority_code" />
+        <result property="authority_name" column="authority_name" />
+        
+        <result property="menu_code" column="menu_code" />
+        <result property="access_grant" column="access_grant" />
+       
+	</resultMap> 
+	<!-- 
+	<resultMap id="memResult" type="java.util.HashMap">
+      <result property="id" column="id" />
+      <result property="pwd" column="pwd" />
+      <result property="name" column="name" />
+      <result property="email" column="email" />
+      <result property="joinDate" column="joinDate" />
+   </resultMap> -->
+
+	<select id="searchList" resultType="loginVO"  parameterType="java.util.Map" >
+
+      	select ac.employee_id, e.employee_code, e.employee_name, d.department_code, d.department_name, s.site_name, c.company_name, u.authority_code, m.menu_code, m.access_range
+         from account ac, employee e, employee_work ew, DEPARTMENT d, SITE s, COMPANY c, user_auth u, menu_by_authority m
+		where ac.employee_code = e.employee_code
+		and ew.employee_code = e.employee_code
+		and ew.department_code = d.department_code(+)
+		and d.site_code = s.site_code(+)
+		and s.company_code = c.company_code(+)
+		and ac.employee_id  = u.employee_id(+)
+		and u.authority_code = m.authority_code(+)
+        and ac.employee_id = #{employee_id} and ac.employee_password = #{employee_password}
+        and m.access_grant = '1'
+        <choose>
+			<when test= " menu_code != ''  and  menu_code != null">
+         order by m.menu_code
+        </when>
+ 		</choose>
+	 </select>	
+
+	<!-- <select id="selectAllLoginList" resultMap="loginResult">
+      <![CDATA[
+         select * from t_member	order by joinDate desc	 	
+      ]]>
+	</select>
+
+	<select id="selectName" resultType="String">
+    <![CDATA[
+	select name from t_member
+	where id = 'hong'			
+    ]]>
+	</select>
+	
+	<select id="selectPwd" resultType="int" >
+	  <![CDATA[ 
+	    select pwd from t_member 
+	    where id = 'hong'
+	 ]]>
+	 </select> 
+	 
+	<select id="selectMemberById" resultType="memberVO"  parameterType="String" >
+      <![CDATA[
+         select * from t_member
+         where
+         id=#{id}			
+      ]]>
+	 </select>	
+	
+	<select id="selectMemberByPwd" resultMap="memResult"  parameterType="int" >
+      <![CDATA[
+         select * from t_member
+         where
+         pwd = #{pwd}			
+      ]]>
+    </select>
+    
+     <insert id="insertMember"  parameterType="memberVO">
+		<![CDATA[
+		 insert into t_member(id,pwd, name, email)
+		 values(#{id}, #{pwd}, #{name}, #{email})
+		]]>      
+	</insert>
+	
+	<insert id="insertMember2"  parameterType="java.util.HashMap">
+		<![CDATA[
+			 insert into t_member(id,pwd, name, email)
+			 values(#{id}, #{pwd}, #{name}, #{email})
+		]]>      
+   </insert>
+   
+   <update id="updateMember"  parameterType="memberVO">
+     <![CDATA[
+	     update t_member
+	     set pwd=#{pwd}, name=#{name}, email=#{email}
+	     where
+	     id=#{id}
+      ]]>      
+   </update> 
+     
+   <delete id="deleteMember"  parameterType="String">
+	<![CDATA[
+	   delete from  t_member
+	   where
+	   id=#{id}
+	]]>      
+  </delete>
+	
+	
+	동적 SQL문
+  <select id="searchMember" parameterType="memberVO" resultMap="memResult">
+      <![CDATA[
+          select * from t_member
+      ]]>
+      <where>
+         <if test=" name != ''  and  name != null">
+            name=#{name}
+         </if>
+         <if test="email != ''  and email != null ">
+           and email = #{email}
+         </if>
+      </where>
+      order by joinDate desc
+  </select> -->
+  
+ <!--  
+   <sql id="a">
+    <![CDATA[
+      select * from t_member
+     ]]> 
+   </sql>  -->  
+  
+<!--    
+  <select id="searchMember" parameterType="memberVO" resultMap="memResult">
+	     <include refid="a" /> 
+	   <![CDATA[
+         select * from t_member 
+      ]]>
+	  
+       <where>
+		  <choose>
+		      <when test="name != '' and name != null and  email != '' and email != null">
+			     name=#{name} and email=#{email}
+		      </when>
+		      <when test="name != '' and name != null">
+			     name = #{name}
+		      </when>
+		      <when test="email !='' and email != null">
+			    email = #{email}
+		      </when>
+	      </choose>
+       </where>
+       order by joinDate desc
+   </select> -->
+   
+<!--    <select id="foreachSelect" resultMap="memResult" parameterType="java.util.Map">
+      <include refid="a" />
+      <![CDATA[
+        select * from t_member 
+          
+      ]]>
+      
+      where name in
+      <foreach item="item" collection="list" open="(" separator="," close=")" >
+         #{item}
+      </foreach>
+      order by joinDate desc
+   </select>
+   
+   <insert id="foreachInsert"  parameterType="java.util.Map">
+      <foreach item="item"  collection="list"   open="INSERT ALL" separator=" " close="SELECT * FROM DUAL" >
+          INTO  t_member(id, pwd, name, email)
+          VALUES  (#{item.id},
+                    #{item.pwd},
+                    #{item.name},
+                    #{item.email})
+      </foreach>
+   </insert>
+   
+    like 검색
+   <select id="selectLike" resultMap="memResult"  parameterType="String" >
+      <![CDATA[
+         select * from t_member
+         where
+         name like '%' || #{name} || '%'		
+      ]]>
+    </select>-->
+</mapper> 

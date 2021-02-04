@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.hm_p0033">
+	<resultMap id="P0033resultVO" type="HM_P0033VO">
+		
+		<result property="employee_code" column="employee_code" />
+		<result property="employee_name" column="employee_name" />		
+		<result property="hr_assessment_code" column="hr_assessment_code" />
+		<result property="hr_assessment_name" column="hr_assessment_name" />		
+		<result property="hr_assessment_test_start_date" column="hr_assessment_test_start_date" />		
+		<result property="hr_assessment_test_end_date" column="hr_assessment_test_end_date" />
+		<result property="hr_assessment_date" column="hr_assessment_date" />		
+		<result property="hr_assessment_master" column="hr_assessment_master" />
+		<result property="hr_assessment_reflection_pcnt" column="hr_assessment_reflection_pcnt" />		
+		<result property="hr_assessment_score" column="hr_assessment_score" />	
+		<result property="hr_assessment_grade" column="hr_assessment_grade" />
+		<result property="hr_rnp_code" column="hr_rnp_code" />		
+		<result property="hr_rnp_index" column="hr_rnp_index" />
+		<result property="hr_rnp_name" column="hr_rnp_name" />		
+		<result property="hr_rnp_date" column="hr_rnp_date" />	
+		<result property="hr_rnp_history" column="hr_rnp_history" />
+		<result property="hr_rnp_institute" column="hr_rnp_institute" />
+		<result property="hr_rnp_cost" column="hr_rnp_cost" />
+		
+		
+
+	
+	</resultMap>
+	
+	
+
+	<select id = "hr_assessment_List" resultMap="P0033resultVO" parameterType="java.util.Map">
+	
+		select assessment_code, assessment_name
+		from assessment
+		order by assessment_code
+	</select>
+	
+	
+		<select id = "hr_rnp_List" resultMap="P0033resultVO" parameterType="java.util.Map">
+	
+		select rnp_code, rnp_name
+		from rnp
+		order by rnp_code
+		
+	</select>
+	
+	<select id = "site_List" resultMap="P0033resultVO" parameterType="java.util.Map">
+		select site_code, site_name
+		from site
+		order by site_code		
+	</select>
+	
+	<select id = "employee_List" resultMap="P0033resultVO" parameterType="java.util.Map">
+		select ew.employee_code, e.employee_name, d.department_name, s.site_name
+		from employee e, employee_work ew, department d, site s
+		where e.employee_code = ew.employee_code
+		and ew.department_code = d.department_code
+		and d.site_code = s.site_code
+		order by ew.employee_code	
+	</select>
+	
+
+		
+	
+	<select id = "searchList" resultMap="P0033resultVO" parameterType="java.util.Map">
+	select e.employee_code, e.employee_name, a.assessment_name, h.hr_assessment_test_start_date, h.hr_assessment_test_end_date, h.hr_assessment_date, h.hr_assessment_master, h.hr_assessment_reflection_pcnt, h.hr_assessment_score, h.hr_assessment_grade
+			from employee e, hr_assessment h, employee_work ew, department d, site s, assessment a
+			where e.employee_code = h.employee_code
+			and e.employee_code = ew.employee_code
+			and ew.department_code = d.department_code
+			and d.site_code = s.site_code
+			and a.assessment_code = h.assessment_code
+			
+			<choose>
+			<when test= " hr_assessment_code != null and hr_assessment_code !='' ">	
+			<![CDATA[		
+			
+			and h.hr_assessment_code = #{hr_assessment_code}
+			
+			]]> 
+   		    </when>	
+			</choose> 
+
+			<choose>   		    
+   		    <when test= " site_code != null and site_code !='' ">	
+			<![CDATA[		
+			
+			and s.site_code = #{site_code}
+			
+			]]> 
+   		    </when>	
+			</choose> 
+   		    
+ 			<choose>
+ 		    <when test= " employee_code != null and employee_code !='' ">	
+			<![CDATA[		
+			
+			and e.employee_code = #{employee_code}
+			
+			]]> 
+   		    </when>
+			</choose> 
+   		    		
+			<choose>
+			<when test= " date1 != null and date1 !='' ">	
+			<![CDATA[		
+			
+			and to_date(#{date},'YYYY-MM-DD') <= to_date(h.hr_assessment_test_start_date,'YYYY-MM-DD')
+			
+			]]> 
+   		    </when>	
+			</choose> 
+	
+			<choose>
+			<when test= " date2 != null and date2 !='' ">	
+			<![CDATA[		
+			
+			and  to_date(h.hr_assessment_test_end_date,'YYYY-MM-DD') <= to_date(#{date2},'YYYY-MM-DD')
+			
+			]]> 
+   		    </when>	
+			</choose> 
+			
+				<choose>
+		  <when test="access_range == '부서' ">
+      and d.department_code = #{Sdepartment_code}
+      	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="access_range == '사원' ">
+      and e.employee_code = #{Semployee_code}
+	  </when>
+	</choose>
+			
+			order by e.employee_code
+	</select>
+	
+	
+	
+	<select id = "searchList2" resultMap="P0033resultVO" parameterType="java.util.Map">
+			select e.employee_code, e.employee_name, r.rnp_name, h.hr_rnp_index, h.hr_rnp_date, h.hr_rnp_institute, h.hr_rnp_cost, h.hr_rnp_history
+			from employee e, hr_rnp h, employee_work ew, department d, site s, rnp r
+			where e.employee_code = h.employee_code
+			and e.employee_code = ew.employee_code
+			and ew.department_code = d.department_code
+			and d.site_code = s.site_code
+			and r.rnp_code =h.rnp_code
+
+
+  			<choose>
+			<when test= " hr_rnp_code != null and hr_rnp_code !='' ">	
+			<![CDATA[		
+			
+			and h.hr_rnp_code = #{hr_rnp_code}
+			
+			]]> 
+   		    </when>	
+			</choose>
+ 
+ 			<choose>
+			<when test= " site_code != null and site_code !='' ">	
+			<![CDATA[		
+			
+			and s.site_code = #{site_code}			
+			]]> 
+   		    </when>	
+			</choose>
+			
+			
+ 			<choose>
+			<when test= " employee_code != null and employee_code !='' ">	
+			<![CDATA[		
+			
+			and e.employee_code = #{employee_code}
+			
+			]]> 
+   		    </when>	
+			</choose>
+			
+				<choose>
+		  <when test="access_range == '부서' ">
+      and d.department_code = #{Sdepartment_code}
+      	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="access_range == '사원' ">
+      and e.employee_code = #{Semployee_code}
+	  </when>
+	</choose>
+			
+			order by e.employee_code
+			
+ 			
+
+	</select>	
+	
+	
+</mapper>

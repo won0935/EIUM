@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sm_p0003">
+	<resultMap id="Result01" type="SM_P0003VO">
+		<result property="DEPARTMENT_CODE" column="DEPARTMENT_CODE" />
+		<result property="DEPARTMENT_NAME" column="DEPARTMENT_NAME" />
+		<result property="DEPARTMENT_END_DATE" column="DEPARTMENT_END_DATE" />
+		<result property="DEPARTMENT_START_DATE" column="DEPARTMENT_START_DATE" />
+		<result property="SITE_CODE" column="SITE_CODE" />
+		<result property="SITE_NAME" column="SITE_NAME" />
+		<result property="SECTOR_CODE" column="SECTOR_CODE" />
+		<result property="SECTOR_NAME" column="SECTOR_NAME" />
+		<result property="DEPARTMENT_TERM" column="department_TERM"	/>
+		</resultMap>
+	
+	<resultMap id="Result02" type="SM_P0003VO">
+
+		<result property="SITE_NAME" column="SITE_NAME" />
+
+	</resultMap>
+	
+	<select id="searchDep" resultMap="Result01" parameterType="java.util.Map"> 
+      <![CDATA[
+      
+select DEPARTMENT_CODE,DEPARTMENT_NAME,DEPARTMENT_TERM,d.SITE_CODE,SITE_NAME,d.SECTOR_CODE,SECTOR_NAME
+from department d , sector s , site si
+
+      ]]>
+
+			<choose>
+			<when test= " SiteList != ''  and  SiteList != null">
+				where d.sector_code=s.sector_code
+				and d.site_code=si.site_code
+				and site_name=#{SiteList,jdbcType=VARCHAR}
+			</when>
+			<otherwise>
+				where d.sector_code=s.sector_code
+				and d.site_code=si.site_code
+			</otherwise>
+			</choose>
+			
+		order by department_code
+
+
+	</select>
+
+	<select id="searchSiteList" resultMap="Result02" parameterType="java.util.List">
+	  <![CDATA[
+    select SITE_NAME,SITE_CODE
+    FROM SITE  
+	order by site_code
+	
+      ]]>
+	</select>
+	
+	
+	<insert id="insertData" parameterType="java.util.Map">
+	insert into DEPARTMENT(DEPARTMENT_CODE,DEPARTMENT_NAME,DEPARTMENT_TERM,SITE_CODE,SECTOR_CODE,int_user_id, int_date)
+	values(#{department_CODE}, #{department_NAME}, #{department_TERM},#{site_CODE},#{sector_CODE},#{user},sysdate)
+	</insert>	
+	
+	
+
+	<update id="updateData" parameterType="java.util.Map">
+		update DEPARTMENT
+		set DEPARTMENT_CODE=#{department_CODE}
+		   , DEPARTMENT_NAME=#{department_NAME}
+		   , SECTOR_CODE=#{sector_CODE}
+		   , DEPARTMENT_TERM=#{department_TERM}
+		   , SITE_CODE=#{site_CODE}
+		   , upt_user_id = #{user, jdbcType=VARCHAR}
+		   , upt_date = sysdate
+
+		where DEPARTMENT_CODE = #{department_CODE}
+	</update>	
+	
+	
+	<delete id="deleteData" parameterType="java.util.Map">
+		delete DEPARTMENT
+		where DEPARTMENT_CODE = #{department_CODE}
+			
+	</delete>	
+	
+	
+		
+	<resultMap id="ResultPopup" type="SM_P0003VO">
+
+		<result property="SECTOR_CODE" column="SECTOR_CODE" />
+		<result property="SECTOR_NAME" column="SECTOR_NAME" />
+		<result property="SECTOR_TERM" column="SECTOR_TERM" />
+
+	</resultMap>
+	
+	
+		
+	<select id="searchPopup" resultMap="ResultPopup" parameterType="java.util.Map"> 
+      <![CDATA[
+    	 select SECTOR_CODE, SECTOR_NAME, SECTOR_TERM
+         from   SECTOR
+         order by sector_code
+      ]]>
+
+	</select>
+	
+		<insert id="insertDataPopup" parameterType="java.util.Map">
+		insert into SECTOR(SECTOR_CODE, SECTOR_NAME, SECTOR_TERM,int_user_id, int_date) values(#{sector_CODE}, #{sector_NAME}, #{sector_TERM},#{user},sysdate)
+	</insert>	
+	
+	
+
+	<update id="updateDataPopup" parameterType="java.util.Map">
+		update SECTOR
+		set SECTOR_CODE=#{sector_CODE}
+		   , SECTOR_NAME=#{sector_NAME}
+		   , SECTOR_TERM=#{sector_TERM}
+		   , upt_user_id = #{user, jdbcType=VARCHAR}
+	       , upt_date = sysdate
+		   
+
+
+		where SECTOR_CODE = #{sector_CODE}
+	</update>	
+	
+	
+	<delete id="deleteDataPopup" parameterType="java.util.Map">
+		delete SECTOR
+		where SECTOR_CODE= #{sector_CODE}
+			
+	</delete>	
+	
+			
+
+	
+	 
+	</mapper>

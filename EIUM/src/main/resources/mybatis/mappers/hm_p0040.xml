@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.hm_p0040">
+	<resultMap id="P0040resultVO" type="HM_P0040VO">
+		<result property="EMPLOYEE_TRAINING_CODE" column="EMPLOYEE_TRAINING_CODE" />
+        <result property="EMPLOYEE_TRAINING_NAME" column="EMPLOYEE_TRAINING_NAME" />
+        <result property="EMPLOYEE_TRAINING_START_DATE" column="EMPLOYEE_TRAINING_START_DATE" />
+        <result property="EMPLOYEE_TRAINING_END_DATE" column="EMPLOYEE_TRAINING_END_DATE" />
+        <result property="EMPLOYEE_TRAINING_DATE_COUNT" column="EMPLOYEE_TRAINING_DATE_COUNT" />
+        <result property="EMPLOYEE_TRAINING_GOAL" column="EMPLOYEE_TRAINING_GOAL" />
+        <result property="EMPLOYEE_TRAINING_LOCATION" column="EMPLOYEE_TRAINING_LOCATION" />
+        <result property="EMPLOYEE_TRAINING_TEACHER" column="EMPLOYEE_TRAINING_TEACHER" />
+        <result property="EMPLOYEE_TRAINING_INSITUTION" column="EMPLOYEE_TRAINING_INSITUTION" />
+        <result property="EMPLOYEE_TRAINING_TIME" column="EMPLOYEE_TRAINING_TIME" />
+        <result property="EMPLOYEE_TRAINING_PEOPLE" column="EMPLOYEE_TRAINING_PEOPLE" />
+        <result property="EMPLOYEE_TRAINING_IN_OUT" column="EMPLOYEE_TRAINING_IN_OUT" />
+	</resultMap> 
+
+	
+	
+	 
+	<select id="searchList" resultMap="P0040resultVO" parameterType="java.util.Map"> 
+		SELECT distinct e.employee_code,e.employee_name
+	    FROM employee_training_list etl,employee_training et,employee e,site s,department d,employee_work ew
+  		WHERE et.employee_training_code = etl.employee_training_code
+   		AND etl.employee_code = e.employee_code
+		AND e.employee_code = ew.employee_code
+		AND ew.department_code=d.department_code	
+		AND d.site_code = s.site_code
+			<choose>
+			<when test= "date != ''  and  date2 !='' ">
+			
+    AND to_date(et.employee_training_start_date,'YYYY-MM-DD') BETWEEN #{date} AND #{date2}            
+    AND to_date(et.employee_training_end_date,'YYYY-MM-DD') BETWEEN #{date} AND #{date2}
+			</when>
+			</choose>
+			
+			
+			<choose>
+	<when test= "site != '' ">
+    AND s.site_name = #{site}
+    </when>
+			</choose>
+			
+			<choose>
+				<when test= "department != '' ">
+	AND  d.department_name=#{department}
+			</when>
+			</choose>
+			
+				<choose>
+		  <when test="access_range == '부서' ">
+      and d.department_code = #{Sdepartment_code}
+      	  </when>
+	</choose>
+	
+	<choose>
+	  <when test="access_range == '사원' ">
+      and e.employee_code = #{Semployee_code}
+	  </when>
+	</choose>
+
+
+ 	order by e.employee_code
+
+	</select>
+	
+	<select id="searchEmployee" resultMap="P0040resultVO" parameterType="java.util.Map"> 
+    SELECT employee_training_name,employee_training_start_date,employee_training_end_date,employee_training_time,employee_training_date_count,finish_yn,attendence_score,attitude_score,score,assessment_desc,total
+    FROM employee_training et,employee_training_list etl
+    WHERE etl.employee_training_code = et.employee_training_code
+    AND etl.employee_code = #{param}
+ 
+	</select>
+		
+
+	<select id="searchTraining" resultMap="P0040resultVO" parameterType="java.util.Map"> 
+	SELECT employee_training_CODE , employee_training_name
+    FROM employee_training
+	<choose>
+	<when test="date!= '' and date2 !=''">
+    WHERE to_date(employee_training_start_date,'YYYY-MM-DD') BETWEEN #{date} AND #{date2}            
+    AND to_date(employee_training_end_date,'YYYY-MM-DD') BETWEEN #{date} AND #{date2}
+	</when>
+	</choose>
+	</select>
+	
+	
+	<select id="searchEmployeeList" resultMap="P0040resultVO" parameterType="java.util.Map"> 
+      
+    SELECT etl.employee_code,e.employee_name,employee_training_start_date,employee_training_end_date,employee_training_time,employee_training_date_count,finish_yn,attendence_score,attitude_score,score,assessment_desc,total
+    FROM employee_training et,employee_training_list etl,employee e
+    WHERE etl.employee_training_code = et.employee_training_code
+    AND etl.employee_code = e.employee_code
+    AND et.employee_training_code = #{param}
+	</select>
+		
+</mapper>
